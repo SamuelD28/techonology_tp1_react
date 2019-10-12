@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Technology Tp1 React", "Technology Tp1 React.csproj", "{D5BF3A37-E2C6-44B6-B8B6-4947A59894EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5BF3A37-E2C6-44B6-B8B6-4947A59894EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5BF3A37-E2C6-44B6-B8B6-4947A59894EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5BF3A37-E2C6-44B6-B8B6-4947A59894EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5BF3A37-E2C6-44B6-B8B6-4947A59894EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DA2C3E3A-C523-4990-9B73-BA137D729FB0}
+	EndGlobalSection
+EndGlobal
