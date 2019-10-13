@@ -8,6 +8,9 @@ using Technology_Tp1_React.General;
 
 namespace Technology_Tp1_React.Models
 {
+    /// <summary>
+    /// Class that handle the order data model
+    /// </summary>
     public class Order : IEntity
     {
         public Order()

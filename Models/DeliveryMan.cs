@@ -7,6 +7,9 @@ using Technology_Tp1_React.General;
 
 namespace technology_tp1.Models
 {
+    /// <summary>
+    /// Class that handle the delivery data model
+    /// </summary>
     public class DeliveryMan : IEntity
     {
         public DeliveryMan(){

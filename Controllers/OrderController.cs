@@ -39,27 +39,27 @@ namespace technology_tp1.Controllers
         //    _httpContextAccessor = httpContextAccessor;
         //}
 
-        public IActionResult GetClientOrder()
-        {
-            try
-            {
-                string clientId =  Request.Cookies.Get("client-id");
-                int clientIdParsed;
+        //public IActionResult GetClientOrder()
+        //{
+        //    try
+        //    {
+        //        string clientId =  Request.Cookies.Get("client-id");
+        //        int clientIdParsed;
 
-                if(clientId is null || !int.TryParse(clientId, out clientIdParsed))
-                {
-                    return ErrorResponse.NoMatchingDocument(-1);
-                }
+        //        if(clientId is null || !int.TryParse(clientId, out clientIdParsed))
+        //        {
+        //            return ErrorResponse.NoMatchingDocument(-1);
+        //        }
 
-                Order order = Repository.Where(o => o.ClientId == clientIdParsed && !o.IsOrdered);
+        //        Order order = Repository.Where(o => o.ClientId == clientIdParsed && !o.IsOrdered);
 
-                return CreateValidResponse(order, StatusCodes.Status200OK);
-            }
-            catch(Exception e)
-            {
-                return ErrorResponse.InternalServerError(e.Message);
-            }
-        }
+        //        return CreateValidResponse(order, StatusCodes.Status200OK);
+        //    }
+        //    catch(Exception e)
+        //    {
+        //        return ErrorResponse.InternalServerError(e.Message);
+        //    }
+        //}
 
         //public IActionResult AddItemToCart()
         //{

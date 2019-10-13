@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 namespace Technology_Tp1_React.General
 {
     /// <summary>
-    /// Generic controller class that handles the interaction between a IEntity model
+    /// Generic controller class that handles the interaction with an entity model
     /// </summary>
     /// <typeparam name="T">IEntity Model to handle</typeparam>
     public abstract class CrudController<T> : Controller where T : class, IEntity
@@ -26,6 +26,10 @@ namespace Technology_Tp1_React.General
             Repository = repository;
         }
 
+        /// <summary>
+        /// Method that returns all the record related to specified entity model.
+        /// </summary>
+        /// <returns>Json list of entity</returns>
         [HttpGet]
         virtual public IActionResult Get()
         {
@@ -40,6 +44,11 @@ namespace Technology_Tp1_React.General
             }
         }
 
+        /// <summary>
+        /// Method that return a single record that match the id specified.
+        /// </summary>
+        /// <param name="id">Id of the document</param>
+        /// <returns>Json document</returns>
         [HttpGet("{id}")]
         virtual public IActionResult Get(int id)
         {
@@ -60,6 +69,11 @@ namespace Technology_Tp1_React.General
             }
         }
 
+        /// <summary>
+        /// Method that create a new record in the repository
+        /// </summary>
+        /// <param name="record">Record to create</param>
+        /// <returns>Json result</returns>
         [HttpPost]
         virtual public IActionResult Create([FromBody] T record)
         {
@@ -81,6 +95,12 @@ namespace Technology_Tp1_React.General
             }
         }
 
+        /// <summary>
+        /// Method that edit an existing record in the repository
+        /// </summary>
+        /// <param name="id">Id of the record</param>
+        /// <param name="record">Updated record</param>
+        /// <returns>Json result</returns>
         [HttpPut("{id}")]
         virtual public IActionResult Edit(int id, [FromBody] T record)
         {
@@ -96,10 +116,10 @@ namespace Technology_Tp1_React.General
                     return ErrorResponse.WrongData();
                 }
 
-                if (Repository.GetById(id) == null)
-                {
-                    return ErrorResponse.NoMatchingDocument(id);
-                }
+                //if (Repository.GetById(id) == null)
+                //{
+                //    return ErrorResponse.NoMatchingDocument(id);
+                //}
 
                 Repository.Update(record);
                 Repository.SaveChanges();
@@ -111,7 +131,11 @@ namespace Technology_Tp1_React.General
             }
         }
 
-        // DELETE: DeliveryMen/:id
+        /// <summary>
+        /// Method that delete a record in the repository
+        /// </summary>
+        /// <param name="id">Id of the record</param>
+        /// <returns>Json result</returns>
         [HttpDelete("{id}")]
         virtual public IActionResult Delete(int id)
         {
@@ -133,12 +157,24 @@ namespace Technology_Tp1_React.General
             }
         }
 
-        protected IActionResult CreateValidResponse(object data, int statusCode)
+        /// <summary>
+        /// Method that create a valid json response
+        /// </summary>
+        /// <param name="body">Body of the response</param>
+        /// <param name="statusCode">Satus code of the response</param>
+        /// <returns>Json result</returns>
+        protected IActionResult CreateValidResponse(object body, int statusCode)
         {
-            JsonResult body = ParseResponseInJson(data, statusCode);
-            return Ok(body);
+            JsonResult parsedBody = ParseResponseInJson(body, statusCode);
+            return Ok(parsedBody);
         }
 
+        /// <summary>
+        /// Method that parse a response in json
+        /// </summary>
+        /// <param name="data">Data to parse</param>
+        /// <param name="statusCode">Status code to parse</param>
+        /// <returns>Json response</returns>
         protected JsonResult ParseResponseInJson(object data, int statusCode)
         {
             JsonResult json = Json(data);

@@ -13,6 +13,9 @@ using Technology_Tp1_React.General;
 
 namespace technology_tp1.Controllers
 {
+    /// <summary>
+    /// Controller responsible for the interaction with the model
+    /// </summary>
     [Route("api/[controller]")]
     [Produces("application/json")]
     public class DeliveryMenController : CrudController<DeliveryMan>

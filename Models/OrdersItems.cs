@@ -5,6 +5,9 @@ using Technology_Tp1_React.General;
 
 namespace Technology_Tp1_React.Models
 {
+    /// <summary>
+    /// Class that handle the order items data model
+    /// </summary>
     public class OrdersItems : IEntity
     {
         public OrdersItems()

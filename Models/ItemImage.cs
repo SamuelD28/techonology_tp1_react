@@ -9,6 +9,9 @@ using Technology_Tp1_React.General;
 
 namespace technology_tp1.Models
 {
+    /// <summary>
+    /// Class that handle the item image model data
+    /// </summary>
     public class ItemImage : IEntity
     {
         public ItemImage(){

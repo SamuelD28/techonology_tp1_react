@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Technology_Tp1_React.General
 {
+    /// <summary>
+    /// Interface for new model entity
+    /// </summary>
     public interface IEntity
     {
         DateTime CreatedOn { get; set; }

@@ -8,6 +8,9 @@ using Technology_Tp1_React.General;
 
 namespace technology_tp1.Models
 {
+    /// <summary>
+    /// Class that handle the menuitem data model
+    /// </summary>
     public class MenuItem : IEntity
     {
         public MenuItem()

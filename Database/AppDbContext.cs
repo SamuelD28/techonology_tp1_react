@@ -18,7 +18,8 @@ namespace technology_tp1.Models
 
         public DbSet<MenuItem> MenuItems{ get; set; }
 
-        public DbSet<Order> Orderzz { get; set; }
+        // Problem with migrations. Take a look into
+        public DbSet<Order> Orders { get; set; }
 
         public DbSet<OrdersItems> OrdersItems { get; set; }
 
@@ -36,6 +37,10 @@ namespace technology_tp1.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<OrdersItems>()
+                .HasIndex(p => new { p.OrderId, p.MenuItemId })
+                .IsUnique(true);
+
             modelBuilder
                 .Entity<DeliveryMan>()
                 .HasData(Seed(ForgeFactory.ForgeDeliveryMan));
