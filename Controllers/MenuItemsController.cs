@@ -2,158 +2,49 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using technology_tp1.Models;
+using Technology_Tp1_React.General;
 
 namespace technology_tp1.Controllers
 {
-    public class MenuItemsController : Controller
+    [Route("api/menuitems")]
+    public class MenuItemsController : CrudController<MenuItem>
     {
-        private readonly AppDbContext _context;
+        public MenuItemsController(IRepository<MenuItem> repository)
+            : base(repository) { }
 
-        public MenuItemsController(AppDbContext context)
+        [HttpGet]
+        public IActionResult Get()
         {
-            _context = context;
-        }
-
-        // GET: MenuItems
-        public async Task<IActionResult> Index()
-        {
-            var appDbContext = _context.MenuItems.Include(m => m.Image);
-            return View(await appDbContext.ToListAsync());
-        }
-
-        // GET: MenuItems/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            try
             {
-                return NotFound();
+                IEnumerable<MenuItem> menuItems = Repository.GetAll().Include(m => m.Image);
+                return CreateValidResponse(menuItems, StatusCodes.Status200OK);
             }
-
-            var menuItem = await _context.MenuItems
-                .Include(m => m.Image)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (menuItem == null)
+            catch (Exception e)
             {
-                return NotFound();
+                return ErrorResponse.InternalServerError(e.Message);
             }
-
-            return View(menuItem);
         }
 
-        // GET: MenuItems/Create
-        public IActionResult Create()
-        {
-            ViewData["ImageId"] = new SelectList(_context.ItemImages, "Id", "Name");
-            return View();
-        }
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+            => base.GetRecordById(id);
 
-        // POST: MenuItems/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,ImageId")] MenuItem menuItem)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(menuItem);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ImageId"] = new SelectList(_context.ItemImages, "Id", "Name", menuItem.ImageId);
-            return View(menuItem);
-        }
+        public IActionResult Post([FromBody] MenuItem menuItem)
+            => base.CreateRecord(menuItem);
 
-        // GET: MenuItems/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, [FromBody] MenuItem menuItem)
+            => base.UpdateRecord(id, menuItem);
 
-            var menuItem = await _context.MenuItems.FindAsync(id);
-            if (menuItem == null)
-            {
-                return NotFound();
-            }
-            ViewData["ImageId"] = new SelectList(_context.ItemImages, "Id", "Name", menuItem.ImageId);
-            return View(menuItem);
-        }
-
-        // POST: MenuItems/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageId")] MenuItem menuItem)
-        {
-            if (id != menuItem.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(menuItem);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MenuItemExists(menuItem.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ImageId"] = new SelectList(_context.ItemImages, "Id", "Name", menuItem.ImageId);
-            return View(menuItem);
-        }
-
-        // GET: MenuItems/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var menuItem = await _context.MenuItems
-                .Include(m => m.Image)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (menuItem == null)
-            {
-                return NotFound();
-            }
-
-            return View(menuItem);
-        }
-
-        // POST: MenuItems/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var menuItem = await _context.MenuItems.FindAsync(id);
-            _context.MenuItems.Remove(menuItem);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool MenuItemExists(int id)
-        {
-            return _context.MenuItems.Any(e => e.Id == id);
-        }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+            => base.DeleteRecord(id);
     }
 }

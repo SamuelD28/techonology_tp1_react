@@ -25,9 +25,7 @@ namespace technology_tp1
                     {
                         Id = jsonItem.Value<int>("id"),
                         Name = jsonItem.Value<string>("name"),
-                        Small = jsonItem.Value<string>("small"),
-                        Medium = jsonItem.Value<string>("medium"),
-                        Full = jsonItem.Value<string>("full"),
+                        File = jsonItem.Value<string>("full"),
                     });
                 }
                 return images.Cast<T>();

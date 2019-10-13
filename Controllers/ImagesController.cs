@@ -15,32 +15,44 @@ using Technology_Tp1_React.General;
 
 namespace technology_tp1.Controllers
 {
+    [Route("api/images")]
     public class ImagesController : CrudController<ItemImage>
     {
-        public ImagesController(IRepository<ItemImage> repository): base(repository){}
+        public ImagesController(IRepository<ItemImage> repository)
+            : base(repository) { }
 
-        public IActionResult Create([Bind("Name")] ItemImage itemImage, IFormFile file)
+        [HttpGet]
+        public IActionResult Get()
+            => base.GetAllRecord();
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+            => base.GetRecordById(id);
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+            => base.DeleteRecord(id);
+
+        [HttpPost]
+        public IActionResult Create([FromForm] ItemImage itemImage, IFormFile file)
         {
-            // Limit maximum file size to 1mb.
-            if(file.Length > MAXIMUM_FILE_SIZE)
-            {
-                ErrorResponse.InternalServerError("File size exceed 1mb");
-            }
-
             try
             {
-                //Temporaire 
-                //itemImage.Full = ParseImage(file).ToString();
-                //itemImage.Medium = ScaleImage(itemImage.GetFullSize(), 500, 500);
-                //itemImage.Small = ScaleImage(itemImage.FullBlob, 250, 250);
+                // Limit maximum file size to 1mb.
+                if (file.Length > MAXIMUM_FILE_SIZE)
+                {
+                    return ErrorResponse.InternalServerError("File size exceed 1mb");
+                }
+
+                itemImage.File = ParseImage(file).ToString();
 
                 Repository.Create(itemImage);
                 Repository.SaveChanges();
-                return Redirect("/");
+                return CreateValidResponse(itemImage, StatusCodes.Status201Created);
             }
-            catch (IOException)
+            catch (Exception e)
             {
-                return Redirect("/");
+                return ErrorResponse.InternalServerError(e.Message);
             }
         }
     }
