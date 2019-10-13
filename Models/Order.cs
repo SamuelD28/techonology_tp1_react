@@ -45,11 +45,13 @@ namespace Technology_Tp1_React.Models
 
         public DateTime? DeliveredAt { get; set; }
 
+        public void AddItem(OrdersItems orderItems)
+            => OrdersItems.ToList().Add(orderItems);
+
         public IEnumerable<CartItem> GetItems() 
             => OrdersItems?.Select(oi => new CartItem(oi.MenuItem, oi.Quantity));
 
         public decimal GetTotalCost() 
             => OrdersItems?.Sum(o => o.Quantity * o.MenuItem.Price) ?? 0;
     }
-
 }

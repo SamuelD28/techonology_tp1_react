@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using technology_tp1.Models;
 using Technology_Tp1_React.General;
@@ -18,19 +19,17 @@ namespace Technology_Tp1_React.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
+        [Required]
         public int OrderId { get; set; }
-
-        public Order Order { get; set; }
-
+        [Required]
         public int MenuItemId { get; set; }
-
-        public MenuItem MenuItem { get; set; }
-
+        [Required]
         public int Quantity { get; set; }
 
-        public DateTime CreatedOn { get; set; }
+        public Order Order { get; set; }
+        public MenuItem MenuItem { get; set; }
 
+        public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
     }
 

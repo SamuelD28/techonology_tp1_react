@@ -16,7 +16,7 @@ namespace technology_tp1.Controllers
     /// <summary>
     /// Controller responsible for the interaction with the model
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/deliverymen")]
     public class DeliveryMenController : CrudController<DeliveryMan>
     {
         public DeliveryMenController(IRepository<DeliveryMan> repository) 

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using technology_tp1.Models;
+using technology_tp1.Services;
 using Technology_Tp1_React.General;
 
 namespace Technology_Tp1_React
