@@ -33,9 +33,14 @@ namespace Technology_Tp1_React.General.Cookies
         {
             CookieOptions option = new CookieOptions();
             if (expireTime.HasValue)
+            {
                 option.Expires = DateTime.Now.AddMinutes(expireTime.Value);
+            }
             else
+            {
                 option.Expires = DateTime.Now.AddMilliseconds(10);
+            }
+
             cookies.Append(key, value, option);
         }
 

@@ -17,10 +17,30 @@ namespace technology_tp1.Controllers
     /// Controller responsible for the interaction with the model
     /// </summary>
     [Route("api/[controller]")]
-    [Produces("application/json")]
     public class DeliveryMenController : CrudController<DeliveryMan>
     {
         public DeliveryMenController(IRepository<DeliveryMan> repository) 
-            : base(repository){}
+            : base(repository){
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+            => base.GetAllRecord();
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+            => base.GetRecordById(id);
+
+        [HttpPost]
+        public IActionResult Post([FromBody] DeliveryMan deliveryMan)
+            => base.CreateRecord(deliveryMan);
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, [FromBody] DeliveryMan deliveryMan)
+            => base.UpdateRecord(id, deliveryMan);
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+            => base.DeleteRecord(id);
     }
 }

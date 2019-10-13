@@ -30,8 +30,7 @@ namespace Technology_Tp1_React.General
         /// Method that returns all the record related to specified entity model.
         /// </summary>
         /// <returns>Json list of entity</returns>
-        [HttpGet]
-        virtual public IActionResult Get()
+        virtual protected IActionResult GetAllRecord()
         {
             try
             {
@@ -49,8 +48,7 @@ namespace Technology_Tp1_React.General
         /// </summary>
         /// <param name="id">Id of the document</param>
         /// <returns>Json document</returns>
-        [HttpGet("{id}")]
-        virtual public IActionResult Get(int id)
+        virtual protected IActionResult GetRecordById(int id)
         {
             try
             {
@@ -74,8 +72,7 @@ namespace Technology_Tp1_React.General
         /// </summary>
         /// <param name="record">Record to create</param>
         /// <returns>Json result</returns>
-        [HttpPost]
-        virtual public IActionResult Create([FromBody] T record)
+        virtual protected IActionResult CreateRecord([FromBody] T record)
         {
             try
             {
@@ -101,8 +98,7 @@ namespace Technology_Tp1_React.General
         /// <param name="id">Id of the record</param>
         /// <param name="record">Updated record</param>
         /// <returns>Json result</returns>
-        [HttpPut("{id}")]
-        virtual public IActionResult Edit(int id, [FromBody] T record)
+        virtual protected IActionResult UpdateRecord(int id, [FromBody] T record)
         {
             try
             {
@@ -116,10 +112,10 @@ namespace Technology_Tp1_React.General
                     return ErrorResponse.WrongData();
                 }
 
-                //if (Repository.GetById(id) == null)
-                //{
-                //    return ErrorResponse.NoMatchingDocument(id);
-                //}
+                if (!Repository.Contains(r => r.Id == id))
+                {
+                    return ErrorResponse.NoMatchingDocument(id);
+                }
 
                 Repository.Update(record);
                 Repository.SaveChanges();
@@ -136,8 +132,7 @@ namespace Technology_Tp1_React.General
         /// </summary>
         /// <param name="id">Id of the record</param>
         /// <returns>Json result</returns>
-        [HttpDelete("{id}")]
-        virtual public IActionResult Delete(int id)
+        virtual protected IActionResult DeleteRecord(int id)
         {
             try
             {

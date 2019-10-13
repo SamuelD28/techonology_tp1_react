@@ -52,6 +52,13 @@ namespace Technology_Tp1_React.General
         IEnumerable<T> Filter(Expression<Func<T, bool>> predicate);
 
         /// <summary>
+        /// Method that check if a model match a predicate
+        /// </summary>
+        /// <param name="predicate">Predicate</param>
+        /// <returns>True if exists</returns>
+        bool Contains(Expression<Func<T, bool>> predicate);
+
+        /// <summary>
         /// Method that delete a document.
         /// </summary>
         /// <param name="id">id of teh document to delete</param>

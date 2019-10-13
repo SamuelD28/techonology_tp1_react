@@ -109,5 +109,14 @@ namespace Technology_Tp1_React.General
             DbContext.SaveChanges();
         }
 
+        /// <summary>
+        /// Method that verify if a record in teh database match the predicate
+        /// </summary>
+        /// <param name="predicate">Predicate</param>
+        /// <returns>True if it exists</returns>
+        public bool Contains(Expression<Func<T, bool>> predicate)
+        {
+            return DbContext.Set<T>().Any(predicate);
+        }
     }
 }
