@@ -9,7 +9,7 @@ namespace technology_tp1
 {
     public class ForgeJSONSeedItemImage<T> : ForgeJSONSeed<T> where T : Models.ItemImage
     {
-        private const string PicturesDirectory = "Seeds/Pictures/";
+        private const string PicturesDirectory = "Database/Seeds/Pictures/";
 
         protected override string FileName => "ItemImage.json";
 

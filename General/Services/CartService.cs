@@ -11,7 +11,7 @@ using technology_tp1.Models;
 
 namespace technology_tp1.Services
 {
-    public class CartService : ICartService
+    public class CartCookieService : ICartService
     {
         private const string CartKey = "cart";
         // minutes
@@ -19,6 +19,7 @@ namespace technology_tp1.Services
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private Dictionary<int, int> _cartItems = new Dictionary<int, int>();
+
         private AppDbContext _db;
 
         /// <summary>
@@ -26,9 +27,14 @@ namespace technology_tp1.Services
         /// </summary>
         public int CartCount => _cartItems.Count;
 
-        public IEnumerable<CartItem> Items => _db.MenuItems.Where(i => _cartItems.ContainsKey(i.Id)).Include(i => i.Image).Select(i => new CartItem(i, _cartItems[i.Id]));
+        public IEnumerable<CartItem> Items 
+            => _db.MenuItems.Where(i => 
+            _cartItems
+            .ContainsKey(i.Id))
+            .Include(i => i.Image)
+            .Select(i => new CartItem(i, _cartItems[i.Id]));
 
-        public CartService(IHttpContextAccessor httpContextAccessor, AppDbContext db)
+        public CartCookieService(IHttpContextAccessor httpContextAccessor, AppDbContext db)
         {
             _httpContextAccessor = httpContextAccessor;
             _db = db;
@@ -107,7 +113,7 @@ namespace technology_tp1.Services
     {
         public static void AddCartService(this IServiceCollection services)
         {
-            services.AddTransient<ICartService, CartService>();
+            services.AddTransient<ICartService, CartCookieService>();
         }
     }
 }

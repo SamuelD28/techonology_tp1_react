@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Technology_Tp1_React.Models;
 
 namespace technology_tp1.Models
 {
@@ -16,6 +17,10 @@ namespace technology_tp1.Models
         public DbSet<ItemImage> ItemImages { get; set; }
 
         public DbSet<MenuItem> MenuItems{ get; set; }
+
+        public DbSet<Order> Orderzz { get; set; }
+
+        public DbSet<OrdersItems> OrdersItems { get; set; }
 
         public AppDbContext(){}
 

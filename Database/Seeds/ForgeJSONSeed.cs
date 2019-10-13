@@ -10,7 +10,7 @@ namespace technology_tp1
 {
     public abstract class ForgeJSONSeed<T>
     {
-        private const string FilePath = "Seeds/json/";
+        private const string FilePath = "Database/Seeds/json/";
 
         protected abstract JToken CreateJSON();
 

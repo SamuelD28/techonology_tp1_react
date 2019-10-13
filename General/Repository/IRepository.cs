@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace Technology_Tp1_React.General
 {
@@ -15,6 +15,10 @@ namespace Technology_Tp1_React.General
         void Create(T document);
 
         void Update(T document);
+
+        T Where(Expression<Func<T, bool>> predicate);
+
+        IEnumerable<T> Filter(Expression<Func<T, bool>> predicate);
 
         void Delete(int id);
 

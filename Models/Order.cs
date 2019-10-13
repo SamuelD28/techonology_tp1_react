@@ -1,0 +1,52 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+using Technology_Tp1_React.General;
+
+namespace Technology_Tp1_React.Models
+{
+    public class Order : IEntity
+    {
+        public Order()
+        {
+            CreatedOn = DateTime.Now;
+            UpdatedOn = DateTime.Now;
+        }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        [Required]
+        public bool IsOrdered { get; set; }
+
+        public int ClientId { get; set; }
+
+        [Required]
+        public string CustomerName { get; set; }
+
+        [Required]
+        public string CustomerAdress { get; set; }
+
+        [Phone]
+        [Required]
+        public string CustomerPhoneNumber { get; set; }
+
+        public IEnumerable<OrdersItems> OrdersItems { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime UpdatedOn { get; set; }
+
+        public DateTime? DeliveredAt { get; set; }
+
+        public IEnumerable<CartItem> GetItems() 
+            => OrdersItems?.Select(oi => new CartItem(oi.MenuItem, oi.Quantity));
+
+        public decimal GetTotalCost() 
+            => OrdersItems?.Sum(o => o.Quantity * o.MenuItem.Price) ?? 0;
+    }
+
+}

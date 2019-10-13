@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using technology_tp1.Models;
+using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace Technology_Tp1_React.General
 {
@@ -50,10 +50,20 @@ namespace Technology_Tp1_React.General
         {
             DbContext.Set<T>().Update(document);
         }
+        public T Where(Expression<Func<T, bool>> predicate)
+        {
+            return DbContext.Set<T>().FirstOrDefault(predicate);
+        }
+
+        public IEnumerable<T> Filter(Expression<Func<T, bool>> predicate)
+        {
+            return DbContext.Set<T>().Where(predicate);
+        }
 
         public void SaveChanges()
         {
             DbContext.SaveChanges();
         }
+
     }
 }
