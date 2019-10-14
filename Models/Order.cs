@@ -17,6 +17,7 @@ namespace Technology_Tp1_React.Models
         {
             CreatedOn = DateTime.Now;
             UpdatedOn = DateTime.Now;
+            OrdersItems = new List<OrdersItems>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -37,7 +38,7 @@ namespace Technology_Tp1_React.Models
         [Required]
         public string CustomerPhoneNumber { get; set; }
 
-        public IEnumerable<OrdersItems> OrdersItems { get; set; }
+        public ICollection<OrdersItems> OrdersItems { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
@@ -46,7 +47,7 @@ namespace Technology_Tp1_React.Models
         public DateTime? DeliveredAt { get; set; }
 
         public void AddItem(OrdersItems orderItems)
-            => OrdersItems.ToList().Add(orderItems);
+            => OrdersItems.Add(orderItems);
 
         public IEnumerable<CartItem> GetItems() 
             => OrdersItems?.Select(oi => new CartItem(oi.MenuItem, oi.Quantity));

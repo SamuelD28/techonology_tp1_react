@@ -27,7 +27,20 @@ namespace technology_tp1.Controllers
 
         [HttpGet]
         public IActionResult Get()
-            => base.GetAllRecord();
+        {
+            try
+            {
+                IEnumerable<Order> ordersItems = Repository
+                    .GetAll()
+                    .Include(o => o.OrdersItems);
+                return CreateValidResponse(ordersItems, StatusCodes.Status200OK);
+            }
+            catch (Exception e)
+            {
+                return ErrorResponse.InternalServerError(e.Message);
+            }
+
+        }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -100,7 +113,6 @@ namespace technology_tp1.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
             => base.DeleteRecord(id);
-
 
         //public IActionResult RemoveItemToCart()
         //{

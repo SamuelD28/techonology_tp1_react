@@ -18,7 +18,6 @@ namespace technology_tp1.Models
 
         public DbSet<MenuItem> MenuItems{ get; set; }
 
-        // Problem with migrations. Take a look into
         public DbSet<Order> Orders { get; set; }
 
         public DbSet<OrdersItems> OrdersItems { get; set; }
