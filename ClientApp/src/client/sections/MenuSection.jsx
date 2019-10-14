@@ -1,5 +1,7 @@
 ﻿import React from 'react';
 import MenuItem from '../components/MenuItem';
+import { Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 class MenuSection extends React.Component {
 
@@ -50,7 +52,7 @@ class MenuSection extends React.Component {
         return this.state.map((menuItem, index) => (
             <MenuItem
                 key={index}
-                inverted={index > (this.state.length / 2) - 1}
+                size={3}
                 name={menuItem.name}
                 img={menuItem.img}
                 description={menuItem.description}
@@ -61,12 +63,15 @@ class MenuSection extends React.Component {
 
     render() {
         return (
-            <section>
+            <section className="m-4">
                 <div className="container">
                     <div className="row justify-content-center mb-5 pb-3">
                         <div className="col-md-7 heading-section text-center">
-                            <h2 className="mb-4">Hot Pizza Meals</h2>
-                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                            <h2 className="mb-4">Nos populaires</h2>
+                            <p>Voici une selection de nos pizza les plus populaires. Préparer avec amour et soins, ses pizzas seront combler les plus gourmands.</p>
+                            <Link to="/menu">
+                                <Button color="primary">Voir le menu</Button>
+                            </Link>
                         </div>
                     </div>
                 </div>
