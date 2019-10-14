@@ -1,3 +1,7 @@
 ﻿.active-navbar-item {
     color: #fac564 !important;
 }
+
+.black-modal {
+    background: #212529;
+}
