@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import About from '../sections/About';
-import Menu from '../sections/Menu';
+import MenuSection from '../sections/MenuSection';
 
 const Home = props => (
     <div>
         <About />
-        <Menu />
+        <MenuSection />
     </div>
 );
 

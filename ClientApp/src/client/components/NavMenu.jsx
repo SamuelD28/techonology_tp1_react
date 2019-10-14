@@ -2,7 +2,6 @@ import React from 'react';
 import {
     Nav,
     Navbar,
-    NavbarBrand,
     NavItem
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
@@ -16,7 +15,7 @@ export default class NavMenu extends React.Component {
                 expand="md">
                 <div className="container">
                     <NavLink to='/'>
-                        <NavbarBrand href="/">Pizza<br /><small>Délicieuse</small></NavbarBrand>
+                        <div className="navbar-brand">Pizza<br /><small>Délicieuse</small></div>
                     </NavLink >
                     <Nav className="ml-auto" navbar>
                         <NavItem>
