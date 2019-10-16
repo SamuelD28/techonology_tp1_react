@@ -9,54 +9,31 @@ class MenuSection extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = [
-            {
-                name: "Italian Pizza",
-                img: "images/pizza-1.jpg",
-                description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia ",
-                price: 3.25
-            },
-            {
-                name: "Greek Pizza",
-                img: "images/pizza-2.jpg",
-                description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia ",
-                price: 3.25
-            },
-            {
-                name: "Caucassian Pizza",
-                img: "images/pizza-3.jpg",
-                description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia ",
-                price: 3.25
-            },
-            {
-                name: "Margeritta Pizza",
-                img: "images/pizza-4.jpg",
-                description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia ",
-                price: 3.25
-            },
-            {
-                name: "Spicy Pizza",
-                img: "images/pizza-5.jpg",
-                description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia ",
-                price: 3.25
-            },
-            {
-                name: "Sweet Pizza",
-                img: "images/pizza-6.jpg",
-                description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia ",
-                price: 3.25
-            },
-        ];
+        this.state = {
+            items: []
+        };
+        fetch(props.requestUrl)
+            .then(response => response.json())
+            .then(
+                result => {
+                    if (result['statusCode'] == 200) {
+                        
+                        let state = this.state;
+                        state.items = result['value'];
+                        this.setState(state);
+                    };
+                });
     }
 
     DisplayMenuItems = () => {
-        return this.state.map((menuItem, index) => (
+        return this.state.items.map((menuItem, index) => (
             <MenuItem
                 key={index}
                 layout="stackedinverted"
                 size={3}
                 name={menuItem.name}
-                img={menuItem.img}
+                img={menuItem.image.file}
+                isBase64={true}
                 description={menuItem.description}
                 price={menuItem.price}
             />
