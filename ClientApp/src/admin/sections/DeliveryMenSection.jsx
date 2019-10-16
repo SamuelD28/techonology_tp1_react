@@ -68,13 +68,11 @@ class DeliveryMenSection extends React.Component {
             <Modal
                 isOpen={deliveryMan !== null}
                 toggle={() => this.ToggleModal(null)}>
-                <ModalHeader
-                    className="black-modal"
-                    toggle={() => this.ToggleModal(null)}>
-                    {deliveryMan && deliveryMan.name}
-                </ModalHeader>
                 <ModalBody className="black-modal">
-                    <DeliveryMenDetail deliveryMan={deliveryMan} />
+                    <DeliveryMenDetail
+                        ToggleModal={this.ToggleModal}
+                        Refresh={this.GetDeliveryMen}
+                        deliveryMan={deliveryMan} />
                 </ModalBody>
             </Modal>
         );

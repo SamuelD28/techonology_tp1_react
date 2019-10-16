@@ -1,59 +1,101 @@
 ﻿import React from 'react';
+import Ajax from '../../shared/ajax';
 import { Form, Row, Col, FormGroup, Input, Label, Button } from 'reactstrap';
 
 class DeliveryMenDetail extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {};
+        if (props.deliveryMan) {
+            this.state = this.ParseDeliveryManInState(props.deliveryMan);
+        }
+    }
+
+    ConvertResultToYesNo = (result) => {
+        return result
+            ? <Label className="text-success"> Oui</Label>
+            : <Label className="text-danger"> Non</Label>;
+    }
+
+    ParseDeliveryManInState = (deliveryMan) => {
+        return {
+            id: deliveryMan.id,
+            name: deliveryMan.name,
+            phone: deliveryMan.phone,
+            isEmployed: deliveryMan.isEmployed,
+            isDeactivated: deliveryMan.isDeactivated
+        };
+    }
+
+    HandleChange = (event) => {
+
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    }
+
+    HandleUpdate = async(url) => {
+        let request = await Ajax.PutData(`/api/deliverymen/${this.state.id}`, this.state);
+
+        if (request.statusCode >= 200 || request.statusCode <= 300) {
+            let updatedDeliveryMan = request.value;
+            this.setState(this.ParseDeliveryManInState(updatedDeliveryMan));
+            this.props.ToggleModal(null);
+            this.props.Refresh();
+        }
+    }
+
+    HandleDelete = async () => {
+        let request = await Ajax.DeleteData(`/api/deliverymen/${this.state.id}`);
+
+        if (request.statusCode >= 200 || request.statusCode <= 300) {
+            this.props.ToggleModal(null);
+            this.props.Refresh();
+        }
+    }
+
     render() {
         return (
             <Form>
-            <h1 className="text-primary">This is the detail form</h1>
-                <Row form>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label for="exampleEmail">Email</Label>
-                            <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" />
-                        </FormGroup>
-                    </Col>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label for="examplePassword">Password</Label>
-                            <Input type="password" name="password" id="examplePassword" placeholder="password placeholder" />
-                        </FormGroup>
-                    </Col>
-                </Row>
+                <h1 className="text-primary">{this.props.deliveryMan && this.props.deliveryMan.name}</h1>
                 <FormGroup>
-                    <Label for="exampleAddress">Address</Label>
-                    <Input type="text" name="address" id="exampleAddress" placeholder="1234 Main St" />
+                    <Label for="exampleEmail">Nom</Label>
+                    <Input
+                        type="text"
+                        name="name"
+                        id="inputName"
+                        placeholder="Nom..."
+                        value={this.state.name}
+                        onChange={this.HandleChange}
+                    />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="exampleAddress2">Address 2</Label>
-                    <Input type="text" name="address2" id="exampleAddress2" placeholder="Apartment, studio, or floor" />
+                    <Label for="exampleAddress">Téléphone</Label>
+                    <Input
+                        type="phone"
+                        name="phone"
+                        id="inputPhone"
+                        placeholder="Téléphone..."
+                        value={this.state.phone}
+                        onChange={this.HandleChange}
+                    />
                 </FormGroup>
-                <Row form>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label for="exampleCity">City</Label>
-                            <Input type="text" name="city" id="exampleCity" />
-                        </FormGroup>
+                <Row>
+                    <Col md="6">
+                        <Label className="mr-2">Est employé : </Label>
+                        {this.ConvertResultToYesNo(this.state.isEmployed)}
                     </Col>
-                    <Col md={4}>
-                        <FormGroup>
-                            <Label for="exampleState">State</Label>
-                            <Input type="text" name="state" id="exampleState" />
-                        </FormGroup>
-                    </Col>
-                    <Col md={2}>
-                        <FormGroup>
-                            <Label for="exampleZip">Zip</Label>
-                            <Input type="text" name="zip" id="exampleZip" />
-                        </FormGroup>
+                    <Col md="6">
+                        <Label className="mr-2">Est désactivé : </Label>
+                        {this.ConvertResultToYesNo(this.state.isDeactivated)}
                     </Col>
                 </Row>
-                <FormGroup check>
-                    <Input type="checkbox" name="check" id="exampleCheck" />
-                    <Label for="exampleCheck" check>Check me out</Label>
-                </FormGroup>
-                <Button>Sign in</Button>
+                <div className="d-flex justify-content-between mt-4">
+                    <Button onClick={this.HandleDelete} color="danger">Supprimer</Button>
+                    <Button onClick={this.HandleUpdate} color="secondary">Sauvgarder</Button>
+                </div>
             </Form>
         );
     }
