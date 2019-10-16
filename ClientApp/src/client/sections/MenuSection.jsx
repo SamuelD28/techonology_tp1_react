@@ -53,6 +53,7 @@ class MenuSection extends React.Component {
         return this.state.map((menuItem, index) => (
             <MenuItem
                 key={index}
+                layout="stackedinverted"
                 size={3}
                 name={menuItem.name}
                 img={menuItem.img}
