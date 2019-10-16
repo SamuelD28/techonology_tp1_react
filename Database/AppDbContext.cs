@@ -20,6 +20,8 @@ namespace technology_tp1.Models
 
         public DbSet<Order> Orders { get; set; }
 
+        //public IEnumerable<Order> OrdersInclude => Orders.Include(o => o.OrdersItems);
+
         public DbSet<OrdersItems> OrdersItems { get; set; }
 
         public AppDbContext(){}

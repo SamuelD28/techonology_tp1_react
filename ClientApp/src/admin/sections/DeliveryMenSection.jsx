@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import Ajax from '../../shared/ajax';
 import DeliveryMenDetail from '../components/DeliveryMenDetail';
-import { Table, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import { Col, Badge, Button, Modal, ModalBody, ModalHeader, Card, CardTitle, CardBody, Row, CardSubtitle } from 'reactstrap';
 
 
 class DeliveryMenSection extends React.Component {
@@ -15,7 +15,10 @@ class DeliveryMenSection extends React.Component {
     GetDeliveryMen = async () => {
         let results = await Ajax.GetData("/api/deliverymen");
         if (results.statusCode >= 200 || results.statusCode <= 300) {
-            this.setState({ deliveryMen: results.value });
+
+            let data = results.value.filter((d) => d.isEmployed);
+
+            this.setState({ deliveryMen: data });
             console.log(this.state);
         }
     }
@@ -29,13 +32,30 @@ class DeliveryMenSection extends React.Component {
     DisplayDeliveryMen = () => {
         if (this.state.deliveryMen) {
             return this.state.deliveryMen.map((deliveryMan) => (
-                <tr style={{ cursor: "pointer" }}
-                    key={deliveryMan.id}
-                    onClick={() => this.ToggleModal(deliveryMan)}>
-                    <td>{deliveryMan.name}</td>
-                    <td>{deliveryMan.phone}</td>
-                    <td>{deliveryMan.isEmployed ? "Oui" : "Non"}</td>
-                </tr>
+                <Col
+                    md="4"
+                    key={deliveryMan.id}>
+                    >
+                    <Card
+                        className="bg-dark m-2 p-4 text-center"
+                        key={deliveryMan.id}>
+                        <img
+                            className="mx-auto"
+                            width="50%"
+                            src="/images/female_avatar.svg"
+                            alt="User Profile picture" />
+                        <CardBody>
+                            <CardTitle>{deliveryMan.name}</CardTitle>
+                            <CardSubtitle>{deliveryMan.phone}</CardSubtitle>
+                            <Button
+                                className="mt-4"
+                                color="primary"
+                                onClick={() => this.ToggleModal(deliveryMan)}
+                            >Détails
+                            </Button>
+                        </CardBody>
+                    </Card>
+                </Col>
             ));
         }
     }
@@ -62,20 +82,13 @@ class DeliveryMenSection extends React.Component {
 
     render() {
         return (
-            <section>
-                <h1>Les livreurs</h1>
-                <Table dark hover>
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Téléphone</th>
-                            <th>Est employé</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.DisplayDeliveryMen()}
-                    </tbody>
-                </Table>
+            <section className="bg-secondary p-4 rounded">
+                <h1 className="d-flex justify-content-between">Les livreurs
+                    <button className="btn btn-primary">Ajouter</button>
+                </h1>
+                <Row noGutters>
+                    {this.DisplayDeliveryMen()}
+                </Row>
                 {this.RenderModal()}
             </section>
         );
