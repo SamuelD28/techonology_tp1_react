@@ -4,7 +4,7 @@ import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Ajax from '../../shared/ajax';
 
-class MenuSection extends React.Component {
+class PopularSection extends React.Component {
 
     constructor(props) {
         super(props);
@@ -43,6 +43,17 @@ class MenuSection extends React.Component {
     render() {
         return (
             <section className="m-4">
+                <div className="container">
+                    <div className="row justify-content-center mb-5 pb-3">
+                        <div className="col-md-7 heading-section text-center">
+                            <h2 className="mb-4">Nos populaires</h2>
+                            <p>Voici une selection de nos pizza les plus populaires. Préparer avec amour et soins, ses pizzas seront combler les plus gourmands.</p>
+                            <Link to="/menu">
+                                <Button color="primary">Voir le menu</Button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
                 <div className="container-wrap">
                     <div className="row no-gutters d-flex">
                         {this.DisplayMenuItems()}
@@ -53,4 +64,4 @@ class MenuSection extends React.Component {
     }
 }
 
-export default MenuSection;
+export default PopularSection;

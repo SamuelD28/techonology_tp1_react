@@ -4,7 +4,7 @@ import Routes from '../../shared/routes';
 
 const Menu = props => (
     <div>
-        <div>
+        <div class="pt-5 d-flex justify-content-center">
             <h1>Menu Page</h1>
         </div>
         <MenuSection requestUrl={Routes.api.menuItems.all} />
