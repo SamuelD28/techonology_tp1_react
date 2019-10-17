@@ -14,7 +14,7 @@ namespace Technology_Tp1_React.Models
         public OrdersItems()
         {
             CreatedOn = DateTime.Now;
-            UpdatedOn = DateTime.Now;
+            UpdatedOn = null;
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -30,7 +30,7 @@ namespace Technology_Tp1_React.Models
         public MenuItem MenuItem { get; set; }
 
         public DateTime CreatedOn { get; set; }
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
     }
 
 }

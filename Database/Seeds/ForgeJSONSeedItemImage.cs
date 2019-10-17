@@ -26,6 +26,8 @@ namespace technology_tp1
                         Id = jsonItem.Value<int>("id"),
                         Name = jsonItem.Value<string>("name"),
                         File = jsonItem.Value<string>("full"),
+                        CreatedOn = jsonItem.Value<DateTime>("createdOn"),
+                        UpdatedOn = jsonItem.Value<DateTime?>("updatedOn"),
                     });
                 }
                 return images.Cast<T>();
@@ -48,6 +50,8 @@ namespace technology_tp1
                 picture.Add("small", new JValue(imageDataBase64));
                 picture.Add("medium", new JValue(imageDataBase64));
                 picture.Add("full", new JValue(imageDataBase64));
+                picture.Add("createdOn", new JValue(DateTime.Now));
+                picture.Add("updatedOn", null);
                 jArray.Add(picture);
             }
             return jArray;
