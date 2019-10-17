@@ -5,3 +5,9 @@
 .black-modal {
     background: #212529;
 }
+
+#cartAccess {
+    height: 5rem;
+    width: 5rem;
+    font-size: 2rem;
+}

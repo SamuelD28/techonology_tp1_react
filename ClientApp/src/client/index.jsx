@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
+import Cart from './components/Cart';
 
 export default () => (
     <div>
@@ -16,5 +17,8 @@ export default () => (
             <Route exact path='/connexion' component={Login} />
             <Route path='/' component={NotFound} />
         </Switch>
+        <div className="h-10 d-flex flex-row-reverse fixed-bottom">
+            <Cart/>
+        </div>
     </div>
 );
