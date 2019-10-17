@@ -38,6 +38,9 @@ namespace technology_tp1.Models
         [Required]
         public int ImageId { get; set; }
 
+        [Required]
+        public string Description { get; set; }
+
         public ItemImage Image { get; set; }
 
         public DateTime CreatedOn { get; set; }
