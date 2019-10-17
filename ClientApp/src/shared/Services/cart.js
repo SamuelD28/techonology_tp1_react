@@ -2,7 +2,7 @@
  * Class for cart
  * */
 class Cart {
-    Add = (itemId, quantity) => {
+    Add = async (itemId, quantity) => {
         throw new Error("not implemented");
     }
 

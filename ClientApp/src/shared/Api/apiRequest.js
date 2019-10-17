@@ -2,7 +2,7 @@ import Routes from '../routes';
 import Ajax from '../ajax';
 
 class ApiRequest {
-    getAllItems = async () => {
+    GetAllItems = async () => {
         let data = await Ajax.GetData(Routes.api.menuItems.all);
         if (data.statusCode !== 200) {
             console.log(data.value.error);
@@ -12,7 +12,7 @@ class ApiRequest {
         return data.value;
     }
 
-    getItem = async (itemId) => {
+    GetItem = async (itemId) => {
         let data = await Ajax.GetData(Routes.api.menuItems.get(itemId));
         if (data.statusCode !== 200) {
             console.log(data.value.error);

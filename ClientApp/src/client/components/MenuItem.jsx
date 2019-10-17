@@ -1,4 +1,5 @@
 import React from 'react';
+import GlobalAppState from '../../shared/globalState';
 import { Col, Button } from 'reactstrap';
 
 function ChooseLayout(props) {
@@ -37,7 +38,7 @@ const MenuItemStacked = props => (
             <p>{props.description}</p>
             <p className="price">
                 <span>${props.price}</span>
-                <button className="ml-2 btn btn-white btn-outline-white">Ajouter</button>
+                <button onClick={() => GlobalAppState.Cart.Add(-1, 1)} className="ml-2 btn btn-white btn-outline-white">Ajouter</button>
             </p>
         </div>
     </div>
@@ -50,7 +51,7 @@ const MenuItemStackedInverted = props => (
             <p>{props.description}</p>
             <p className="price">
                 <span>${props.price}</span>
-                <button className="ml-2 btn btn-white btn-outline-white">Ajouter</button>
+                <button onClick={() => GlobalAppState.Cart.Add(-1, 1)} className="ml-2 btn btn-white btn-outline-white">Ajouter</button>
             </p>
         </div>
         <div className="img" style={StyleImage(props.isBase64, props.img)}></div>
@@ -68,7 +69,7 @@ const MenuItemPortrait = props => (
                 <span>{props.price}</span>
             </p>
             <p>
-                <button className="btn btn-white btn-outline-white">Ajouter</button>
+                <button onClick={() => GlobalAppState.Cart.Add(-1, 1)} className="btn btn-white btn-outline-white">Ajouter</button>
             </p>
         </div>
     </div>
