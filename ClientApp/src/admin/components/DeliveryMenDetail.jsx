@@ -29,14 +29,13 @@ class DeliveryMenDetail extends React.Component {
         };
     }
 
-    HandleChange = (event) => {
-
+    HandleChange = (key, value) => {
         this.setState({
-            [event.target.name]: event.target.value
+            [key]: value
         });
     }
 
-    HandleUpdate = async(url) => {
+    HandleUpdate = async (url) => {
         let request = await Ajax.PutData(`/api/deliverymen/${this.state.id}`, this.state);
 
         if (request.statusCode >= 200 || request.statusCode <= 300) {
@@ -61,40 +60,64 @@ class DeliveryMenDetail extends React.Component {
             <Form>
                 <h1 className="text-primary">{this.props.deliveryMan && this.props.deliveryMan.name}</h1>
                 <FormGroup>
-                    <Label for="exampleEmail">Nom</Label>
+                    <Label htmlFor="exampleEmail">Nom</Label>
                     <Input
                         type="text"
-                        name="name"
                         id="inputName"
                         placeholder="Nom..."
                         value={this.state.name}
-                        onChange={this.HandleChange}
+                        onChange={(e) => this.HandleChange("name", e.target.value)}
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="exampleAddress">Téléphone</Label>
+                    <Label htmlFor="exampleAddress">Téléphone</Label>
                     <Input
                         type="phone"
-                        name="phone"
                         id="inputPhone"
                         placeholder="Téléphone..."
                         value={this.state.phone}
-                        onChange={this.HandleChange}
+                        onChange={(e) => this.HandleChange("phone", e.target.value)}
                     />
                 </FormGroup>
-                <Row>
-                    <Col md="6">
-                        <Label className="mr-2">Est employé : </Label>
-                        {this.ConvertResultToYesNo(this.state.isEmployed)}
-                    </Col>
-                    <Col md="6">
-                        <Label className="mr-2">Est désactivé : </Label>
-                        {this.ConvertResultToYesNo(this.state.isDeactivated)}
-                    </Col>
-                </Row>
+                <FormGroup>
+                    <Input
+                        className="inp-cbx"
+                        id="isEmployed"
+                        style={{ display: "none" }}
+                        type="checkbox"
+                        checked={this.state.isEmployed}
+                        onChange={(e) => this.HandleChange("isEmployed", !this.state.isEmployed)}
+                    />
+                    <label className="cbx" htmlFor="isEmployed">
+                        <span>
+                            <svg width="12px" height="10px" viewBox="0 0 12 10">
+                                <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                            </svg>
+                        </span>
+                        <span>Employé</span>
+                    </label>
+                </FormGroup>
+                <FormGroup>
+                    <Input
+                        className="inp-cbx"
+                        id="isDeactivated"
+                        style={{ display: "none" }}
+                        type="checkbox"
+                        checked={this.state.isDeactivated}
+                        onChange={(e) => this.HandleChange("isDeactivated", !this.state.isDeactivated)}
+                    />
+                    <label className="cbx" htmlFor="isDeactivated">
+                        <span>
+                            <svg width="12px" height="10px" viewBox="0 0 12 10">
+                                <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                            </svg>
+                        </span>
+                        <span>Désactivé</span>
+                    </label>
+                </FormGroup>
                 <div className="d-flex justify-content-between mt-4">
                     <Button onClick={this.HandleDelete} color="danger">Supprimer</Button>
-                    <Button onClick={this.HandleUpdate} color="secondary">Sauvgarder</Button>
+                    <Button onClick={this.HandleUpdate} color="success">Sauvgarder</Button>
                 </div>
             </Form>
         );
