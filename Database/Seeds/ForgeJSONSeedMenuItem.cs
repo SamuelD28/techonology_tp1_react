@@ -16,7 +16,8 @@ namespace technology_tp1
                 {
                     Id = -1,
                     Name = "All dress",
-                    Price = 25.25M
+                    Price = 25.25M,
+                    Category = Models.Category.Pizza,
                 }
             },
             {
@@ -25,7 +26,8 @@ namespace technology_tp1
                 {
                     Id = -2,
                     Name = "Chocolate cake",
-                    Price = 5M
+                    Price = 5M,
+                    Category = Models.Category.Dessert,
                 }
             },
             {
@@ -34,7 +36,8 @@ namespace technology_tp1
                 {
                     Id = -3,
                     Name = "Coke drink",
-                    Price = 1.33M
+                    Price = 1.33M,
+                    Category = Models.Category.Drink,
                 }
             },
             {
@@ -43,7 +46,8 @@ namespace technology_tp1
                 {
                     Id = -4,
                     Name = "French fries",
-                    Price = 4.0M
+                    Price = 4.0M,
+                    Category = Models.Category.Other,
                 }
             },
             {
@@ -52,7 +56,8 @@ namespace technology_tp1
                 {
                     Id = -1,
                     Name = "Chesse",
-                    Price = 15M
+                    Price = 15M,
+                    Category = Models.Category.Pizza,
                 }
             },
             {
@@ -61,7 +66,8 @@ namespace technology_tp1
                 {
                     Id = -1,
                     Name = "Hawaiian",
-                    Price = 18.25M
+                    Price = 18.25M,
+                    Category = Models.Category.Pizza,
                 }
             },
             {
@@ -70,7 +76,8 @@ namespace technology_tp1
                 {
                     Id = -1,
                     Name = "Pepperoni & chesse",
-                    Price = 14.58M
+                    Price = 14.58M,
+                    Category = Models.Category.Pizza,
                 }
             },
         };
@@ -91,6 +98,7 @@ namespace technology_tp1
                         Name = jsonItem.Value<string>("name"),
                         Price = jsonItem.Value<decimal>("price"),
                         ImageId = jsonItem.Value<int>("imageId"),
+                        Category = (Models.Category)jsonItem.Value<int>("category"),
                         CreatedOn = jsonItem.Value<DateTime>("createdOn"),
                         UpdatedOn = jsonItem.Value<DateTime?>("updatedOn"),
                     });
@@ -122,6 +130,7 @@ namespace technology_tp1
                 items.Add("name", new JValue(item.Value.Name));
                 items.Add("price", new JValue(item.Value.Price));
                 items.Add("imageId", new JValue(imageId));
+                items.Add("category", new JValue(item.Value.Category));
                 items.Add("createdOn", new JValue(DateTime.Now));
                 items.Add("updatedOn", null);
                 jArray.Add(items);
