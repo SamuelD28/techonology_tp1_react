@@ -66,6 +66,7 @@ class DeliveryMenSection extends React.Component {
 
         return (
             <Modal
+                centered
                 isOpen={deliveryMan !== null}
                 toggle={() => this.ToggleModal(null)}>
                 <ModalBody className="bg-dark">

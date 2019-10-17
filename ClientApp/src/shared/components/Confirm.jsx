@@ -26,21 +26,25 @@ class Confirm extends Component {
                     {this.props.trigger}
                 </span>
                 <Modal
+                    centered
+                    size="sm"
+                    fade={false}
                     isOpen={this.state.modal}
                     toggle={this.Toggle}>
                     <ModalBody className="bg-dark">
                         <h3 className="text-primary">Confirmer</h3>
-                        <p>Êtes-vous sûr de vouloir continuer?</p>
-                        <div>
+                        <p>{this.props.message}</p>
+                        <div class="float-right">
+                            <Button
+                                className="mr-2"
+                                color="danger"
+                                onClick={() => this.ExecuteConfirmedAction(false)}>
+                                Non
+                            </Button>
                             <Button
                                 color="success"
                                 onClick={() => this.ExecuteConfirmedAction(true)}>
                                 Oui
-                            </Button>
-                            <Button
-                                color="danger"
-                                onClick={() => this.ExecuteConfirmedAction(false)}>
-                                Non
                             </Button>
                         </div>
                         </ModalBody>

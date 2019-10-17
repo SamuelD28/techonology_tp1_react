@@ -26,7 +26,7 @@ class DeliveryMenDetail extends React.Component {
             name: deliveryMan.name,
             phone: deliveryMan.phone,
             isEmployed: deliveryMan.isEmployed,
-            isDeactivated: deliveryMan.isDeactivated
+            isDeactivated: deliveryMan.isDeactivated,
         };
     }
 
@@ -120,6 +120,7 @@ class DeliveryMenDetail extends React.Component {
                 </Form>
                 <div className="d-flex justify-content-between mt-4">
                     <Confirm
+                        message="Voulez-vous vraiment supprimer ce livreur?"
                         trigger={
                             <Button
                                 color="danger">
@@ -129,6 +130,7 @@ class DeliveryMenDetail extends React.Component {
                         successAction={this.HandleDelete}
                     />
                     <Confirm
+                        message="Voulez-vous vraiment modifier ce livreur?"
                         trigger={
                             <Button
                                 color="success">
