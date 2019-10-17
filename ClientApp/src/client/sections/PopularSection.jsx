@@ -16,7 +16,7 @@ class PopularSection extends React.Component {
             .then(response => response.json())
             .then(
                 result => {
-                    if (result['statusCode'] == 200) {
+                    if (result['statusCode'] === 200) {
                         
                         let state = this.state;
                         state.items = result['value'];
