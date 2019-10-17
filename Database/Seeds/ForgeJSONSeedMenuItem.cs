@@ -18,6 +18,7 @@ namespace technology_tp1
                     Name = "All dress",
                     Price = 25.25M,
                     Category = Models.Category.Pizza,
+                    Description = "This is an all dress pizza",
                 }
             },
             {
@@ -28,6 +29,7 @@ namespace technology_tp1
                     Name = "Chocolate cake",
                     Price = 5M,
                     Category = Models.Category.Dessert,
+                    Description = "A good and tasty chocolate cake!",
                 }
             },
             {
@@ -38,6 +40,7 @@ namespace technology_tp1
                     Name = "Coke drink",
                     Price = 1.33M,
                     Category = Models.Category.Drink,
+                    Description = "Are you thirsty? Take a coke too feel better",
                 }
             },
             {
@@ -48,6 +51,7 @@ namespace technology_tp1
                     Name = "French fries",
                     Price = 4.0M,
                     Category = Models.Category.Other,
+                    Description = "Always good with those!",
                 }
             },
             {
@@ -58,6 +62,7 @@ namespace technology_tp1
                     Name = "Chesse",
                     Price = 15M,
                     Category = Models.Category.Pizza,
+                    Description = "Classic yet very good",
                 }
             },
             {
@@ -68,6 +73,7 @@ namespace technology_tp1
                     Name = "Hawaiian",
                     Price = 18.25M,
                     Category = Models.Category.Pizza,
+                    Description = "I guess that pineapple are good",
                 }
             },
             {
@@ -78,6 +84,7 @@ namespace technology_tp1
                     Name = "Pepperoni & chesse",
                     Price = 14.58M,
                     Category = Models.Category.Pizza,
+                    Description = "Cheap, simple and still surprisingly good!",
                 }
             },
         };
@@ -99,6 +106,7 @@ namespace technology_tp1
                         Price = jsonItem.Value<decimal>("price"),
                         ImageId = jsonItem.Value<int>("imageId"),
                         Category = (Models.Category)jsonItem.Value<int>("category"),
+                        Description = jsonItem.Value<string>("description"),
                         CreatedOn = jsonItem.Value<DateTime>("createdOn"),
                         UpdatedOn = jsonItem.Value<DateTime?>("updatedOn"),
                     });
@@ -131,6 +139,7 @@ namespace technology_tp1
                 items.Add("price", new JValue(item.Value.Price));
                 items.Add("imageId", new JValue(imageId));
                 items.Add("category", new JValue(item.Value.Category));
+                items.Add("description", new JValue(item.Value.Description));
                 items.Add("createdOn", new JValue(DateTime.Now));
                 items.Add("updatedOn", null);
                 jArray.Add(items);
