@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import MenuItem from '../components/MenuItem';
 import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';

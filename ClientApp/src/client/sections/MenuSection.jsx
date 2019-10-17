@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import MenuItem from '../components/MenuItem';
 import Converter from '../../shared/converter';
 import { Button } from 'reactstrap';

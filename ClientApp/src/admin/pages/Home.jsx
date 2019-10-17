@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import Ajax from '../../shared/ajax';
 import { Container, Row, Col } from 'reactstrap';
 import DeliveyMenSection from '../sections/DeliveryMenSection';

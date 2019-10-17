@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Col, Button } from 'reactstrap';
 
 function ChooseLayout(props) {

@@ -15,7 +15,7 @@ export default class NavMenu extends React.Component {
                 expand="md">
                 <div className="container">
                     <NavLink to='/'>
-                        <div className="navbar-brand">Pizza<br /><small>Délicieuse</small></div>
+                        <div className="navbar-brand">Pizza<br /><small>DÃ©licieuse</small></div>
                     </NavLink >
                     <Nav className="ml-auto" navbar>
                         <NavItem>

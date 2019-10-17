@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 
 const About = props => (
     <section className="ftco-about d-md-flex">
