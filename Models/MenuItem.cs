@@ -9,6 +9,13 @@ using Technology_Tp1_React.General;
 namespace technology_tp1.Models
 {
     /// <summary>
+    /// Category for a MenuItem
+    /// 
+    /// <see cref="MenuItem"/>
+    /// </summary>
+    public enum Category { Pizza, Drink, Dessert, Other }
+
+    /// <summary>
     /// Class that handle the menuitem data model
     /// </summary>
     public class MenuItem : IEntity
@@ -23,7 +30,7 @@ namespace technology_tp1.Models
         public int Id { get; set; }
 
         [Required]
-        public string  Name { get; set; }
+        public string Name { get; set; }
 
         [Required]
         public decimal Price { get; set; }
@@ -36,5 +43,7 @@ namespace technology_tp1.Models
         public DateTime CreatedOn { get; set; }
 
         public DateTime UpdatedOn { get; set; }
+
+        public Category Category { get; set; }
     }
 }
