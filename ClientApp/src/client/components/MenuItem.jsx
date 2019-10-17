@@ -75,7 +75,6 @@ const MenuItemPortrait = props => (
 );
 
 const StyleImage = (isBase64, img) => {
-    console.log(img);
     if (!isBase64)
         return { backgroundImage: `url(${img})` };
     else {
