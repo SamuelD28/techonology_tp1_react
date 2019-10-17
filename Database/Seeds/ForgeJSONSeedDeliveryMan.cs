@@ -22,6 +22,8 @@ namespace technology_tp1
                         Name = jsonItem.Value<string>("name"),
                         Phone = jsonItem.Value<string>("phone"),
                         IsEmployed = jsonItem.Value<bool>("isEmployed"),
+                        CreatedOn = jsonItem.Value<DateTime>("createdOn"),
+                        UpdatedOn = jsonItem.Value<DateTime?>("updatedOn"),
                     });
                 }
                 return deliveryMen.Cast<T>();
@@ -40,6 +42,8 @@ namespace technology_tp1
                 deliveryMan.Add("name", new JValue(Faker.NameFaker.Name()));
                 deliveryMan.Add("phone", new JValue(Faker.PhoneFaker.Phone()));
                 deliveryMan.Add("isEmployed", new JValue(Faker.BooleanFaker.Boolean()));
+                deliveryMan.Add("createdOn", new JValue(Faker.DateTimeFaker.DateTimeBetweenYears(1990, DateTime.Now.Year - 1)));
+                deliveryMan.Add("updatedOn", null);
                 jArray.Add(deliveryMan);
             }
 

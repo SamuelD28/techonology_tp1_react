@@ -16,7 +16,7 @@ namespace technology_tp1.Models
     {
         public ItemImage(){
             CreatedOn = DateTime.Now;
-            UpdatedOn = DateTime.Now;
+            UpdatedOn = null;
         }
 
         // Limits the maximum file size to 1mb
@@ -31,7 +31,7 @@ namespace technology_tp1.Models
 
 
         public DateTime CreatedOn { get; set; }
-        public DateTime UpdatedOn { get; set ; }
+        public DateTime? UpdatedOn { get; set ; }
 
         public static string ParseImage(IFormFile file)
         {

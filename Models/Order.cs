@@ -16,7 +16,7 @@ namespace Technology_Tp1_React.Models
         public Order()
         {
             CreatedOn = DateTime.Now;
-            UpdatedOn = DateTime.Now;
+            UpdatedOn = null;
             OrdersItems = new List<OrdersItems>();
         }
 
@@ -42,7 +42,7 @@ namespace Technology_Tp1_React.Models
 
         public DateTime CreatedOn { get; set; }
 
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
 
         public DateTime? DeliveredAt { get; set; }
 

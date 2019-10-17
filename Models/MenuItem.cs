@@ -23,7 +23,7 @@ namespace technology_tp1.Models
         public MenuItem()
         {
             CreatedOn = DateTime.Now;
-            UpdatedOn = DateTime.Now;
+            UpdatedOn = null;
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -41,8 +41,7 @@ namespace technology_tp1.Models
         public ItemImage Image { get; set; }
 
         public DateTime CreatedOn { get; set; }
-
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
 
         public Category Category { get; set; }
     }

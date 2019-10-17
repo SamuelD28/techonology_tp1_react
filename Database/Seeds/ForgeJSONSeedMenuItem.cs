@@ -90,7 +90,9 @@ namespace technology_tp1
                         Id = jsonItem.Value<int>("id"),
                         Name = jsonItem.Value<string>("name"),
                         Price = jsonItem.Value<decimal>("price"),
-                        ImageId = jsonItem.Value<int>("imageId")
+                        ImageId = jsonItem.Value<int>("imageId"),
+                        CreatedOn = jsonItem.Value<DateTime>("createdOn"),
+                        UpdatedOn = jsonItem.Value<DateTime?>("updatedOn"),
                     });
                 }
                 return items.Cast<T>();
@@ -120,6 +122,8 @@ namespace technology_tp1
                 items.Add("name", new JValue(item.Value.Name));
                 items.Add("price", new JValue(item.Value.Price));
                 items.Add("imageId", new JValue(imageId));
+                items.Add("createdOn", new JValue(DateTime.Now));
+                items.Add("updatedOn", null);
                 jArray.Add(items);
             }
             return jArray;
