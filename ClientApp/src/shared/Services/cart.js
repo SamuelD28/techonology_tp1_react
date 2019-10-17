@@ -1,3 +1,6 @@
+/**
+ * Class for cart
+ * */
 class Cart {
     Add = (itemId, quantity) => {
         throw new Error("not implemented");
@@ -20,6 +23,10 @@ class Cart {
     }
 
     GetItem = (itemId) => {
+        throw new Error("not implemented");
+    }
+
+    GetTotalCost = () => {
         throw new Error("not implemented");
     }
 }

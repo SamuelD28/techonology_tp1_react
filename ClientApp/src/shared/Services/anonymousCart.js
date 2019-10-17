@@ -1,6 +1,5 @@
-import Cart from './cart'
-import Ajax from '../ajax';
-import Routes from '../routes';
+import Cart from './cart';
+import ApiRequest from '../Api/apiRequest';
 
 class AnonymousCart extends Cart {
     constructor() {
@@ -10,7 +9,11 @@ class AnonymousCart extends Cart {
     }
 
     Add = (itemId, quantity) => {
-        Ajax.GetData(Routes.api.menuItems.get(itemId));
+        let item =  ApiRequest.GetItem(itemId);
+        this.Cart.push({
+            item: item,
+            quantity: quantity,
+        })
     }
 
     Remove = (itemId, quantity) => {
@@ -18,18 +21,20 @@ class AnonymousCart extends Cart {
     }
 
     Clear = () => {
-        throw new Error("not implemented");
+        this.Cart = [];
     }
 
-    Count = () => {
-        throw new Error("not implemented");
-    }
+    Count = () => this.Cart.length;
 
-    GetItems = () => {
-        throw new Error("not implemented");
-    }
+    DistinctCount = () => this.Cart.reduce((a, b) => a.quantity + b.quantity);
+
+    GetItems = () => Object.create(this.Cart);
 
     GetItem = (itemId) => {
+        throw new Error("not implemented");
+    }
+
+    GetTotalCost = () => {
         throw new Error("not implemented");
     }
 }

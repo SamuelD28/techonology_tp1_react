@@ -12,24 +12,14 @@ class ApiRequest {
         return data.value;
     }
 
-    Remove = (itemId, quantity) => {
-        throw new Error("not implemented");
-    }
+    getItem = async (itemId) => {
+        let data = await Ajax.GetData(Routes.api.menuItems.get(itemId));
+        if (data.statusCode !== 200) {
+            console.log(data.value.error);
+            return null;
+        }
 
-    Clear = () => {
-        throw new Error("not implemented");
-    }
-
-    Count = () => {
-        throw new Error("not implemented");
-    }
-
-    GetItems = () => {
-        throw new Error("not implemented");
-    }
-
-    GetItem = (itemId) => {
-        throw new Error("not implemented");
+        return data.value;
     }
 }
 
