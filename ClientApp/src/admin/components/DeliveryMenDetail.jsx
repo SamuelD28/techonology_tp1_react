@@ -8,16 +8,25 @@ class DeliveryMenDetail extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
-        if (props.deliveryMan) {
+        if (Object.entries(props.deliveryMan).length === 0) {
+            this.state = this.ParseNewDeliveryManInState();
+        } else {
             this.state = this.ParseDeliveryManInState(props.deliveryMan);
         }
     }
 
-    ConvertResultToYesNo = (result) => {
-        return result
-            ? <Label className="text-success"> Oui</Label>
-            : <Label className="text-danger"> Non</Label>;
+    ParseNewDeliveryManInState = () => {
+        return {
+            name: "",
+            phone: "",
+            isEmployed: false,
+            isDeactivated: false,
+            new: true,
+            formTitle: "Créer un livreur",
+            negativeTitle: "Fermer",
+            positiveTitle: "Ajouter",
+            positiveAction: this.HandlePost
+        };
     }
 
     ParseDeliveryManInState = (deliveryMan) => {
@@ -27,6 +36,12 @@ class DeliveryMenDetail extends React.Component {
             phone: deliveryMan.phone,
             isEmployed: deliveryMan.isEmployed,
             isDeactivated: deliveryMan.isDeactivated,
+            new: false,
+            formTitle: "Modifier un livreur",
+            negativeTitle: "Supprimer",
+            negativeAction: this.HandleDelete,
+            positiveTitle: "Sauvgarder",
+            positiveAction: this.HandleUpdate
         };
     }
 
@@ -42,7 +57,7 @@ class DeliveryMenDetail extends React.Component {
         if (request.statusCode >= 200 || request.statusCode <= 300) {
             let updatedDeliveryMan = request.value;
             this.setState(this.ParseDeliveryManInState(updatedDeliveryMan));
-            this.props.ToggleModal(null);
+            this.props.ToggleModal();
             this.props.Refresh();
         }
     }
@@ -51,7 +66,16 @@ class DeliveryMenDetail extends React.Component {
         let request = await Ajax.DeleteData(`/api/deliverymen/${this.state.id}`);
 
         if (request.statusCode >= 200 || request.statusCode <= 300) {
-            this.props.ToggleModal(null);
+            this.props.ToggleModal();
+            this.props.Refresh();
+        }
+    }
+
+    HandlePost = async () => {
+        let request = await Ajax.PostData(`/api/deliverymen`, this.state);
+
+        if (request.statusCode >= 200 || request.statusCode <= 300) {
+            this.props.ToggleModal();
             this.props.Refresh();
         }
     }
@@ -60,7 +84,7 @@ class DeliveryMenDetail extends React.Component {
         return (
             <div>
                 <Form>
-                    <h1 className="text-primary">{this.props.deliveryMan && this.props.deliveryMan.name}</h1>
+                    <h1 className="text-primary">{this.state.formTitle}</h1>
                     <FormGroup>
                         <Label htmlFor="exampleEmail">Nom</Label>
                         <Input
@@ -118,27 +142,15 @@ class DeliveryMenDetail extends React.Component {
                         </label>
                     </FormGroup>
                 </Form>
-                <div className="d-flex justify-content-between mt-4">
+                <div className="d-flex justify-content-between">
                     <Confirm
-                        message="Voulez-vous vraiment supprimer ce livreur?"
-                        trigger={
-                            <Button
-                                color="danger">
-                                Supprimer
-                            </Button>
-                        }
-                        successAction={this.HandleDelete}
-                    />
+                        message={`Voulez-vous vraiment ${this.state.negativeTitle} ce livreur?`}
+                        trigger={<Button color="danger">{this.state.negativeTitle}</Button>}
+                        successAction={this.state.negativeAction} />
                     <Confirm
-                        message="Voulez-vous vraiment modifier ce livreur?"
-                        trigger={
-                            <Button
-                                color="success">
-                                Sauvgarder
-                            </Button>
-                        }
-                        successAction={this.HandleUpdate}
-                    />
+                        message={`Voulez-vous vraiment ${this.state.positiveTitle} ce livreur?`}
+                        trigger={<Button color="success">{this.state.positiveTitle}</Button>}
+                        successAction={this.state.positiveAction} />
                 </div>
             </div>
         );

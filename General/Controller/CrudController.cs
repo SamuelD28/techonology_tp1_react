@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Technology_Tp1_React.General
 {
@@ -78,6 +79,13 @@ namespace Technology_Tp1_React.General
             {
                 if (!ModelState.IsValid)
                 {
+                    foreach (ModelStateEntry modelState in ViewData.ModelState.Values)
+                    {
+                        foreach (ModelError error in modelState.Errors)
+                        {
+                            Console.WriteLine(error);
+                        }
+                    }
                     return ErrorResponse.WrongData();
                 }
 

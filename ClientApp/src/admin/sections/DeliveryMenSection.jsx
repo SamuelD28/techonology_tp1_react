@@ -1,14 +1,14 @@
 ﻿import React from 'react';
 import Ajax from '../../shared/ajax';
 import DeliveryMenDetail from '../components/DeliveryMenDetail';
-import { Col, Badge, Button, Modal, ModalBody, ModalHeader, Card, CardTitle, CardBody, Row, CardSubtitle } from 'reactstrap';
-
+import { Col, Modal, ModalBody, Row, Button } from 'reactstrap';
+import DeliveryManCard from '../components/DeliveryMenCard';
 
 class DeliveryMenSection extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { selectedDeliveryMan: null };
+        this.state = { modal: false, selectedDeliveryMan : null };
         this.GetDeliveryMen();
     }
 
@@ -25,6 +25,7 @@ class DeliveryMenSection extends React.Component {
 
     ToggleModal = (deliveryMan) => {
         this.setState({
+            modal: !this.state.modal,
             selectedDeliveryMan: deliveryMan
         });
     }
@@ -35,26 +36,10 @@ class DeliveryMenSection extends React.Component {
                 <Col
                     md="4"
                     key={deliveryMan.id}>
-                    >
-                    <Card
-                        className="bg-dark m-2 p-4 text-center"
-                        key={deliveryMan.id}>
-                        <img
-                            className="mx-auto"
-                            width="50%"
-                            src="/images/female_avatar.svg"
-                            alt="User Profile picture" />
-                        <CardBody>
-                            <CardTitle>{deliveryMan.name}</CardTitle>
-                            <CardSubtitle>{deliveryMan.phone}</CardSubtitle>
-                            <Button
-                                className="mt-4"
-                                color="primary"
-                                onClick={() => this.ToggleModal(deliveryMan)}
-                            >Détails
-                            </Button>
-                        </CardBody>
-                    </Card>
+                    <DeliveryManCard
+                        deliveryMan={deliveryMan}
+                        showDetails={() => this.ToggleModal(deliveryMan)}
+                    />
                 </Col>
             ));
         }
@@ -63,12 +48,11 @@ class DeliveryMenSection extends React.Component {
     RenderModal = () => {
 
         let deliveryMan = this.state.selectedDeliveryMan;
-
         return (
             <Modal
                 centered
-                isOpen={deliveryMan !== null}
-                toggle={() => this.ToggleModal(null)}>
+                isOpen={this.state.modal}
+                toggle={this.ToggleModal}>
                 <ModalBody className="bg-dark">
                     <DeliveryMenDetail
                         ToggleModal={this.ToggleModal}
@@ -83,7 +67,7 @@ class DeliveryMenSection extends React.Component {
         return (
             <section className="bg-secondary p-4 rounded">
                 <h1 className="d-flex justify-content-between">Les livreurs
-                    <button className="btn btn-primary">Ajouter</button>
+                    <Button onClick={() => this.ToggleModal({})} color="primary">Ajouter</Button>
                 </h1>
                 <Row noGutters>
                     {this.DisplayDeliveryMen()}
