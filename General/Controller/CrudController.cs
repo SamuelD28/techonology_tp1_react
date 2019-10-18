@@ -40,13 +40,16 @@ namespace Technology_Tp1_React.General
 
                 if (start != null && end != null)
                 {
+                    int requestedLength = (int)end - (int)start;
+
                     deliveryMen = Repository
                         .GetAll()
                         .Skip((int)start)
-                        .Take((int)end - (int)start);
+                        .Take(requestedLength);
 
                     requestResult = new {
                         data = deliveryMen,
+                        previous = $"{Request.Path.Value}?start={Math.Max(0, (int)(start - requestedLength))}&end={start}",
                         next = $"{Request.Path.Value}?start={end}&end={(end - start) + end}"
                     };
                 }
