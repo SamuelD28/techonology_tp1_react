@@ -8,17 +8,23 @@ class DeliveryMenSection extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { modal: false, selectedDeliveryMan : null };
+        this.state = {
+            modal: false,
+            selectedDeliveryMan: null,
+            currentQuery: "/api/deliverymen?start=0&end=6",
+            nextQuery: null,
+        };
         this.GetDeliveryMen();
     }
 
     GetDeliveryMen = async () => {
-        let results = await Ajax.GetData("/api/deliverymen");
-        if (results.statusCode >= 200 || results.statusCode <= 300) {
+        let results = await Ajax.GetData(this.state.currentQuery);
 
-            let data = results.value.filter((d) => d.isEmployed);
+        if (results.statusCode >= 200 || results.statusCode < 300) {
 
-            this.setState({ deliveryMen: data });
+            let data = results.value.data;
+
+            this.setState({ deliveryMen: data, nextQuery: results.value.next });
             console.log(this.state);
         }
     }
@@ -45,6 +51,11 @@ class DeliveryMenSection extends React.Component {
         }
     }
 
+    LoadNextDeliveryMan = async () => {
+        await this.setState({ currentQuery: this.state.nextQuery });
+        this.GetDeliveryMen();
+    }
+
     RenderModal = () => {
 
         let deliveryMan = this.state.selectedDeliveryMan;
@@ -63,6 +74,13 @@ class DeliveryMenSection extends React.Component {
         );
     }
 
+    DisplayCurrentSelection = () => {
+        let regex = /[0-9]+/gm;
+        let res = this.state.currentQuery.match(regex);
+
+        return <div className="text-white">Selection courante : {res[0]} à {res[1]}</div>
+    }
+
     render() {
         return (
             <section className="bg-secondary p-4 rounded">
@@ -72,6 +90,12 @@ class DeliveryMenSection extends React.Component {
                 <Row noGutters>
                     {this.DisplayDeliveryMen()}
                 </Row>
+                {this.DisplayCurrentSelection()}
+                <Button
+                    onClick={this.LoadNextDeliveryMan}
+                    color="primary">
+                    Suivant
+                </Button>
                 {this.RenderModal()}
             </section>
         );
