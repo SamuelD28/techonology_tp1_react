@@ -27,6 +27,11 @@ namespace Technology_Tp1_React.General
             Repository = repository;
         }
 
+        private string CreateNavigationQuery(string url, int start, int end)
+        {
+            return $"{url}?start={start}&end={end}";
+        }
+
         /// <summary>
         /// Method that returns all the record related to specified entity model.
         /// </summary>
@@ -40,17 +45,35 @@ namespace Technology_Tp1_React.General
 
                 if (start != null && end != null)
                 {
-                    int requestedLength = (int)end - (int)start;
+                    int startIndex = Math.Min(
+                                Math.Abs((int)start),
+                                Math.Abs((int)end)
+                            );
+                    int endIndex = Math.Max(
+                                Math.Abs((int)start),
+                                Math.Abs((int)end)
+                            );
+
+                    int requestedLength = endIndex - startIndex;
 
                     deliveryMen = Repository
                         .GetAll()
-                        .Skip((int)start)
+                        .Skip(startIndex)
                         .Take(requestedLength);
 
-                    requestResult = new {
+                    requestResult = new
+                    {
                         data = deliveryMen,
-                        previous = $"{Request.Path.Value}?start={Math.Max(0, (int)(start - requestedLength))}&end={start}",
-                        next = $"{Request.Path.Value}?start={end}&end={(end - start) + end}"
+                        previous = CreateNavigationQuery(
+                                        Request.Path.Value,
+                                        Math.Max(0, startIndex - requestedLength),
+                                        startIndex
+                                    ),
+                        next = CreateNavigationQuery(
+                                    Request.Path.Value,
+                                    endIndex,
+                                    (endIndex - startIndex) + endIndex
+                                )
                     };
                 }
                 else
