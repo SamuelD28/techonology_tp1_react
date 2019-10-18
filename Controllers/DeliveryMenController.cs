@@ -24,8 +24,8 @@ namespace technology_tp1.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
-            => base.GetAllRecord();
+        public IActionResult Get(int? start = null, int? end = null)
+            => base.GetAllRecord(start, end);
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)

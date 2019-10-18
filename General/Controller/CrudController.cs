@@ -31,12 +31,32 @@ namespace Technology_Tp1_React.General
         /// Method that returns all the record related to specified entity model.
         /// </summary>
         /// <returns>Json list of entity</returns>
-        virtual protected IActionResult GetAllRecord()
+        virtual protected IActionResult GetAllRecord(int? start = null, int? end = null)
         {
             try
             {
-                IEnumerable<T> deliveryMen = Repository.GetAll();
-                return CreateValidResponse(deliveryMen, StatusCodes.Status200OK);
+                IEnumerable<T> deliveryMen = null;
+                object requestResult = null;
+
+                if (start != null && end != null)
+                {
+                    deliveryMen = Repository
+                        .GetAll()
+                        .Skip((int)start)
+                        .Take((int)end - (int)start);
+
+                    requestResult = new {
+                        data = deliveryMen,
+                        next = $"{Request.Path.Value}?start={end}&end={(end - start) + end}"
+                    };
+                }
+                else
+                {
+                    deliveryMen = Repository.GetAll();
+                    requestResult = deliveryMen;
+                }
+
+                return CreateValidResponse(requestResult, StatusCodes.Status200OK);
             }
             catch (Exception e)
             {
