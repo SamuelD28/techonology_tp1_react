@@ -57,7 +57,7 @@ class DeliveryMenDetail extends React.Component {
         if (request.statusCode >= 200 || request.statusCode <= 300) {
             let updatedDeliveryMan = request.value;
             this.setState(this.ParseDeliveryManInState(updatedDeliveryMan));
-            this.props.ToggleModal();
+            this.props.Done();
             this.props.Refresh();
         }
     }
@@ -66,7 +66,7 @@ class DeliveryMenDetail extends React.Component {
         let request = await Ajax.DeleteData(`/api/deliverymen/${this.state.id}`);
 
         if (request.statusCode >= 200 || request.statusCode <= 300) {
-            this.props.ToggleModal();
+            this.props.Done();
             this.props.Refresh();
         }
     }
@@ -75,7 +75,7 @@ class DeliveryMenDetail extends React.Component {
         let request = await Ajax.PostData(`/api/deliverymen`, this.state);
 
         if (request.statusCode >= 200 || request.statusCode <= 300) {
-            this.props.ToggleModal();
+            this.props.Done();
             this.props.Refresh();
         }
     }

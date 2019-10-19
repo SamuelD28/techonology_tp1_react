@@ -64,6 +64,7 @@ namespace Technology_Tp1_React.General
 
             IEnumerable<T> records = Repository
                 .GetAll()
+                .OrderByDescending(r => r.CreatedOn)
                 .Skip(startIndex)
                 .Take(end - start);
 
@@ -92,7 +93,9 @@ namespace Technology_Tp1_React.General
                 }
                 else
                 {
-                    records = Repository.GetAll();
+                    records = Repository
+                        .GetAll()
+                        .OrderBy(r => r.CreatedOn);
                     requestResult = records;
                 }
 
