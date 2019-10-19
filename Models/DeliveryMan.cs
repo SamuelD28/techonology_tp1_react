@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,10 +20,13 @@ namespace technology_tp1.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Phone { get; set; }
         public bool IsEmployed { get; set; }
         public bool IsDeactivated { get; set; }
+
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
     }

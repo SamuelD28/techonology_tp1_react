@@ -15,11 +15,12 @@ class DeliveryMenSection extends React.Component {
             currentQuery: "/api/deliverymen?start=0&end=6",
             nextQuery: null,
             loading: false,
-            operationLatency : 400
+            operationLatency : 1000
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        await this.ShowLoading();
         this.GetDeliveryMen();
     }
 
@@ -29,7 +30,6 @@ class DeliveryMenSection extends React.Component {
     }
 
     GetDeliveryMen = async () => {
-        await this.ShowLoading();
         let results = await Ajax.GetData(this.state.currentQuery);
 
         if (results.statusCode >= 200 || results.statusCode < 300) {
@@ -146,7 +146,7 @@ class DeliveryMenSection extends React.Component {
             );
         } else {
             return (
-                <div class="loader">Loading...</div>
+                <div className="loader">Loading...</div>
             );
         }
     }
