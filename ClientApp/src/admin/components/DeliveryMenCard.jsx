@@ -3,7 +3,7 @@ import { Card, CardTitle, CardBody, Button, CardSubtitle } from 'reactstrap';
 
 const DeliveryMenCard = props => {
     return (
-        <Card className="bg-dark p-4 text-center">
+        <Card className={`bg-dark p-4 text-center ${props.className}`}>
             <img
                 className="mx-auto"
                 width="50%"

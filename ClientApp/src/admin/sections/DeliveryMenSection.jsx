@@ -64,6 +64,7 @@ class DeliveryMenSection extends React.Component {
                     md="4"
                     key={deliveryMan.id}>
                     <DeliveryManCard
+                        className="h-100"
                         deliveryMan={deliveryMan}
                         showDetails={() => this.ToggleModal(deliveryMan)}
                     />
@@ -90,59 +91,53 @@ class DeliveryMenSection extends React.Component {
         );
     }
 
-    DisplayPagination = () => {
+    DisplayPaginationButtons = () => {
         return (
-            <div>
-                {this.DisplayCurrentPagination()}
-                <div className="d-flex justify-content-between">
-                    {this.DisplayPaginationButton(
-                        this.state.previousQuery,
-                        <span style={{ color: "inherit" }}>
-                            <i className='oi oi-arrow-left mr-2'></i>
-                            Précédent
-                        </span>
-                    )}
-                    {this.DisplayPaginationButton(
-                        this.state.nextQuery,
-                        <span style={{ color: "inherit" }}>
-                            Suivant
-                            <i className='oi oi-arrow-right ml-2'></i>
-                        </span>
-                    )}
-                </div>
+            <div className="d-flex">
+                <Button
+                    className="mr-auto"
+                    hidden={this.state.previousQuery === null}
+                    onClick={() => this.RefreshCurrentDeliveryMen(this.state.previousQuery)}
+                    color="primary">
+                    <span className="oi mr-2 oi-arrow-left"></span>
+                    Précédent
+                </Button>
+                <Button
+                    className="ml-auto"
+                    hidden={this.state.nextQuery === null}
+                    onClick={() => this.RefreshCurrentDeliveryMen(this.state.nextQuery)}
+                    color="primary">
+                    Suivant
+                    <span className="oi ml-2 oi-arrow-right"></span>
+                </Button>
             </div>
         );
-    }
-
-    DisplayPaginationButton = (query, content) => {
-        if (query) {
-            return (
-                <Button
-                    onClick={() => this.RefreshCurrentDeliveryMen(query)}
-                    color="primary">
-                    {content}
-                </Button>
-            )
-        } else {
-            return <span></span>
-        }
     }
 
     DisplayCurrentPagination = () => {
         let regex = /[0-9]+/gm;
         let res = this.state.currentQuery.match(regex);
-        return <div className="text-center text-white">{res[0]} à {res[1]}</div>
+        return <div className="text-white">{res[0]} à {res[1]}</div>
+    }
+
+    DisplayPagination = () => {
+        return (
+            <div className="text-center p-4">
+                {this.DisplayCurrentPagination()}
+                {this.DisplayPaginationButtons()}
+            </div>
+        );
     }
 
     DisplayComponentState = () => {
         if (!this.state.loading) {
             return (
-                <Row noGutters>
-                    {this.DisplayDeliveryMen()}
-                    <Col md="12">
-                        {this.DisplayPagination()}
-                    </Col>
-                </Row>
+                <div>
+                    <Row noGutters>
+                        {this.DisplayDeliveryMen()}
+                    </Row>
+                    {this.DisplayPagination()}
+                </div>
             );
         } else {
             return (
@@ -153,10 +148,16 @@ class DeliveryMenSection extends React.Component {
 
     render() {
         return (
-            <section className="bg-secondary p-4 rounded">
-                <h1 className="d-flex justify-content-between align-items-center">Les livreurs
-                    <Button onClick={() => this.ToggleModal({})} color="primary">Ajouter</Button>
-                </h1>
+            <section className="section-bg rounded-lg">
+                <div className="d-flex justify-content-between align-items-center p-4">
+                    <h1 className="section-title">Les livreurs</h1>
+                    <Button
+                        onClick={() => this.ToggleModal({})}
+                        color="primary">
+                        Ajouter
+                        <span className="ml-2 oi oi-plus"></span>
+                    </Button>
+                </div>
                 {this.DisplayComponentState()} 
                 {this.RenderModal()}
             </section>

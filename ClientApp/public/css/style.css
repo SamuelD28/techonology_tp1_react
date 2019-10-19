@@ -2,6 +2,28 @@
     color: #fac564 !important;
 }
 
+.oi{
+    color: inherit !important;
+}
+
+.section-title{
+    text-transform: capitalize;
+    letter-spacing: 2px;
+    margin:0;
+}
+
+.section-bg::before{
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: var(--dark);
+    opacity: 0.4;
+    z-index: -1;
+}
+
 .cbx {
     margin: auto;
     -webkit-user-select: none;

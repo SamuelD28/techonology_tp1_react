@@ -13,7 +13,7 @@ class Home extends React.Component {
     render() {
         return (
             <Container className="mx-5 mt-5" fluid>
-                <Row>
+                <Row noGutters>
                     <Col md="6">
                         <DeliveyMenSection />
                     </Col>
