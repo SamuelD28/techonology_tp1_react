@@ -11,6 +11,7 @@ class DeliveryMenSection extends React.Component {
         this.state = {
             modal: false,
             selectedDeliveryMan: null,
+            previousQuery: null,
             currentQuery: "/api/deliverymen?start=0&end=6",
             nextQuery: null,
         };
@@ -24,9 +25,18 @@ class DeliveryMenSection extends React.Component {
 
             let data = results.value.data;
 
-            this.setState({ deliveryMen: data, nextQuery: results.value.next });
+            this.setState({
+                deliveryMen: data,
+                nextQuery: results.value.next,
+                previousQuery: results.value.previous
+            });
             console.log(this.state);
         }
+    }
+
+    RefreshCurrentDeliveryMen = async (query) => {
+        await this.setState({ currentQuery: query });
+        this.GetDeliveryMen();
     }
 
     ToggleModal = (deliveryMan) => {
@@ -51,11 +61,6 @@ class DeliveryMenSection extends React.Component {
         }
     }
 
-    LoadNextDeliveryMan = async () => {
-        await this.setState({ currentQuery: this.state.nextQuery });
-        this.GetDeliveryMen();
-    }
-
     RenderModal = () => {
 
         let deliveryMan = this.state.selectedDeliveryMan;
@@ -74,28 +79,60 @@ class DeliveryMenSection extends React.Component {
         );
     }
 
+    DisplayPagination = () => {
+        return (
+            <div>
+                {this.DisplayCurrentSelection()}
+                <div className="d-flex justify-content-between">
+                    {this.DisplayPaginationButton(
+                        this.state.previousQuery,
+                        <span style={{color : "inherit"}}>
+                            <i className='oi oi-arrow-left mr-2'></i>
+                            Précédent
+                        </span>
+                    )}
+                    {this.DisplayPaginationButton(
+                        this.state.nextQuery,
+                        <span style={{ color: "inherit" }}>
+                            Suivant
+                            <i className='oi oi-arrow-right ml-2'></i>
+                        </span>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
+    DisplayPaginationButton = (query, content) => {
+        if (query) {
+            return (
+                <Button
+                    onClick={() => this.RefreshCurrentDeliveryMen(query)}
+                    color="primary">
+                    {content}
+                </Button>
+            )
+        } else {
+            return <span></span>
+        }
+    }
+
     DisplayCurrentSelection = () => {
         let regex = /[0-9]+/gm;
         let res = this.state.currentQuery.match(regex);
-
-        return <div className="text-white">Selection courante : {res[0]} à {res[1]}</div>
+        return <div className="text-center text-white">{res[0]}-{res[1]}</div>
     }
 
     render() {
         return (
             <section className="bg-secondary p-4 rounded">
-                <h1 className="d-flex justify-content-between">Les livreurs
+                <h1 className="d-flex justify-content-between align-items-center">Les livreurs
                     <Button onClick={() => this.ToggleModal({})} color="primary">Ajouter</Button>
                 </h1>
                 <Row noGutters>
                     {this.DisplayDeliveryMen()}
                 </Row>
-                {this.DisplayCurrentSelection()}
-                <Button
-                    onClick={this.LoadNextDeliveryMan}
-                    color="primary">
-                    Suivant
-                </Button>
+                {this.DisplayPagination()}
                 {this.RenderModal()}
             </section>
         );
