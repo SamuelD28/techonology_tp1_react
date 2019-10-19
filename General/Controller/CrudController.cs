@@ -28,8 +28,51 @@ namespace Technology_Tp1_React.General
         }
 
         private string CreateNavigationQuery(string url, int start, int end)
+            => $"{url}?start={start}&end={end}";
+
+        private string CreatePreviousNavigationQuery(string url,int start, int end)
         {
-            return $"{url}?start={start}&end={end}";
+            return start.Equals(0)
+                    ? null
+                    : CreateNavigationQuery(
+                        url,
+                        Math.Max(0, start - (end - start)),
+                        start
+                    );
+        }
+
+        private string CreateNextNavigationQuery(string url, int start, int end, int recordsTotalCount)
+        {
+            return end >= recordsTotalCount
+                    ? null
+                    : CreateNavigationQuery(url, end, end + (end - start));
+        }
+
+        private object CreatePaginatedRequestResult(int start, int end)
+        {
+            string urlReceived = Request.Path.Value;
+
+            start = Math.Abs(start);
+            end = Math.Abs(end);
+
+            int startIndex = Math.Min(start, end);
+            int endIndex = Math.Max(start, end);
+
+            int recordsTotalCount = Repository
+                .GetAll()
+                .Count();
+
+            IEnumerable<T> records = Repository
+                .GetAll()
+                .Skip(startIndex)
+                .Take(end - start);
+
+            return new
+            {
+                data = records,
+                previous = CreatePreviousNavigationQuery(urlReceived, startIndex, endIndex),
+                next = CreateNextNavigationQuery(urlReceived, startIndex, endIndex, recordsTotalCount)
+            };
         }
 
         /// <summary>
@@ -40,46 +83,17 @@ namespace Technology_Tp1_React.General
         {
             try
             {
-                IEnumerable<T> deliveryMen = null;
+                IEnumerable<T> records = null;
                 object requestResult = null;
 
-                if (start != null && end != null)
+                if (start != null && end != null && end != start)
                 {
-                    int startIndex = Math.Min(
-                                Math.Abs((int)start),
-                                Math.Abs((int)end)
-                            );
-                    int endIndex = Math.Max(
-                                Math.Abs((int)start),
-                                Math.Abs((int)end)
-                            );
-
-                    int requestedLength = endIndex - startIndex;
-
-                    deliveryMen = Repository
-                        .GetAll()
-                        .Skip(startIndex)
-                        .Take(requestedLength);
-
-                    requestResult = new
-                    {
-                        data = deliveryMen,
-                        previous = CreateNavigationQuery(
-                                        Request.Path.Value,
-                                        Math.Max(0, startIndex - requestedLength),
-                                        startIndex
-                                    ),
-                        next = CreateNavigationQuery(
-                                    Request.Path.Value,
-                                    endIndex,
-                                    (endIndex - startIndex) + endIndex
-                                )
-                    };
+                    requestResult = CreatePaginatedRequestResult((int)start, (int)end);
                 }
                 else
                 {
-                    deliveryMen = Repository.GetAll();
-                    requestResult = deliveryMen;
+                    records = Repository.GetAll();
+                    requestResult = records;
                 }
 
                 return CreateValidResponse(requestResult, StatusCodes.Status200OK);
