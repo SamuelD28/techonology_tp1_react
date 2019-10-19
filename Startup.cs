@@ -10,6 +10,31 @@ using technology_tp1.Models;
 using technology_tp1.Services;
 using Technology_Tp1_React.General;
 
+
+/**
+ * 
+    To do
+
+    Gestions des livreurs
+    - Refactor et documentation
+
+    Gestion des menu items
+    - Extraire composante generique pour page detail
+    - Creation liste menu items
+    - Créer Page details
+    - Supporter operation modifier
+    - Supporter operation ajouter
+    - Supporter operation supprimer
+
+    Images 
+    - Mettre en ligne le serveur dimage
+    - Créer la liste images
+    - Créer Page Details
+    - Supporter operation modifier
+    - Supporter operation ajouter
+    - Supporter operation supprimer
+ 
+ */
 namespace Technology_Tp1_React
 {
     public class Startup
