@@ -14,7 +14,7 @@ class Home extends React.Component {
     render() {
         return (
             <Container style={{width : "85%"}} className="p-5" fluid>
-                <Row className="no-gutters justify-content-between"> 
+                <Row className="no-gutters justify-content-between align-items-start"> 
                     <Col md="5">
                         <DeliveyMenSection />
                     </Col>
