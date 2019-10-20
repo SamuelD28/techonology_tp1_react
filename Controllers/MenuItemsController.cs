@@ -23,7 +23,7 @@ namespace technology_tp1.Controllers
                 if(start != null && end != null)
                 {
                     PaginatedRequestResult<MenuItem> result = CreatePaginatedRequestResult((int)start, (int)end);
-                    result.data.Include(i => i.Image);
+                    result.data = result.data.Include(i => i.Image);
                     return CreateValidResponse(result, StatusCodes.Status200OK);
                 }   
                 else
