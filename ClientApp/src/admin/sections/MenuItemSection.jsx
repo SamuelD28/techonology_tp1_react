@@ -76,6 +76,12 @@ class MenuItemSection extends React.Component {
                                 />
                         )}
                     </List>
+                    <Pagination
+                        GetData={this.RefreshCurrentMenuItems}
+                        previousQuery={this.state.previousQuery}
+                        currentQuery={this.state.currentQuery}
+                        nextQuery={this.state.nextQuery}
+                        />
                 </Loading>
                 <Pagination
                     GetData={this.RefreshCurrentMenuItems}
