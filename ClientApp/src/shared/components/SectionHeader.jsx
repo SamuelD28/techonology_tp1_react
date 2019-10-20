@@ -1,6 +1,12 @@
 ﻿import React from 'react';
 import { Button } from 'reactstrap';
 
+/**
+ * @description Method that display a section header with an
+ * action button.
+ * 
+ * @param {any} props
+ */
 const SectionHeader = props => {
 
     return (

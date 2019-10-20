@@ -1,6 +1,12 @@
 ﻿import React from 'react';
 import { Card, CardTitle, CardBody, Button, CardSubtitle } from 'reactstrap';
 
+/**
+ * @description Component that display information
+ * about a delivry man in a card format
+ * 
+ * @param {any} props ClassName, DeliveryMan
+ */
 const DeliveryMenCard = props => {
     return (
         <Card className={`bg-dark p-4 text-center ${props.className}`}>

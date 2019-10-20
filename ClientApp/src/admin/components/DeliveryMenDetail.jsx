@@ -3,8 +3,19 @@ import Ajax from '../../shared/ajax';
 import { Alert, Form, Row, Col, FormGroup, Input, Label, Button } from 'reactstrap';
 import Confirm from '../../shared/components/Confirm';
 
+/**
+ *  @description Statefull component responsible for displaying
+ *  a form for the delivery man fields. Handles the creation and
+ *  modification of a form.
+ **/
 class DeliveryMenDetail extends React.Component {
 
+    /**
+     * @description Constructor for the component. Check if the given
+     * object contains information and initialise an update or new state.
+     * 
+     * @param {any} props DeliveryMan
+     */
     constructor(props) {
         super(props);
 
@@ -15,6 +26,10 @@ class DeliveryMenDetail extends React.Component {
         }
     }
 
+    /**
+     * @description Initialise the state to handle the creation of a delviery man
+     * 
+     **/
     ParseNewDeliveryManInState = () => {
         return {
             name: "",
@@ -31,6 +46,11 @@ class DeliveryMenDetail extends React.Component {
         };
     }
 
+    /**
+     * @description Initialise the state to handle the modification of an 
+     * existing delivery man.
+     * 
+     **/
     ParseDeliveryManInState = (deliveryMan) => {
         return {
             id: deliveryMan.id,
@@ -48,13 +68,23 @@ class DeliveryMenDetail extends React.Component {
         };
     }
 
+    /**
+     * @description Event handler for changes happening in an input
+     * 
+     * @param {string} key Name of the input 
+     * @param {any} value Value of the input
+     **/
     HandleChange = (key, value) => {
         this.setState({
             [key]: value
         });
     }
 
-    HandleUpdate = async (url) => {
+    /**
+     * @description Method that handle an update request to the api
+     * 
+     **/
+    HandleUpdate = async () => {
         let request = await Ajax.PutData(`/api/deliverymen/${this.state.id}`, this.state);
 
         if (request.statusCode >= 200 && request.statusCode <= 300) {
@@ -74,6 +104,10 @@ class DeliveryMenDetail extends React.Component {
         }
     }
 
+    /**
+     *  @description Method that handle a delete request to the api
+     *  
+     **/
     HandleDelete = async () => {
         let request = await Ajax.DeleteData(`/api/deliverymen/${this.state.id}`);
 
@@ -92,6 +126,10 @@ class DeliveryMenDetail extends React.Component {
         }
     }
 
+    /**
+     *  @description Method that handle a post request to the api
+     *  
+     **/
     HandlePost = async () => {
         let request = await Ajax.PostData(`/api/deliverymen`, this.state);
 
@@ -110,6 +148,11 @@ class DeliveryMenDetail extends React.Component {
         }
     }
 
+    /**
+     *  @description Display errors to the user if any were encountered during 
+     *  a request.
+     *  
+     **/
     DisplayErrorMessage = () => {
         if (this.state.errors.length > 0) {
             return (

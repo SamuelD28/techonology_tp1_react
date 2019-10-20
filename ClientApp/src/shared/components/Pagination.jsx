@@ -1,8 +1,18 @@
 ﻿import React from 'react';
 import { Button } from 'reactstrap';
 
+/**
+ * @description Staless component that handle the pagination navigation
+ * of a list.
+ * 
+ * @param {any} props
+ */
 const Pagination = props => {
 
+    /**
+     * @description Method that display the pagination buttons
+     * 
+     **/
     const DisplayPaginationButtons = () => {
         return (
             <div className="d-flex">
@@ -26,6 +36,10 @@ const Pagination = props => {
         );
     }
 
+    /**
+     * @description Method that display the current pagination
+     * 
+     **/
     const DisplayCurrentPagination = () => {
         let regex = /[0-9]+/gm;
         let res = props.currentQuery.match(regex);

@@ -1,7 +1,16 @@
 ﻿import React, { Component } from 'react';
 
+/**
+ * @description Statefull component that simulate a loading happening.
+ * 
+ **/
 class Loading extends Component {
 
+    /**
+     * @description Constructor. Initiate the state.
+     * 
+     * @param {any} props
+     */
     constructor(props) {
         super(props);
         this.state = { loading: true };
@@ -11,6 +20,9 @@ class Loading extends Component {
         await this.SimulateLoading();
     }
 
+    /**
+     *  @description Method that simulate the loading.
+     **/
     SimulateLoading = async () => {
         await new Promise((resolve) => {
             setTimeout(async () => {
