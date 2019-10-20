@@ -7,6 +7,7 @@ import DeliveryManCard from '../components/DeliveryMenCard';
 import Pagination from '../../shared/components/Pagination';
 import Loading from '../../shared/components/Loading';
 import List from '../../shared/components/List';
+import SectionHeader from '../../shared/components/SectionHeader';
 
 class DeliveryMenSection extends React.Component {
 
@@ -18,8 +19,6 @@ class DeliveryMenSection extends React.Component {
             previousQuery: null,
             currentQuery: "/api/deliverymen?start=0&end=6",
             nextQuery: null,
-            loading: false,
-            operationLatency: 1000
         };
     }
 
@@ -55,36 +54,15 @@ class DeliveryMenSection extends React.Component {
         });
     }
 
-    RenderModal = () => {
-
-        let deliveryMan = this.state.selectedDeliveryMan;
-        return (
-            <Modal
-                centered
-                isOpen={this.state.modal}
-                toggle={this.ToggleModal}>
-                <ModalBody className="bg-dark">
-                    <DeliveryMenDetail
-                        Done={this.ToggleModal}
-                        Refresh={this.GetDeliveryMen}
-                        deliveryMan={deliveryMan} />
-                </ModalBody>
-            </Modal>
-        );
-    }
-
     render() {
         return (
             <section className="section-bg rounded-lg">
-                <div className="d-flex justify-content-between align-items-center p-4">
-                    <h1 className="section-title">Les livreurs</h1>
-                    <Button
-                        onClick={() => this.ToggleModal({})}
-                        color="primary">
-                        Ajouter
-                        <span className="ml-2 oi oi-plus"></span>
-                    </Button>
-                </div>
+                <SectionHeader
+                    title="Les livreurs"
+                    buttonTitle="Ajouter"
+                    buttonIcon="oi-plus"
+                    action={() => this.ToggleModal({})}
+                    />
                 <Loading secondsToWait={1}>
                     <List
                         colSize={4}
@@ -105,7 +83,17 @@ class DeliveryMenSection extends React.Component {
                         nextQuery={this.state.nextQuery}
                         />
                 </Loading>
-                {this.RenderModal()}
+                <Modal
+                    centered
+                    isOpen={this.state.modal}
+                    toggle={this.ToggleModal}>
+                    <ModalBody className="bg-dark">
+                        <DeliveryMenDetail
+                            Done={this.ToggleModal}
+                            Refresh={this.GetDeliveryMen}
+                            deliveryMan={this.state.selectedDeliveryMan} />
+                    </ModalBody>
+                </Modal>
             </section>
         );
     }

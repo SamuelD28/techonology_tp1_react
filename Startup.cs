@@ -16,10 +16,8 @@ using Technology_Tp1_React.General;
     To do
 
     Gestions des livreurs
-    - Refactor et documentation
 
     Gestion des menu items
-    - Extraire composante generique pour page detail
     - Creation liste menu items
     - Créer Page details
     - Supporter operation modifier
