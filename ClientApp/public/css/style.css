@@ -44,6 +44,14 @@
     flex-basis: 60%;
 }
 
+.border-dark {
+    border-color: rgba(0, 0, 0, 0.125) !important;
+}
+
+.img-fit{
+    object-fit: cover;
+}
+
 .cbx {
     margin: auto;
     -webkit-user-select: none;

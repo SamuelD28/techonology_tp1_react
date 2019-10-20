@@ -9,8 +9,9 @@ import { Card, CardTitle, CardBody, Button, CardSubtitle } from 'reactstrap';
  */
 const MenuItemCard = props => {
     return (
-        <div className={`bg-dark d-flex border-bottom border-secondary flex-row${props.className}`}>
+        <div className={`bg-dark d-flex border-bottom border-dark flex-row${props.className}`}>
             <img
+                className="img-fit"
                 width="20%"
                 //src={`data:image/png;base64 , ${props.menuItem.image.file}`}
                 src="images/pizza-1.jpg"

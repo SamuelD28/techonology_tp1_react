@@ -15,7 +15,7 @@ const DeliveryMenCard = props => {
                 width="50%"
                 src="/images/female_avatar.svg"
                 alt="User Profile picture" />
-            <CardBody>
+            <CardBody className="d-flex flex-column justify-content-between">
                 <CardTitle>{props.deliveryMan.name}</CardTitle>
                 <CardSubtitle>{props.deliveryMan.phone}</CardSubtitle>
                 <Button

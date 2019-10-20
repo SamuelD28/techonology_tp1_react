@@ -18,7 +18,7 @@ class MenuItemSection extends React.Component {
             modal: false,
             selectedMenuItem: null,
             previousQuery: null,
-            currentQuery: "/api/menuitems",
+            currentQuery: "/api/menuitems?start=0&end=6",
             nextQuery: null,
         };
     }
@@ -32,7 +32,7 @@ class MenuItemSection extends React.Component {
 
         if (results.statusCode >= 200 || results.statusCode < 300) {
 
-            let data = results.value;
+            let data = results.value.data;
             this.setState({
                 menuItems: data,
                 nextQuery: results.value.next,
