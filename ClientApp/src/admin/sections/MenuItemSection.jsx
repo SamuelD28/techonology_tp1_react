@@ -1,9 +1,10 @@
 ﻿import React from 'react';
-import Ajax from '../../shared/ajax';
-import DeliveryMenDetail from '../components/DeliveryMenDetail';
-import { Col, Modal, ModalBody, Row, Button } from 'reactstrap';
-import DeliveryManCard from '../components/DeliveryMenCard';
+import { Modal, ModalBody } from 'reactstrap';
 
+import MenuItemDetail from '../components/MenuItemDetail';
+import MenuItemCard from '../components/MenuItemCard';
+
+import Ajax from '../../shared/ajax';
 import Pagination from '../../shared/components/Pagination';
 import Loading from '../../shared/components/Loading';
 import List from '../../shared/components/List';
@@ -15,25 +16,25 @@ class MenuItemSection extends React.Component {
         super(props);
         this.state = {
             modal: false,
-            selectedDeliveryMan: null,
+            selectedMenuItem: null,
             previousQuery: null,
-            currentQuery: "/api/deliverymen?start=0&end=6",
+            currentQuery: "/api/menuitems",
             nextQuery: null,
         };
     }
 
     componentDidMount() {
-        this.GetDeliveryMen();
+        this.GetMenuItems();
     }
 
-    GetDeliveryMen = async () => {
+    GetMenuItems = async () => {
         let results = await Ajax.GetData(this.state.currentQuery);
 
         if (results.statusCode >= 200 || results.statusCode < 300) {
 
-            let data = results.value.data;
+            let data = results.value;
             this.setState({
-                deliveryMen: data,
+                menuItems: data,
                 nextQuery: results.value.next,
                 previousQuery: results.value.previous
             });
@@ -42,15 +43,15 @@ class MenuItemSection extends React.Component {
         this.setState({ loading: false });
     }
 
-    RefreshCurrentDeliveryMen = async (query) => {
+    RefreshCurrentMenuItems = async (query) => {
         await this.setState({ currentQuery: query });
-        this.GetDeliveryMen();
+        this.GetMenuItems();
     }
 
-    ToggleModal = (deliveryMan) => {
+    ToggleModal = (menuItem) => {
         this.setState({
             modal: !this.state.modal,
-            selectedDeliveryMan: deliveryMan
+            selectedMenuItem: menuItem
         });
     }
 
@@ -58,40 +59,33 @@ class MenuItemSection extends React.Component {
         return (
             <section className="section-bg rounded-lg">
                 <SectionHeader
-                    title="Les livreurs"
+                    title="Le Menu"
                     buttonTitle="Ajouter"
                     buttonIcon="oi-plus"
                     action={() => this.ToggleModal({})}
                     />
                 <Loading secondsToWait={1}>
                     <List
-                        colSize={4}
+                        colSize={12}
                         className="no-gutters"
-                        records={this.state.deliveryMen}>
-                        {deliveryMan => (
-                            <DeliveryManCard
-                                className="h-100"
-                                deliveryMan={deliveryMan}
-                                showDetails={() => this.ToggleModal(deliveryMan)}
+                        records={this.state.menuItems}>
+                        {menuItem => (
+                            <MenuItemCard
+                                menuItem={menuItem}
+                                showDetails={() => this.ToggleModal(menuItem)}
                                 />
                         )}
                     </List>
-                    <Pagination
-                        GetData={this.RefreshCurrentDeliveryMen}
-                        previousQuery={this.state.previousQuery}
-                        currentQuery={this.state.currentQuery}
-                        nextQuery={this.state.nextQuery}
-                        />
                 </Loading>
                 <Modal
                     centered
                     isOpen={this.state.modal}
                     toggle={this.ToggleModal}>
                     <ModalBody className="bg-dark">
-                        <DeliveryMenDetail
+                        <MenuItemDetail
                             Done={this.ToggleModal}
-                            Refresh={this.GetDeliveryMen}
-                            deliveryMan={this.state.selectedDeliveryMan} />
+                            Refresh={this.GetMenuItems}
+                            menuItem={this.state.selectedMenuItem} />
                     </ModalBody>
                 </Modal>
             </section>
@@ -100,3 +94,9 @@ class MenuItemSection extends React.Component {
 }
 
 export default MenuItemSection;
+                    //<Pagination
+                    //    GetData={this.RefreshCurrentMenuItems}
+                    //    previousQuery={this.state.previousQuery}
+                    //    currentQuery={this.state.currentQuery}
+                    //    nextQuery={this.state.nextQuery}
+                    //    />

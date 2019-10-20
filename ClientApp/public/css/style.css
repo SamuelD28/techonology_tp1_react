@@ -24,6 +24,26 @@
     z-index: -1;
 }
 
+.flex-100{
+    flex-basis: 100%;
+}
+
+.flex-90 {
+    flex-basis: 90%;
+}
+
+.flex-80 {
+    flex-basis: 80%;
+}
+
+.flex-70 {
+    flex-basis: 70%;
+}
+
+.flex-60 {
+    flex-basis: 60%;
+}
+
 .cbx {
     margin: auto;
     -webkit-user-select: none;
