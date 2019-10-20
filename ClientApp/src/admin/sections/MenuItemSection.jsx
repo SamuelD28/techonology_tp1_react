@@ -18,7 +18,7 @@ class MenuItemSection extends React.Component {
             modal: false,
             selectedMenuItem: null,
             previousQuery: null,
-            currentQuery: "/api/menuitems?start=0&end=6",
+            currentQuery: "/api/menuitems?start=0&end=3",
             nextQuery: null,
         };
     }
@@ -35,8 +35,8 @@ class MenuItemSection extends React.Component {
             let data = results.value.data;
             this.setState({
                 menuItems: data,
-                nextQuery: results.value.next,
-                previousQuery: results.value.previous
+                nextQuery: results.value.nextQuery,
+                previousQuery: results.value.previousQuery
             });
         }
 
@@ -77,6 +77,12 @@ class MenuItemSection extends React.Component {
                         )}
                     </List>
                 </Loading>
+                <Pagination
+                    GetData={this.RefreshCurrentMenuItems}
+                    previousQuery={this.state.previousQuery}
+                    currentQuery={this.state.currentQuery}
+                    nextQuery={this.state.nextQuery}
+                    />
                 <Modal
                     centered
                     isOpen={this.state.modal}
@@ -94,9 +100,3 @@ class MenuItemSection extends React.Component {
 }
 
 export default MenuItemSection;
-                    //<Pagination
-                    //    GetData={this.RefreshCurrentMenuItems}
-                    //    previousQuery={this.state.previousQuery}
-                    //    currentQuery={this.state.currentQuery}
-                    //    nextQuery={this.state.nextQuery}
-                    //    />

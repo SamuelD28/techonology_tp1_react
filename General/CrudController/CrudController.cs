@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Technology_Tp1_React.General.Repository;
 
-namespace Technology_Tp1_React.General
+namespace Technology_Tp1_React.General.CrudController
 {
     /// <summary>
     /// Generic controller class that handles the interaction with an entity model
@@ -48,7 +46,7 @@ namespace Technology_Tp1_React.General
                     : CreateNavigationQuery(url, end, end + (end - start));
         }
 
-        private object CreatePaginatedRequestResult(int start, int end)
+        protected PaginatedRequestResult<T> CreatePaginatedRequestResult(int start, int end)
         {
             string urlReceived = Request.Path.Value;
 
@@ -62,17 +60,16 @@ namespace Technology_Tp1_React.General
                 .GetAll()
                 .Count();
 
-            IEnumerable<T> records = Repository
+            IQueryable<T> records = Repository
                 .GetAll()
                 .OrderByDescending(r => r.CreatedOn)
                 .Skip(startIndex)
                 .Take(end - start);
 
-            return new
-            {
+            return new PaginatedRequestResult<T>(){
                 data = records,
-                previous = CreatePreviousNavigationQuery(urlReceived, startIndex, endIndex),
-                next = CreateNextNavigationQuery(urlReceived, startIndex, endIndex, recordsTotalCount)
+                previousQuery = CreatePreviousNavigationQuery(urlReceived, startIndex, endIndex),
+                nextQuery = CreateNextNavigationQuery(urlReceived, startIndex, endIndex, recordsTotalCount)
             };
         }
 

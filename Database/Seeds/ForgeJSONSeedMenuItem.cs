@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace technology_tp1
+namespace technology_tp1.Seeds
 {
     public class ForgeJSONSeedMenuItem<T> : ForgeJSONSeed<T> where T : Models.MenuItem
     {

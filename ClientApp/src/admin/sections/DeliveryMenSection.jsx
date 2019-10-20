@@ -44,12 +44,11 @@ class DeliveryMenSection extends React.Component {
         let results = await Ajax.GetData(this.state.currentQuery);
 
         if (results.statusCode >= 200 || results.statusCode < 300) {
-
             let data = results.value.data;
             this.setState({
                 deliveryMen: data,
-                nextQuery: results.value.next,
-                previousQuery: results.value.previous
+                nextQuery: results.value.nextQuery,
+                previousQuery: results.value.previousQuery
             });
         }
 
