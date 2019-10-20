@@ -4,6 +4,10 @@ import DeliveryMenDetail from '../components/DeliveryMenDetail';
 import { Col, Modal, ModalBody, Row, Button } from 'reactstrap';
 import DeliveryManCard from '../components/DeliveryMenCard';
 
+import Pagination from '../../shared/components/Pagination';
+import Loading from '../../shared/components/Loading';
+import List from '../../shared/components/List';
+
 class DeliveryMenSection extends React.Component {
 
     constructor(props) {
@@ -15,18 +19,12 @@ class DeliveryMenSection extends React.Component {
             currentQuery: "/api/deliverymen?start=0&end=6",
             nextQuery: null,
             loading: false,
-            operationLatency : 1000
+            operationLatency: 1000
         };
     }
 
-    async componentDidMount() {
-        await this.ShowLoading();
+    componentDidMount() {
         this.GetDeliveryMen();
-    }
-
-    ShowLoading = async() => {
-        await this.setState({ loading: true });
-        await new Promise(resolve => setTimeout(resolve, this.state.operationLatency));
     }
 
     GetDeliveryMen = async () => {
@@ -57,22 +55,6 @@ class DeliveryMenSection extends React.Component {
         });
     }
 
-    DisplayDeliveryMen = () => {
-        if (this.state.deliveryMen) {
-            return this.state.deliveryMen.map((deliveryMan) => (
-                <Col
-                    md="4"
-                    key={deliveryMan.id}>
-                    <DeliveryManCard
-                        className="h-100"
-                        deliveryMan={deliveryMan}
-                        showDetails={() => this.ToggleModal(deliveryMan)}
-                    />
-                </Col>
-            ));
-        }
-    }
-
     RenderModal = () => {
 
         let deliveryMan = this.state.selectedDeliveryMan;
@@ -91,61 +73,6 @@ class DeliveryMenSection extends React.Component {
         );
     }
 
-    DisplayPaginationButtons = () => {
-        return (
-            <div className="d-flex">
-                <Button
-                    className="mr-auto"
-                    hidden={this.state.previousQuery === null}
-                    onClick={() => this.RefreshCurrentDeliveryMen(this.state.previousQuery)}
-                    color="primary">
-                    <span className="oi mr-2 oi-arrow-left"></span>
-                    Précédent
-                </Button>
-                <Button
-                    className="ml-auto"
-                    hidden={this.state.nextQuery === null}
-                    onClick={() => this.RefreshCurrentDeliveryMen(this.state.nextQuery)}
-                    color="primary">
-                    Suivant
-                    <span className="oi ml-2 oi-arrow-right"></span>
-                </Button>
-            </div>
-        );
-    }
-
-    DisplayCurrentPagination = () => {
-        let regex = /[0-9]+/gm;
-        let res = this.state.currentQuery.match(regex);
-        return <div className="text-white">{res[0]} à {res[1]}</div>
-    }
-
-    DisplayPagination = () => {
-        return (
-            <div className="text-center p-4">
-                {this.DisplayCurrentPagination()}
-                {this.DisplayPaginationButtons()}
-            </div>
-        );
-    }
-
-    DisplayComponentState = () => {
-        if (!this.state.loading) {
-            return (
-                <div>
-                    <Row noGutters>
-                        {this.DisplayDeliveryMen()}
-                    </Row>
-                    {this.DisplayPagination()}
-                </div>
-            );
-        } else {
-            return (
-                <div className="loader">Loading...</div>
-            );
-        }
-    }
-
     render() {
         return (
             <section className="section-bg rounded-lg">
@@ -158,7 +85,26 @@ class DeliveryMenSection extends React.Component {
                         <span className="ml-2 oi oi-plus"></span>
                     </Button>
                 </div>
-                {this.DisplayComponentState()} 
+                <Loading secondsToWait={1}>
+                    <List
+                        colSize={4}
+                        className="no-gutters"
+                        records={this.state.deliveryMen}>
+                        {deliveryMan => (
+                            <DeliveryManCard
+                                className="h-100"
+                                deliveryMan={deliveryMan}
+                                showDetails={() => this.ToggleModal(deliveryMan)}
+                                />
+                        )}
+                    </List>
+                    <Pagination
+                        GetData={this.RefreshCurrentDeliveryMen}
+                        previousQuery={this.state.previousQuery}
+                        currentQuery={this.state.currentQuery}
+                        nextQuery={this.state.nextQuery}
+                        />
+                </Loading>
                 {this.RenderModal()}
             </section>
         );
