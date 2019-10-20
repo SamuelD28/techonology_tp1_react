@@ -2,10 +2,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using Technology_Tp1_React.General;
+using Technology_Tp1_React.General.Repository;
 
 namespace technology_tp1.Models
 {

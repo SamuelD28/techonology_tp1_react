@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace technology_tp1
+namespace technology_tp1.Seeds
 {
     public static class ForgeFactory
     {

@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using technology_tp1.Models;
-using System.Drawing;
-using System.Drawing.Imaging;
 using static technology_tp1.Models.ItemImage;
-using Technology_Tp1_React.General;
+using Technology_Tp1_React.General.CrudController;
+using Technology_Tp1_React.General.Repository;
 
 namespace technology_tp1.Controllers
 {

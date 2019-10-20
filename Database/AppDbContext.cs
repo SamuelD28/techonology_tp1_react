@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using technology_tp1.Seeds;
 using Technology_Tp1_React.Models;
 
 namespace technology_tp1.Models
