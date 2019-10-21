@@ -18,14 +18,11 @@ using Technology_Tp1_React.General.Repository;
     Gestions des livreurs
 
     Gestion des menu items
-    - Creation liste menu items
-    - Créer Page details
     - Supporter operation modifier
     - Supporter operation ajouter
     - Supporter operation supprimer
 
     Images 
-    - Mettre en ligne le serveur dimage
     - Créer la liste images
     - Créer Page Details
     - Supporter operation modifier
