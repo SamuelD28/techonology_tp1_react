@@ -1,5 +1,7 @@
 ﻿import React from 'react';
-import { Card, CardTitle, CardBody, Button, CardSubtitle } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
+
+import LabelValue from '../../shared/components/LabelValue';
 
 /**
  * @description Component that display information
@@ -9,23 +11,21 @@ import { Card, CardTitle, CardBody, Button, CardSubtitle } from 'reactstrap';
  */
 const ImageCard = props => {
     return (
-        <div className={`bg-dark d-flex border-bottom border-dark flex-row${props.className}`}>
+        <div className={`bg-dark border border-dark p-2 ${props.className}`}>
             <img
                 className="img-fit"
-                width="20%"
-                //src={`data:image/png;base64 , ${props.menuItem.image.file}`}
-                src="images/pizza-1.jpg"
-                alt="Menu Item image" />
-            <div className="p-4 flex-fill d-flex flex-row justify-content-between align-items-center">
-                <h3 className="flex-100 m-0">{props.menuItem.name}</h3>
-                <h5 className="flex-100 m-0">{props.menuItem.price}$</h5>
-                <Button
-                    className="flex-80"
-                    color="primary"
-                    onClick={props.showDetails}>
-                    Détails
-            </Button>
-            </div>
+                width="40%"
+                src={`http://localhost:8080/images/${props.image._id}`}
+                alt="Image" />
+            <Row>
+                <Col md="12">
+                    <LabelValue label="Nom" value={props.image.originalname} />
+                    <LabelValue label="Largeur" value={props.image.width} />
+                    <LabelValue label="Hauteur" value={props.image.height} />
+                    <LabelValue label="Taille" value={props.image.size} />
+                    <LabelValue label="Type" value={props.image.mimetype} />
+                </Col>
+            </Row>
         </div>
     )
 }

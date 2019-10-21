@@ -212,4 +212,4 @@ class ImageDetail extends React.Component {
     }
 }
 
-export default ImageCard;
+export default ImageDetail;

@@ -10,7 +10,7 @@ import { Button } from 'reactstrap';
 const SectionHeader = props => {
 
     return (
-        <div className="d-flex justify-content-between align-items-center p-4">
+        <div className="d-flex section-bg justify-content-between align-items-center p-4">
             <h1 className="section-title">{props.title}</h1>
             <Button
                 onClick={() => props.action()}

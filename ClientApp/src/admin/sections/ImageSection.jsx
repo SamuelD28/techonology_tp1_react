@@ -18,7 +18,7 @@ class ImageSection extends React.Component {
             modal: false,
             selectedMenuItem: null,
             previousQuery: null,
-            currentQuery: "/api/menuitems",
+            currentQuery: "http://localhost:8080/images/info",
             nextQuery: null,
         };
     }
@@ -30,13 +30,11 @@ class ImageSection extends React.Component {
     GetImages = async () => {
         let results = await Ajax.GetData(this.state.currentQuery);
 
-        if (results.statusCode >= 200 || results.statusCode < 300) {
+        if (results) {
 
-            let data = results.value.data;
+            let data = results;
             this.setState({
                 images: data,
-                nextQuery: results.value.nextQuery,
-                previousQuery: results.value.previousQuery
             });
         }
 
@@ -57,16 +55,16 @@ class ImageSection extends React.Component {
 
     render() {
         return (
-            <section className="section-bg rounded-lg">
+            <section className={`section-bg rounded-lg ${this.props.className}`}>
                 <SectionHeader
-                    title="Le Menu"
+                    title="Les Médias"
                     buttonTitle="Ajouter"
                     buttonIcon="oi-plus"
                     action={() => this.ToggleModal({})}
                     />
                 <Loading secondsToWait={1}>
                     <List
-                        colSize={12}
+                        colSize={3}
                         className="no-gutters"
                         records={this.state.images}>
                         {image => (
@@ -82,7 +80,7 @@ class ImageSection extends React.Component {
                     isOpen={this.state.modal}
                     toggle={this.ToggleModal}>
                     <ModalBody className="bg-dark">
-                        <MenuItemDetail
+                        <ImageDetail
                             Done={this.ToggleModal}
                             Refresh={this.GetImages}
                             menuItem={this.state.selectedImage} />

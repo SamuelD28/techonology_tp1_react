@@ -15,7 +15,7 @@ const Pagination = props => {
      **/
     const DisplayPaginationButtons = () => {
         return (
-            <div className="d-flex">
+            <div className="d-flex section-bg">
                 <Button
                     className="mr-auto"
                     hidden={props.previousQuery === null}

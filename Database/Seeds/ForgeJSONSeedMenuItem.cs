@@ -16,7 +16,7 @@ namespace technology_tp1.Seeds
                 {
                     Id = -1,
                     Name = "All dress",
-                    Price = 25.25M
+                    Price = 25.25M,
                 }
             },
             {

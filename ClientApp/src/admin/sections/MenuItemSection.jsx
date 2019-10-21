@@ -10,7 +10,7 @@ import Loading from '../../shared/components/Loading';
 import List from '../../shared/components/List';
 import SectionHeader from '../../shared/components/SectionHeader';
 
-class ImageSection extends React.Component {
+class MenuItemSection extends React.Component {
 
     constructor(props) {
         super(props);
@@ -57,7 +57,7 @@ class ImageSection extends React.Component {
 
     render() {
         return (
-            <section className="section-bg rounded-lg">
+            <section className={`section-bg rounded-lg ${this.props.className}`}>
                 <SectionHeader
                     title="Le Menu"
                     buttonTitle="Ajouter"

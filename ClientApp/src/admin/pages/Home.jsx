@@ -3,6 +3,7 @@ import Ajax from '../../shared/ajax';
 import { Container, Row, Col } from 'reactstrap';
 import DeliveyMenSection from '../sections/DeliveryMenSection';
 import MenuItemSection from '../sections/MenuItemSection';
+import ImageSection from '../sections/ImageSection';
 
 class Home extends React.Component {
 
@@ -13,13 +14,16 @@ class Home extends React.Component {
 
     render() {
         return (
-            <Container style={{width : "85%"}} className="p-5" fluid>
-                <Row className="no-gutters justify-content-between align-items-start"> 
-                    <Col md="5">
-                        <DeliveyMenSection />
+            <Container style={{ width: "85%" }} className="p-5" fluid>
+                <Row noGutters className="justify-content-between align-items-start">
+                    <Col md="6" >
+                        <DeliveyMenSection className="mr-5" />
                     </Col>
                     <Col md="6">
-                        <MenuItemSection />
+                        <MenuItemSection className="ml-5"/>
+                    </Col>
+                    <Col md="12">
+                        <ImageSection className="mt-5"/>
                     </Col>
                 </Row>
             </Container>
