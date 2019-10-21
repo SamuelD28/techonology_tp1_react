@@ -26,9 +26,7 @@ namespace technology_tp1.Models
         public decimal Price { get; set; }
 
         [Required]
-        public int ImageId { get; set; }
-
-        public ItemImage Image { get; set; }
+        public string ImageUrl { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

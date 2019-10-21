@@ -1,8 +1,8 @@
 ﻿import React from 'react';
 import { Modal, ModalBody } from 'reactstrap';
 
-import MenuItemDetail from '../components/MenuItemDetail';
-import MenuItemCard from '../components/MenuItemCard';
+import ImageDetail from '../components/ImageDetail';
+import ImageCard from '../components/ImageCard';
 
 import Ajax from '../../shared/ajax';
 import Pagination from '../../shared/components/Pagination';
@@ -18,23 +18,23 @@ class ImageSection extends React.Component {
             modal: false,
             selectedMenuItem: null,
             previousQuery: null,
-            currentQuery: "/api/menuitems?start=0&end=3",
+            currentQuery: "/api/menuitems",
             nextQuery: null,
         };
     }
 
     componentDidMount() {
-        this.GetMenuItems();
+        this.GetImages();
     }
 
-    GetMenuItems = async () => {
+    GetImages = async () => {
         let results = await Ajax.GetData(this.state.currentQuery);
 
         if (results.statusCode >= 200 || results.statusCode < 300) {
 
             let data = results.value.data;
             this.setState({
-                menuItems: data,
+                images: data,
                 nextQuery: results.value.nextQuery,
                 previousQuery: results.value.previousQuery
             });
@@ -43,15 +43,15 @@ class ImageSection extends React.Component {
         this.setState({ loading: false });
     }
 
-    RefreshCurrentMenuItems = async (query) => {
+    RefreshCurrentImages = async (query) => {
         await this.setState({ currentQuery: query });
-        this.GetMenuItems();
+        this.GetImages();
     }
 
-    ToggleModal = (menuItem) => {
+    ToggleModal = (image) => {
         this.setState({
             modal: !this.state.modal,
-            selectedMenuItem: menuItem
+            selectedImage: image
         });
     }
 
@@ -68,20 +68,14 @@ class ImageSection extends React.Component {
                     <List
                         colSize={12}
                         className="no-gutters"
-                        records={this.state.menuItems}>
-                        {menuItem => (
-                            <MenuItemCard
-                                menuItem={menuItem}
-                                showDetails={() => this.ToggleModal(menuItem)}
+                        records={this.state.images}>
+                        {image => (
+                            <ImageCard
+                                image={image}
+                                showDetails={() => this.ToggleModal(image)}
                                 />
                         )}
                     </List>
-                    <Pagination
-                        GetData={this.RefreshCurrentMenuItems}
-                        previousQuery={this.state.previousQuery}
-                        currentQuery={this.state.currentQuery}
-                        nextQuery={this.state.nextQuery}
-                        />
                 </Loading>
                 <Modal
                     centered
@@ -90,8 +84,8 @@ class ImageSection extends React.Component {
                     <ModalBody className="bg-dark">
                         <MenuItemDetail
                             Done={this.ToggleModal}
-                            Refresh={this.GetMenuItems}
-                            menuItem={this.state.selectedMenuItem} />
+                            Refresh={this.GetImages}
+                            menuItem={this.state.selectedImage} />
                     </ModalBody>
                 </Modal>
             </section>
@@ -99,4 +93,4 @@ class ImageSection extends React.Component {
     }
 }
 
-export default MenuItemSection;
+export default ImageSection;
