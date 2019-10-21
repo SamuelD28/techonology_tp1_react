@@ -17,26 +17,7 @@ namespace technology_tp1.Controllers
 
         [HttpGet]
         public IActionResult Get(int? start = null, int? end = null)
-        {
-            try
-            {
-                if(start != null && end != null)
-                {
-                    PaginatedRequestResult<MenuItem> result = CreatePaginatedRequestResult((int)start, (int)end);
-                    result.data = result.data.Include(i => i.Image);
-                    return CreateValidResponse(result, StatusCodes.Status200OK);
-                }   
-                else
-                {
-                    IEnumerable<MenuItem> menuItems = Repository.GetAll().Include(m => m.Image);
-                    return CreateValidResponse(menuItems, StatusCodes.Status200OK);
-                }
-            }
-            catch (Exception e)
-            {
-                return ErrorResponse.InternalServerError(e.Message);
-            }
-        }
+            => base.GetAllRecord(start, end);
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)

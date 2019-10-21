@@ -90,7 +90,7 @@ namespace technology_tp1.Seeds
                         Id = jsonItem.Value<int>("id"),
                         Name = jsonItem.Value<string>("name"),
                         Price = jsonItem.Value<decimal>("price"),
-                        ImageId = jsonItem.Value<int>("imageId")
+                        ImageUrl = jsonItem.Value<string>("imageUrl")
                     });
                 }
                 return items.Cast<T>();
@@ -99,27 +99,16 @@ namespace technology_tp1.Seeds
 
         protected override JToken CreateJSON()
         {
-            var forge = ForgeFactory.ForgeImageItem;
-
-            if (!forge.Exist)
-            {
-                forge.Forge();
-            }
-
-            var images = forge.Values;
-
             JArray jArray = new JArray();
             int id = 1;
             foreach (var item in menu)
             {
-                int imageId = images.First(i => i.Name == item.Key).Id;
-
                 JObject items = new JObject();
 
                 items.Add("id", new JValue(id++ * -1));
                 items.Add("name", new JValue(item.Value.Name));
                 items.Add("price", new JValue(item.Value.Price));
-                items.Add("imageId", new JValue(imageId));
+                items.Add("imageUrl", new JValue(item.Value.ImageUrl));
                 jArray.Add(items);
             }
             return jArray;
