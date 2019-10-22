@@ -18,7 +18,7 @@ class ImageSection extends React.Component {
             modal: false,
             selectedMenuItem: null,
             previousQuery: null,
-            currentQuery: "https://servefile.herokuapp.com/images/info",
+            currentQuery: "https://servefile.herokuapp.com/images/info?start=0&end=4",
             nextQuery: null,
         };
     }
@@ -74,6 +74,12 @@ class ImageSection extends React.Component {
                                 />
                         )}
                     </List>
+                    <Pagination
+                        GetData={this.RefreshCurrentImages}
+                        previousQuery={this.state.previousQuery}
+                        currentQuery={this.state.currentQuery}
+                        nextQuery={this.state.nextQuery}
+                        />
                 </Loading>
                 <Modal
                     centered

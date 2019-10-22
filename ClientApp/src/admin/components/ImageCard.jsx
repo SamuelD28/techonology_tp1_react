@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 
 import LabelValue from '../../shared/components/LabelValue';
 
@@ -21,10 +21,14 @@ const ImageCard = props => {
                 </Col>
                 <Col md="7">
                     <LabelValue label="Nom" value={`${props.image.originalname.substring(0, 15)}`} />
-                    <LabelValue label="Largeur" value={props.image.width} />
-                    <LabelValue label="Hauteur" value={props.image.height} />
-                    <LabelValue label="Taille" value={props.image.size} />
+                    <LabelValue label="Largeur" value={`${props.image.width} px`} />
+                    <LabelValue label="Hauteur" value={`${props.image.height} px`} />
+                    <LabelValue label="Taille" value={`${props.image.size / Math.pow(10, 6)} mb`} />
                     <LabelValue label="Type" value={props.image.mimetype} />
+                    <Button className="mt-2" color="danger">
+                        <span className="oi oi-trash mr-2"></span>
+                        Supprimer
+                    </Button>
                 </Col>
             </Row>
         </div>
