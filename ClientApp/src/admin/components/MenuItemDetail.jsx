@@ -34,7 +34,7 @@ class MenuItemDetail extends React.Component {
         return {
             name: "",
             price: 0,
-            imageId: 0,
+            imageUrl: "",
             new : true,
             formTitle: "Ajouter dans le menu",
             negativeTitle: "Fermer",
@@ -55,8 +55,7 @@ class MenuItemDetail extends React.Component {
             id: menuItem.id,
             name: menuItem.name,
             price: menuItem.price,
-            imageId: menuItem.imageId,
-            image: menuItem.image,
+            imageUrl: menuItem.imageUrl,
             new: false,
             formTitle: "Modifier un item",
             negativeTitle: "Supprimer",
@@ -187,13 +186,13 @@ class MenuItemDetail extends React.Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label htmlFor="inputImageId">ImageId</Label>
+                        <Label htmlFor="inputImageUrl">Image</Label>
                         <Input
-                            type="number"
-                            id="inputImageId"
+                            type="text"
+                            id="inputImageUrl"
                             placeholder="Image..."
-                            value={this.state.imageId}
-                            onChange={(e) => this.HandleChange("imageId", e.target.value)}
+                            value={this.state.imageUrl}
+                            onChange={(e) => this.HandleChange("imageUrl", e.target.value)}
                         />
                     </FormGroup>
                 </Form>
