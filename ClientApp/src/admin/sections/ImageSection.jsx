@@ -18,7 +18,7 @@ class ImageSection extends React.Component {
             modal: false,
             selectedMenuItem: null,
             previousQuery: null,
-            currentQuery: "http://localhost:8080/images/info",
+            currentQuery: "https://servefile.herokuapp.com/images/info",
             nextQuery: null,
         };
     }

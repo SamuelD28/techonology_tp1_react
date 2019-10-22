@@ -15,7 +15,7 @@ const ImageCard = props => {
             <img
                 className="img-fit"
                 width="40%"
-                src={`http://localhost:8080/images/${props.image._id}`}
+                src={`https://servefile.herokuapp.com/images/${props.image._id}`}
                 alt="Image" />
             <Row>
                 <Col md="12">
