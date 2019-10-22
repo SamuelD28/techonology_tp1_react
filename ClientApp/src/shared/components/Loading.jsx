@@ -34,7 +34,9 @@ class Loading extends Component {
 
     render() {
         return this.state.loading
-            ? <div className="loader">Loading...</div>
+            ? <div className="loader-container">
+                <div className="loader loader-md"></div>
+              </div>
             : this.props.children;
     }
 };
