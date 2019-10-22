@@ -57,7 +57,7 @@ class MenuItemSection extends React.Component {
 
     render() {
         return (
-            <section className={`section-bg rounded-lg ${this.props.className}`}>
+            <section className={this.props.className}>
                 <SectionHeader
                     title="Le Menu"
                     buttonTitle="Ajouter"

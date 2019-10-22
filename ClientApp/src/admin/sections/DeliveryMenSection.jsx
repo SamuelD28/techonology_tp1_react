@@ -77,7 +77,7 @@ class DeliveryMenSection extends React.Component {
 
     render() {
         return (
-            <section className={`rounded-lg ${this.props.className}`}>
+            <section className={this.props.className}>
                 <SectionHeader
                     title="Les livreurs"
                     buttonTitle="Ajouter"

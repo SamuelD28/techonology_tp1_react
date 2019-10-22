@@ -17,13 +17,13 @@ class Home extends React.Component {
             <Container style={{ width: "85%" }} className="p-5" fluid>
                 <Row noGutters className="justify-content-between align-items-start">
                     <Col md="6" >
-                        <DeliveyMenSection className="mr-5" />
+                        <DeliveyMenSection className="mr-2 bg-dark-transparent" />
                     </Col>
                     <Col md="6">
-                        <MenuItemSection className="ml-5"/>
+                        <MenuItemSection className="ml-2 bg-dark-transparent"/>
                     </Col>
                     <Col md="12">
-                        <ImageSection className="mt-5"/>
+                        <ImageSection className="mt-4 bg-dark-transparent"/>
                     </Col>
                 </Row>
             </Container>

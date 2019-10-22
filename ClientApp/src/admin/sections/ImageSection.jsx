@@ -55,7 +55,7 @@ class ImageSection extends React.Component {
 
     render() {
         return (
-            <section className={`section-bg rounded-lg ${this.props.className}`}>
+            <section className={this.props.className}>
                 <SectionHeader
                     title="Les Médias"
                     buttonTitle="Ajouter"
