@@ -64,7 +64,7 @@ class MenuItemSection extends React.Component {
                     buttonIcon="oi-plus"
                     action={() => this.ToggleModal({})}
                     />
-                <Loading secondsToWait={1}>
+                <Loading secondsToWait={1.5}>
                     <List
                         colSize={12}
                         className="no-gutters"

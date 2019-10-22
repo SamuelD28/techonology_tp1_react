@@ -62,7 +62,7 @@ class ImageSection extends React.Component {
                     buttonIcon="oi-plus"
                     action={() => this.ToggleModal({})}
                     />
-                <Loading secondsToWait={1}>
+                <Loading secondsToWait={1.25}>
                     <List
                         colSize={3}
                         className="no-gutters"

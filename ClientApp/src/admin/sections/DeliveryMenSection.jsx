@@ -84,7 +84,7 @@ class DeliveryMenSection extends React.Component {
                     buttonIcon="oi-plus"
                     action={() => this.ToggleModal({})}
                     />
-                <Loading secondsToWait={100}>
+                <Loading secondsToWait={1}>
                     <List
                         colSize={4}
                         className="no-gutters"
