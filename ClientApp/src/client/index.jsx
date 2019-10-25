@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
-
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import NavMenu from './components/NavMenu';
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
-import Cart from './components/Cart';
+import CartSection from './sections/CartSection';
 
 export default () => (
     <div>
@@ -18,7 +18,7 @@ export default () => (
             <Route path='/' component={NotFound} />
         </Switch>
         <div className="h-10 d-flex flex-row-reverse fixed-bottom">
-            <Cart/>
+            <CartSection/>
         </div>
     </div>
 );

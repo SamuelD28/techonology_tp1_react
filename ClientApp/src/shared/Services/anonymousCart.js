@@ -11,9 +11,9 @@ class AnonymousCart extends Cart {
     }
 
     Add = async (itemId, quantity) => {
-        console.log('adding: item(' + itemId + ') x quantity(' + quantity + ')');
         let item = await this.ApiRequest.GetItem(itemId);
-        let index = ArrayExt.Find(this.Cart, (itemCart) => itemCart.item.id == itemId);
+        console.log('adding: item(' + item.name + ') x quantity(' + quantity + ')');
+        let index = ArrayExt.Find(this.Cart, (itemCart) => itemCart.item.id === itemId);
         if (index !== -1) {
             this.Cart[index].quantity++;
         }
@@ -33,9 +33,9 @@ class AnonymousCart extends Cart {
         this.Cart = [];
     }
 
-    Count = () => this.Cart.length;
+    DistinctCount = () => this.Cart.length;
 
-    DistinctCount = () => {
+    Count = () => {
         if (this.Cart.length === 0) {
             return 0;
         }
