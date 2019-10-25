@@ -36,6 +36,7 @@ class PopularSection extends React.Component {
                 isBase64={true}
                 description={menuItem.description}
                 price={menuItem.price}
+                id={menuItem.id}
             />
         ));
     }

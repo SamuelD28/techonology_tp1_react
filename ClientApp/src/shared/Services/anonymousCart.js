@@ -26,10 +26,19 @@ class AnonymousCart extends Cart {
     }
 
     Remove = (itemId, quantity) => {
-        throw new Error("not implemented");
+        let index = ArrayExt.Find(this.Cart, (itemCart) => itemCart.item.id === itemId);
+        if (index !== -1) {
+            let cartItem = this.Cart[index];
+            if (cartItem.quantity > quantity) {
+                cartItem.quantity -= quantity;
+            }
+            else {
+                ArrayExt.RemoveAtUnOrdered(this.Cart, index);
+            }
+        }
     }
 
-    Clear = () => {
+    Clear = async () => {
         this.Cart = [];
     }
 
@@ -51,7 +60,12 @@ class AnonymousCart extends Cart {
     }
 
     GetTotalCost = () => {
-        throw new Error("not implemented");
+        if (this.Cart.length === 0) {
+            return (0).toFixed(2);
+        }
+        else {
+            return this.Cart.reduce((a, b) => a + b.item.price * b.quantity, 0).toFixed(2);
+        }
     }
 }
 

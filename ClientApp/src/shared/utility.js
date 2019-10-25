@@ -17,6 +17,14 @@ Array.Find = (array, predicate) => {
     return -1;
 }
 
+//Remove an item form an array at index i
+Array.RemoveAtUnOrdered = (array, index) => {
+    let item = array[index];
+    array[index] = array[array.length - 1];
+    array.pop();
+    return item;
+}
+
 //Fonction that adjust the height of an element to fill up the entire screen
 Utility.AdjustFullHeight = function(elements)
 {

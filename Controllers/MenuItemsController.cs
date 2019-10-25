@@ -33,7 +33,17 @@ namespace technology_tp1.Controllers
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
-            => base.GetRecordById(id);
+        {
+            try
+            {
+                MenuItem menuItems = Repository.GetAll().Include(m => m.Image).First(m => m.Id == id);
+                return CreateValidResponse(menuItems, StatusCodes.Status200OK);
+            }
+            catch (Exception e)
+            {
+                return ErrorResponse.InternalServerError(e.Message);
+            }
+        }
 
         [HttpPost]
         public IActionResult Post([FromBody] MenuItem menuItem)

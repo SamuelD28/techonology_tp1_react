@@ -10,7 +10,7 @@ class Cart {
         throw new Error("not implemented");
     }
 
-    Clear = () => {
+    Clear = async () => {
         throw new Error("not implemented");
     }
 
@@ -18,7 +18,7 @@ class Cart {
         throw new Error("not implemented");
     }
 
-    GetItems = () => {
+    GetItems = async () => {
         throw new Error("not implemented");
     }
 

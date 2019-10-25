@@ -5,6 +5,7 @@ import { Col } from 'reactstrap';
 function ChooseLayout(props) {
     if (props.layout === "stackedinverted") {
         return <MenuItemStacked
+            id={props.id}
             name={props.name}
             description={props.description}
             price={props.price}
@@ -13,6 +14,7 @@ function ChooseLayout(props) {
         />;
     } else if (props.layout === "stacked") {
         return <MenuItemStacked
+            id={props.id}
             name={props.name}
             description={props.description}
             price={props.price}
@@ -21,6 +23,7 @@ function ChooseLayout(props) {
         />;
     } else {
         return <MenuItemPortrait
+            id={props.id}
             name={props.name}
             description={props.description}
             price={props.price}
@@ -38,7 +41,7 @@ const MenuItemStacked = props => (
             <p>{props.description}</p>
             <p className="price">
                 <span>${props.price}</span>
-                <button onClick={() => AddItemToCart(-1, 1)} className="ml-2 btn btn-white btn-outline-white">Ajouter</button>
+                <button onClick={() => AddItemToCart(props.id, 1)} className="ml-2 btn btn-white btn-outline-white">Ajouter</button>
             </p>
         </div>
     </div>
@@ -51,7 +54,7 @@ const MenuItemStackedInverted = props => (
             <p>{props.description}</p>
             <p className="price">
                 <span>${props.price}</span>
-                <button onClick={() => AddItemToCart(-1, 1)} className="ml-2 btn btn-white btn-outline-white">Ajouter</button>
+                <button onClick={() => AddItemToCart(props.id, 1)} className="ml-2 btn btn-white btn-outline-white">Ajouter</button>
             </p>
         </div>
         <div className="img" style={StyleImage(props.isBase64, props.img)}></div>
@@ -69,7 +72,7 @@ const MenuItemPortrait = props => (
                 <span>{props.price}</span>
             </p>
             <p>
-                <button onClick={() => AddItemToCart(-1, 1)} className="btn btn-white btn-outline-white">Ajouter</button>
+                <button onClick={() => AddItemToCart(props.id, 1)} className="btn btn-white btn-outline-white">Ajouter</button>
             </p>
         </div>
     </div>
