@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Technology_Tp1_React.General
+namespace Technology_Tp1_React.General.Repository
 {
     /// <summary>
     /// Interface for new model entity

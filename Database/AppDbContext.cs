@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using technology_tp1.Seeds;
 using Technology_Tp1_React.Models;
 
 namespace technology_tp1.Models
@@ -13,8 +14,6 @@ namespace technology_tp1.Models
     public class AppDbContext : DbContext
     {
         public DbSet<DeliveryMan> DeliveryMen { get; set; }
-
-        public DbSet<ItemImage> ItemImages { get; set; }
 
         public DbSet<MenuItem> MenuItems{ get; set; }
 
@@ -46,13 +45,9 @@ namespace technology_tp1.Models
                 .Entity<DeliveryMan>()
                 .HasData(Seed(ForgeFactory.ForgeDeliveryMan));
 
-            modelBuilder
-                .Entity<ItemImage>()
-                .HasData(Seed(ForgeFactory.ForgeImageItem));
-
-            modelBuilder
-               .Entity<MenuItem>()
-               .HasData(Seed(ForgeFactory.ForgeMenuItem));
+            //modelBuilder
+            //   .Entity<MenuItem>()
+            //   .HasData(Seed(ForgeFactory.ForgeMenuItem));
         }
 
         private static IEnumerable<T> Seed<T>(ForgeJSONSeed<T> forge)

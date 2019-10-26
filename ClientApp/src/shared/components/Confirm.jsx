@@ -1,15 +1,33 @@
 ﻿import React, { Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalBody } from 'reactstrap';
 
+/**
+ * @description Statefull component that create a confirm modal.
+ * 
+ **/
 class Confirm extends Component {
 
+    /**
+     * @description Constructor. Initiate the state.
+     * 
+     * @param {any} props
+     */
     constructor(props) {
         super(props);
         this.state = { modal: false };
     }
 
+    /**
+     *  @description Method that open and close the modal.
+     *  
+     **/
     Toggle = () => this.setState({ modal: !this.state.modal });
 
+    /**
+     *  @description Method that execute that success action method
+     *  passed as a props.
+     * 
+     **/
     ExecuteConfirmedAction = (confirmed) => {
         if (confirmed) {
             this.props.successAction();

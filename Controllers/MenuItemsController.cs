@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using technology_tp1.Models;
-using Technology_Tp1_React.General;
+using Technology_Tp1_React.General.CrudController;
+using Technology_Tp1_React.General.Repository;
 
 namespace technology_tp1.Controllers
 {
@@ -18,18 +16,8 @@ namespace technology_tp1.Controllers
             : base(repository) { }
 
         [HttpGet]
-        public IActionResult Get()
-        {
-            try
-            {
-                IEnumerable<MenuItem> menuItems = Repository.GetAll().Include(m => m.Image);
-                return CreateValidResponse(menuItems, StatusCodes.Status200OK);
-            }
-            catch (Exception e)
-            {
-                return ErrorResponse.InternalServerError(e.Message);
-            }
-        }
+        public IActionResult Get(int? start = null, int? end = null)
+            => base.GetAllRecord(start, end);
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)

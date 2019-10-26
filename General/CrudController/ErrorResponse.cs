@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Technology_Tp1_React.General
+namespace Technology_Tp1_React.General.CrudController
 {
     /// <summary>
     /// Class that create error response to the client

@@ -1,14 +1,14 @@
-import React from 'react';
+ï»¿import React from 'react';
 import Ajax from '../../shared/ajax';
 import { Alert, Form, Row, Col, FormGroup, Input, Label, Button } from 'reactstrap';
 import Confirm from '../../shared/components/Confirm';
 
 /**
  *  @description Statefull component responsible for displaying
- *  a form for the delivery man fields. Handles the creation and
+ *  a form for the menu item fields. Handles the creation and
  *  modification of a form.
  **/
-class DeliveryMenDetail extends React.Component {
+class ImageDetail extends React.Component {
 
     /**
      * @description Constructor for the component. Check if the given
@@ -19,10 +19,10 @@ class DeliveryMenDetail extends React.Component {
     constructor(props) {
         super(props);
 
-        if (Object.entries(props.deliveryMan).length === 0) {
-            this.state = this.ParseNewDeliveryManInState();
+        if (Object.entries(props.menuItem).length === 0) {
+            this.state = this.ParseNewMenuItem();
         } else {
-            this.state = this.ParseDeliveryManInState(props.deliveryMan);
+            this.state = this.ParseExistingMenuItem(props.menuItem);
         }
     }
 
@@ -30,14 +30,13 @@ class DeliveryMenDetail extends React.Component {
      * @description Initialise the state to handle the creation of a delviery man
      * 
      **/
-    ParseNewDeliveryManInState = () => {
+    ParseNewMenuItem = () => {
         return {
             name: "",
-            phone: "",
-            isEmployed: false,
-            isDeactivated: false,
-            new: true,
-            formTitle: "Créer un livreur",
+            price: 0,
+            imageId: 0,
+            new : true,
+            formTitle: "Ajouter dans le menu",
             negativeTitle: "Fermer",
             negativeAction: this.props.Done,
             positiveTitle: "Ajouter",
@@ -51,15 +50,15 @@ class DeliveryMenDetail extends React.Component {
      * existing delivery man.
      * 
      **/
-    ParseDeliveryManInState = (deliveryMan) => {
+    ParseExistingMenuItem = (menuItem) => {
         return {
-            id: deliveryMan.id,
-            name: deliveryMan.name,
-            phone: deliveryMan.phone,
-            isEmployed: deliveryMan.isEmployed,
-            isDeactivated: deliveryMan.isDeactivated,
+            id: menuItem.id,
+            name: menuItem.name,
+            price: menuItem.price,
+            imageId: menuItem.imageId,
+            image: menuItem.image,
             new: false,
-            formTitle: "Modifier un livreur",
+            formTitle: "Modifier un item",
             negativeTitle: "Supprimer",
             negativeAction: this.HandleDelete,
             positiveTitle: "Sauvgarder",
@@ -85,11 +84,11 @@ class DeliveryMenDetail extends React.Component {
      * 
      **/
     HandleUpdate = async () => {
-        let request = await Ajax.PutData(`/api/deliverymen/${this.state.id}`, this.state);
+        let request = await Ajax.PutData(`/api/menuitems/${this.state.id}`, this.state);
 
         if (request.statusCode >= 200 && request.statusCode <= 300) {
-            let updatedDeliveryMan = request.value;
-            this.setState(this.ParseDeliveryManInState(updatedDeliveryMan));
+            let updatedMenuItem = request.value;
+            this.setState(this.ParseExistingMenuItem(updatedMenuItem));
             this.props.Done();
             this.props.Refresh();
         } else {
@@ -109,7 +108,7 @@ class DeliveryMenDetail extends React.Component {
      *  
      **/
     HandleDelete = async () => {
-        let request = await Ajax.DeleteData(`/api/deliverymen/${this.state.id}`);
+        let request = await Ajax.DeleteData(`/api/menuitems/${this.state.id}`);
 
         if (request.statusCode >= 200 && request.statusCode <= 300) {
             this.props.Done();
@@ -131,7 +130,7 @@ class DeliveryMenDetail extends React.Component {
      *  
      **/
     HandlePost = async () => {
-        let request = await Ajax.PostData(`/api/deliverymen`, this.state);
+        let request = await Ajax.PostData(`/api/menuitems`, this.state);
 
         if (request.statusCode >= 200 && request.statusCode <= 300) {
             this.props.Done();
@@ -168,7 +167,7 @@ class DeliveryMenDetail extends React.Component {
                     <h1 className="text-primary">{this.state.formTitle}</h1>
                     {this.DisplayErrorMessage()}
                     <FormGroup>
-                        <Label htmlFor="exampleEmail">Nom</Label>
+                        <Label htmlFor="inputName">Nom</Label>
                         <Input
                             type="text"
                             id="inputName"
@@ -178,59 +177,33 @@ class DeliveryMenDetail extends React.Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label htmlFor="exampleAddress">Téléphone</Label>
+                        <Label htmlFor="inputPrice">Prix</Label>
                         <Input
-                            type="phone"
-                            id="inputPhone"
-                            placeholder="Téléphone..."
-                            value={this.state.phone}
-                            onChange={(e) => this.HandleChange("phone", e.target.value)}
+                            type="number"
+                            id="inputPrice"
+                            placeholder="Prix..."
+                            value={this.state.price}
+                            onChange={(e) => this.HandleChange("price", e.target.value)}
                         />
                     </FormGroup>
                     <FormGroup>
+                        <Label htmlFor="inputImageId">ImageId</Label>
                         <Input
-                            className="inp-cbx"
-                            id="isEmployed"
-                            style={{ display: "none" }}
-                            type="checkbox"
-                            checked={this.state.isEmployed}
-                            onChange={(e) => this.HandleChange("isEmployed", !this.state.isEmployed)}
+                            type="number"
+                            id="inputImageId"
+                            placeholder="Image..."
+                            value={this.state.imageId}
+                            onChange={(e) => this.HandleChange("imageId", e.target.value)}
                         />
-                        <label className="cbx" htmlFor="isEmployed">
-                            <span>
-                                <svg width="12px" height="10px" viewBox="0 0 12 10">
-                                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-                                </svg>
-                            </span>
-                            <span>Employé</span>
-                        </label>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input
-                            className="inp-cbx"
-                            id="isDeactivated"
-                            style={{ display: "none" }}
-                            type="checkbox"
-                            checked={this.state.isDeactivated}
-                            onChange={(e) => this.HandleChange("isDeactivated", !this.state.isDeactivated)}
-                        />
-                        <label className="cbx" htmlFor="isDeactivated">
-                            <span>
-                                <svg width="12px" height="10px" viewBox="0 0 12 10">
-                                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-                                </svg>
-                            </span>
-                            <span>Désactivé</span>
-                        </label>
                     </FormGroup>
                 </Form>
                 <div className="d-flex justify-content-between">
                     <Confirm
-                        message={`Voulez-vous vraiment ${this.state.negativeTitle} ce livreur?`}
+                        message={`Voulez-vous vraiment ${this.state.negativeTitle} ce menu?`}
                         trigger={<Button color="danger">{this.state.negativeTitle}</Button>}
                         successAction={this.state.negativeAction} />
                     <Confirm
-                        message={`Voulez-vous vraiment ${this.state.positiveTitle} ce livreur?`}
+                        message={`Voulez-vous vraiment ${this.state.positiveTitle} ce menu?`}
                         trigger={<Button color="success">{this.state.positiveTitle}</Button>}
                         successAction={this.state.positiveAction} />
                 </div>
@@ -239,4 +212,4 @@ class DeliveryMenDetail extends React.Component {
     }
 }
 
-export default DeliveryMenDetail;
+export default ImageDetail;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Technology_Tp1_React.General
+namespace Technology_Tp1_React.General.Repository
 {
     /// <summary>
     /// Interface for creating new generic repository.
