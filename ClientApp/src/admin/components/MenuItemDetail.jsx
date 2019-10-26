@@ -1,7 +1,8 @@
 ﻿import React from 'react';
 import Ajax from '../../shared/ajax';
-import { Alert, Form, Row, Col, FormGroup, Input, Label, Button } from 'reactstrap';
+import { Alert, Form, FormGroup, Input, Label, Button } from 'reactstrap';
 import Confirm from '../../shared/components/Confirm';
+import ImagePicker from '../../shared/components/ImagePicker';
 
 /**
  *  @description Statefull component responsible for displaying
@@ -35,6 +36,8 @@ class MenuItemDetail extends React.Component {
             name: "",
             price: 0,
             imageUrl: "",
+            category: -1,
+            description : "",
             new : true,
             formTitle: "Ajouter dans le menu",
             negativeTitle: "Fermer",
@@ -56,6 +59,8 @@ class MenuItemDetail extends React.Component {
             name: menuItem.name,
             price: menuItem.price,
             imageUrl: menuItem.imageUrl,
+            category: menuItem.category,
+            description: menuItem.description,
             new: false,
             formTitle: "Modifier un item",
             negativeTitle: "Supprimer",
@@ -176,6 +181,21 @@ class MenuItemDetail extends React.Component {
                         />
                     </FormGroup>
                     <FormGroup>
+                        <Label htmlFor="inputCategory">Catégorie</Label>
+                        <Input 
+                            type="select"
+                            id="inputCategory"
+                            placeholder="Categorie..."
+                            defaultValue={this.state.category}
+                            name="category" 
+                            onChange={(e) =>  this.HandleChange("category", e.target.value)}>
+                            <option className="text-dark" value={0}>Pizza</option>
+                            <option className="text-dark" value={1}>Boisson</option>
+                            <option className="text-dark" value={2}>Dessert</option>
+                            <option className="text-dark" value={3}>Autre</option>
+                        </Input>
+                    </FormGroup>
+                    <FormGroup>
                         <Label htmlFor="inputPrice">Prix</Label>
                         <Input
                             type="number"
@@ -186,14 +206,29 @@ class MenuItemDetail extends React.Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label htmlFor="inputImageUrl">Image</Label>
+                        <Label htmlFor="inputDescription">Description</Label>
+                        <Input
+                            type="textarea"
+                            id="inputDescription"
+                            placeholder="Description..."
+                            value={this.state.description}
+                            onChange={(e) => this.HandleChange("description", e.target.value)}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <ImagePicker>
+                            <Button onClick={() => {}}>
+                                Choisir une image
+                            </Button>
+                        </ImagePicker>
+                        {/* <Label htmlFor="inputImageUrl">Image</Label>
                         <Input
                             type="text"
                             id="inputImageUrl"
                             placeholder="Image..."
                             value={this.state.imageUrl}
                             onChange={(e) => this.HandleChange("imageUrl", e.target.value)}
-                        />
+                        /> */}
                     </FormGroup>
                 </Form>
                 <div className="d-flex justify-content-between">
