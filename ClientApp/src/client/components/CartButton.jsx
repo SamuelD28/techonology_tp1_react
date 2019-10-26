@@ -1,6 +1,4 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import GlobalAppState from '../../shared/globalState';
 
 /**
@@ -35,7 +33,7 @@ class CartButton extends React.Component {
 
         return (
             <div id="cartAccess" className="mr-4 mb-4 align-items-center d-flex justify-content-center rounded-circle btn btn-warning notificable">
-                <FontAwesomeIcon icon={faShoppingCart} /> {cartBadge}
+               <span className="oi oi-cart"></span>{cartBadge}
             </div>
         );
     }

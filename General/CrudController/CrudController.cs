@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Technology_Tp1_React.General.Repository;
 
-namespace Technology_Tp1_React.General
+namespace Technology_Tp1_React.General.CrudController
 {
     /// <summary>
     /// Generic controller class that handles the interaction with an entity model
@@ -26,16 +25,78 @@ namespace Technology_Tp1_React.General
             Repository = repository;
         }
 
+        private string CreateNavigationQuery(string url, int start, int end)
+            => $"{url}?start={start}&end={end}";
+
+        private string CreatePreviousNavigationQuery(string url,int start, int end)
+        {
+            return start.Equals(0)
+                    ? null
+                    : CreateNavigationQuery(
+                        url,
+                        Math.Max(0, start - (end - start)),
+                        start
+                    );
+        }
+
+        private string CreateNextNavigationQuery(string url, int start, int end, int recordsTotalCount)
+        {
+            return end >= recordsTotalCount
+                    ? null
+                    : CreateNavigationQuery(url, end, end + (end - start));
+        }
+
+        protected PaginatedRequestResult<T> CreatePaginatedRequestResult(int start, int end)
+        {
+            string urlReceived = Request.Path.Value;
+
+            start = Math.Abs(start);
+            end = Math.Abs(end);
+
+            int startIndex = Math.Min(start, end);
+            int endIndex = Math.Max(start, end);
+
+            int recordsTotalCount = Repository
+                .GetAll()
+                .Count();
+
+            IQueryable<T> records = Repository
+                .GetAll()
+                .OrderByDescending(r => r.CreatedOn)
+                .Skip(startIndex)
+                .Take(end - start);
+
+            return new PaginatedRequestResult<T>(){
+                data = records,
+                previousQuery = CreatePreviousNavigationQuery(urlReceived, startIndex, endIndex),
+                nextQuery = CreateNextNavigationQuery(urlReceived, startIndex, endIndex, recordsTotalCount)
+            };
+        }
+
         /// <summary>
         /// Method that returns all the record related to specified entity model.
         /// </summary>
         /// <returns>Json list of entity</returns>
-        virtual protected IActionResult GetAllRecord()
+        virtual protected IActionResult GetAllRecord(int? start = null, int? end = null)
         {
             try
             {
-                IEnumerable<T> deliveryMen = Repository.GetAll();
-                return CreateValidResponse(deliveryMen, StatusCodes.Status200OK);
+                IEnumerable<T> records = null;
+                object requestResult = null;
+
+                if (start != null && end != null && end != start)
+                {
+                    requestResult = CreatePaginatedRequestResult((int)start, (int)end);
+                }
+                else
+                {
+                    records = Repository
+                        .GetAll()
+                        .OrderBy(r => r.CreatedOn);
+                    requestResult = records;
+                }
+
+                return CreateValidResponse(requestResult, StatusCodes.Status200OK);
             }
             catch (Exception e)
             {
@@ -78,6 +139,13 @@ namespace Technology_Tp1_React.General
             {
                 if (!ModelState.IsValid)
                 {
+                    foreach (ModelStateEntry modelState in ViewData.ModelState.Values)
+                    {
+                        foreach (ModelError error in modelState.Errors)
+                        {
+                            Console.WriteLine(error);
+                        }
+                    }
                     return ErrorResponse.WrongData();
                 }
 

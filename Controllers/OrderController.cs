@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
 using technology_tp1.Models;
-using technology_tp1.Services;
 using Technology_Tp1_React.General;
+using Technology_Tp1_React.General.CrudController;
+using Technology_Tp1_React.General.Repository;
 using Technology_Tp1_React.Models;
 using static Technology_Tp1_React.General.Cookies.CookiesExt;
 

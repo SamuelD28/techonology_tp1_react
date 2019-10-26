@@ -5,7 +5,7 @@ using technology_tp1.Models;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
-namespace Technology_Tp1_React.General
+namespace Technology_Tp1_React.General.Repository
 {
     /// <summary>
     /// Repository based on entity framework core. Saves the data in an sql database

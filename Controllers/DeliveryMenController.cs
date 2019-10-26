@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
 using technology_tp1.Models;
-using Technology_Tp1_React.General;
+using Technology_Tp1_React.General.CrudController;
+using Technology_Tp1_React.General.Repository;
 
 namespace technology_tp1.Controllers
 {
@@ -24,8 +16,8 @@ namespace technology_tp1.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
-            => base.GetAllRecord();
+        public IActionResult Get(int? start = null, int? end = null)
+            => base.GetAllRecord(start, end);
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)

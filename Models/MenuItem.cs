@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-using Technology_Tp1_React.General;
+using Technology_Tp1_React.General.Repository;
 
 namespace technology_tp1.Models
 {
@@ -36,12 +33,10 @@ namespace technology_tp1.Models
         public decimal Price { get; set; }
 
         [Required]
-        public int ImageId { get; set; }
-
-        [Required]
         public string Description { get; set; }
 
-        public ItemImage Image { get; set; }
+        [Required]
+        public string ImageUrl { get; set; }
 
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }

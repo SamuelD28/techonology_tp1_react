@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using technology_tp1.Models;
-using Technology_Tp1_React.General;
+using Technology_Tp1_React.General.Repository;
 
 namespace Technology_Tp1_React.Models
 {

@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using technology_tp1.Models;
 using technology_tp1.Services;
 using Technology_Tp1_React.General;
+using Technology_Tp1_React.General.Repository;
 
 namespace Technology_Tp1_React
 {
@@ -24,10 +25,9 @@ namespace Technology_Tp1_React
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(
-                    options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                );
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

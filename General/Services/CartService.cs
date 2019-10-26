@@ -31,7 +31,6 @@ namespace technology_tp1.Services
             => _db.MenuItems.Where(i => 
             _cartItems
             .ContainsKey(i.Id))
-            .Include(i => i.Image)
             .Select(i => new CartItem(i, _cartItems[i.Id]));
 
         public CartCookieService(IHttpContextAccessor httpContextAccessor, AppDbContext db)
