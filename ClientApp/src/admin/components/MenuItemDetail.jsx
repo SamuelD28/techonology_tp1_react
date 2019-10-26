@@ -216,19 +216,18 @@ class MenuItemDetail extends React.Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <ImagePicker>
+                        <img 
+                            className="mb-2"
+                            width="30%"
+                            hidden={this.state.imageUrl === ""} 
+                            src={this.state.imageUrl}
+                            />
+                        <ImagePicker
+                            setImageUrl={(imageUrl) => this.HandleChange("imageUrl", imageUrl)}>
                             <Button onClick={() => {}}>
                                 Choisir une image
                             </Button>
                         </ImagePicker>
-                        {/* <Label htmlFor="inputImageUrl">Image</Label>
-                        <Input
-                            type="text"
-                            id="inputImageUrl"
-                            placeholder="Image..."
-                            value={this.state.imageUrl}
-                            onChange={(e) => this.HandleChange("imageUrl", e.target.value)}
-                        /> */}
                     </FormGroup>
                 </Form>
                 <div className="d-flex justify-content-between">

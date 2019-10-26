@@ -17,6 +17,7 @@ class ImagePicker extends Component {
     constructor(props) {
         super(props);
         this.state = { modal: false, images : [] };
+        this.SendChoosenImageToParent = this.SendChoosenImageToParent.bind(this);
     }
 
     async componentDidMount(){
@@ -38,6 +39,12 @@ class ImagePicker extends Component {
      **/
     Toggle = () => this.setState({ modal: !this.state.modal });
 
+    SendChoosenImageToParent = (imageUrl) =>{
+
+        this.props.setImageUrl(imageUrl);
+        this.Toggle();
+    }
+
     render() {
         return (
             <div>
@@ -55,7 +62,11 @@ class ImagePicker extends Component {
                             className="no-gutters"
                             records={this.state.images}>
                             {image => (
-                                <img src={image.url} />
+                                <div 
+                                    className="p-2 m-2 bg-secondary rounded hover-image"
+                                    onClick={() => this.SendChoosenImageToParent(image.url)}>
+                                    <img className="img-fluid" src={image.url} />
+                                </div>
                             )}
                         </List>
                     </ModalBody>
