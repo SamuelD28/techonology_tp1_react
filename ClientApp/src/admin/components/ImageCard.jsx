@@ -7,7 +7,7 @@ async function DeleteImage(imageId, refresh) {
     let url = "https://servefile.herokuapp.com/images/" + imageId;
 
     let request = await Ajax.DeleteData(url);
-    if (request.statusCode > 200 && request.statusCode > 300) {
+    if (request) {
         refresh();
     }
 }

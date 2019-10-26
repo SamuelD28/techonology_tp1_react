@@ -46,14 +46,11 @@ class ImageSection extends React.Component {
     }
 
     OpenFileBrowser = () => {
-
         this.imageInput.current.click();
     }
 
     UploadImage = (e) => {
         let file = e.target.files[0];
-
-        console.log(file);
 
         if (file) {
 
@@ -66,7 +63,9 @@ class ImageSection extends React.Component {
                     body: formData 
                 })
                 .then((res) => {
-                    this.GetImages();
+                    if (res.status >= 200 && res.status < 300) {
+                        this.GetImages();
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
