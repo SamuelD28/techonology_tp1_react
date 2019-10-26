@@ -25,17 +25,13 @@ namespace Technology_Tp1_React.Models
 
         [Required]
         public bool IsOrdered { get; set; }
+        public int? ClientId { get; set; }
 
-        public int ClientId { get; set; }
-
-        [Required]
         public string CustomerName { get; set; }
 
-        [Required]
         public string CustomerAdress { get; set; }
 
         [Phone]
-        [Required]
         public string CustomerPhoneNumber { get; set; }
 
         public ICollection<OrdersItems> OrdersItems { get; set; }
