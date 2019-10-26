@@ -9,6 +9,11 @@ var Routes = {
         "menuItems": {
             "all": domaine + 'api/menuitems',
             get: (id) => domaine + "api/menuitems/" + id,
+        },
+        "orders": {
+            "all": domaine + 'api/Orders',
+            get: (id) => domaine + "api/Orders/" + id,
+            "post": domaine + "api/Orders",
         }
     }
 };

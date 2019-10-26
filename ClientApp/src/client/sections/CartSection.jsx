@@ -2,7 +2,7 @@ import React from 'react';
 import OrderSection from '../sections/OrderSection';
 import CartButton from '../components/CartButton';
 import CartItem from '../components/CartItem';
-import { Button, Modal, Row, ModalBody, ModalFooter, Container } from 'reactstrap';
+import { Modal, Row, ModalBody, ModalFooter, Container } from 'reactstrap';
 import GlobalAppState from '../../shared/globalState';
 
 /**
@@ -18,6 +18,13 @@ class CartSection extends React.Component {
             cart: GlobalAppState.state.cart
         };
         GlobalAppState.SubscribeStateChange(this.OnGlobalStateChanged);
+    }
+
+    mapCartItems = (cartItem, index) => {
+        return {
+            MenuItemId: cartItem.item.id,
+            Quantity: cartItem.quantity
+        }
     }
 
     /**
@@ -77,7 +84,7 @@ class CartSection extends React.Component {
                         <h2>Total : <span>${this.state.cart.GetTotalCost()}</span></h2>
                     </Row>
                     <Row>
-                        <OrderSection/>
+                        <OrderSection cartItems={this.state.cart.GetItems().map(this.mapCartItems)} />
                     </Row>
                 </Container>
             </ModalFooter>;

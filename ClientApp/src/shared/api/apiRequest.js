@@ -12,8 +12,8 @@ class ApiRequest {
      */
     GetAllItems = async () => {
         let data = await Ajax.GetData(Routes.api.menuItems.all);
-        if (data.statusCode < 200 || data.statusCode > 399) {
-            console.log(data.value.error);
+        if (data === undefined || data.statusCode < 200 || data.statusCode > 399) {
+            this.LogError(data);
             return null;
         }
 
@@ -28,12 +28,33 @@ class ApiRequest {
      */
     GetItem = async (itemId) => {
         let data = await Ajax.GetData(Routes.api.menuItems.get(itemId));
-        if (data.statusCode !== 200) {
-            console.log(data.value.error);
+        if (data === undefined || data.statusCode < 200 || data.statusCode > 399) {
+            this.LogError(data);
             return null;
         }
 
         return data.value;
+    }
+
+/**
+ * Create an order
+ *
+ * @param {any} data order's data
+ * @returns {any|null} order's data or null if it failed
+ */
+    MakeOrder = async (data) => {
+        console.log(data);
+        let response = await Ajax.PostData(Routes.api.orders.post, data);
+        if (response === undefined || response.statusCode < 200 || response.statusCode > 399) {
+            this.LogError(response);
+            return null;
+        }
+
+        return response.value;
+    }
+
+    LogError = (response) => {
+        console.log((response || { value: { error: 'An error occured during the proccess' } }).value.error);
     }
 }
 
