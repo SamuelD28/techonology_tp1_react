@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
@@ -22,10 +22,12 @@ const rootElement = document.getElementById('root');
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
-            <Switch>
-                <Route path='/admin' component={Admin} />
-                <Route path='/' component={Client} />
-            </Switch>
+            <BrowserRouter>
+                <Switch>
+                    <Route path='/admin' component={Admin} />
+                    <Route path='/' component={Client} />
+                </Switch>
+            </BrowserRouter>
         </ConnectedRouter>
     </Provider>,
     rootElement);

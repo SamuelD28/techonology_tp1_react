@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Modal, Row, ModalBody, ModalFooter, Container } from 'reactstrap';
 import ApiRequest from '../../shared/api/apiRequest';
-import { useHistory } from "react-router-dom";
+import GlobalAppState from '../../shared/globalState';
 
 /**
  * The order section
@@ -47,8 +47,9 @@ class OrderSection extends React.Component {
             this.setState(state);
         }
         else {
-            let history = useHistory();
-            history.push("/");
+            let state = GlobalAppState.state;
+            await state.cart.Clear();
+            GlobalAppState.setState(state);
         }
     }
 

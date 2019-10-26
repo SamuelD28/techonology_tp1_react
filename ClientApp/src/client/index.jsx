@@ -1,6 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Route, Switch } from 'react-router-dom';
 import NavMenu from './components/NavMenu';
 import Home from './pages/Home';
 import Menu from './pages/Menu';
@@ -18,7 +17,7 @@ export default () => (
             <Route path='/' component={NotFound} />
         </Switch>
         <div className="h-10 d-flex flex-row-reverse fixed-bottom">
-            <CartSection/>
+            <CartSection />
         </div>
     </div>
 );
