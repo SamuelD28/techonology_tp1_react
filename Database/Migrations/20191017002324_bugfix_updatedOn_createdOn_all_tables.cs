@@ -486,41 +486,6 @@ namespace technology_tp1.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "UpdatedOn",
-                table: "OrdersItems",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "UpdatedOn",
-                table: "Orders",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "UpdatedOn",
-                table: "MenuItems",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "UpdatedOn",
-                table: "ItemImages",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "UpdatedOn",
-                table: "DeliveryMen",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldNullable: true);
-
             migrationBuilder.UpdateData(
                 table: "DeliveryMen",
                 keyColumn: "Id",
@@ -966,6 +931,42 @@ namespace technology_tp1.Migrations
                 keyValue: -1,
                 columns: new[] { "CreatedOn", "UpdatedOn" },
                 values: new object[] { new DateTime(2019, 10, 13, 15, 26, 41, 938, DateTimeKind.Local).AddTicks(1142), new DateTime(2019, 10, 13, 15, 26, 41, 938, DateTimeKind.Local).AddTicks(1153) });
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "UpdatedOn",
+                table: "OrdersItems",
+                nullable: false,
+                oldClrType: typeof(DateTime),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "UpdatedOn",
+                table: "Orders",
+                nullable: false,
+                oldClrType: typeof(DateTime),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "UpdatedOn",
+                table: "MenuItems",
+                nullable: false,
+                oldClrType: typeof(DateTime),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "UpdatedOn",
+                table: "ItemImages",
+                nullable: false,
+                oldClrType: typeof(DateTime),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "UpdatedOn",
+                table: "DeliveryMen",
+                nullable: false,
+                oldClrType: typeof(DateTime),
+                oldNullable: true);
+
         }
     }
 }
