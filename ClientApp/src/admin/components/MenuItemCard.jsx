@@ -1,5 +1,7 @@
 ﻿import React from 'react';
+import Ajax from '../../shared/ajax';
 import { Card, CardTitle, CardBody, Button, CardSubtitle } from 'reactstrap';
+
 
 /**
  * @description Component that display information
@@ -23,7 +25,7 @@ const MenuItemCard = props => {
                     color="primary"
                     onClick={props.showDetails}>
                     Détails
-            </Button>
+                </Button>
             </div>
         </div>
     )

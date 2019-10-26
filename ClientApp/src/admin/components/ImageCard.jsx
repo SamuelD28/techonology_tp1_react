@@ -1,7 +1,16 @@
 ﻿import React from 'react';
 import { Row, Col, Button } from 'reactstrap';
-
+import Ajax from '../../shared/ajax';
 import LabelValue from '../../shared/components/LabelValue';
+
+async function DeleteImage(imageId, refresh) {
+    let url = "https://servefile.herokuapp.com/images/" + imageId;
+
+    let request = await Ajax.DeleteData(url);
+    if (request) {
+        refresh();
+    }
+}
 
 /**
  * @description Component that display information
@@ -16,7 +25,7 @@ const ImageCard = props => {
                 <Col md="5">
                 <img
                     className="img-fit img-fluid"
-                    src={`https://servefile.herokuapp.com/images/${props.image._id}`}
+                    src={props.image.url}
                         alt="Image" />
                 </Col>
                 <Col md="7">
@@ -25,7 +34,10 @@ const ImageCard = props => {
                     <LabelValue label="Hauteur" value={`${props.image.height} px`} />
                     <LabelValue label="Taille" value={`${props.image.size / Math.pow(10, 6)} mb`} />
                     <LabelValue label="Type" value={props.image.mimetype} />
-                    <Button className="mt-2" color="danger">
+                    <Button
+                        className="mt-2"
+                        color="danger"
+                        onClick={() => DeleteImage(props.image._id, props.refresh)}>
                         <span className="oi oi-trash mr-2"></span>
                         Supprimer
                     </Button>

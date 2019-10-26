@@ -6,6 +6,16 @@
     color: inherit !important;
 }
 
+.hover-image{
+    cursor: pointer;
+    transition: transform .1s ease-in-out;
+}
+
+.hover-image:hover{
+    transform: scale(1.05);
+    transition: transform .1s ease-in-out;
+}
+
 .bg-dark-transparent {
     background: rgba(52, 58, 64, 0.4) !important;
 }
