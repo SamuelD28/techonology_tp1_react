@@ -26,7 +26,7 @@ namespace Technology_Tp1_React.Models
         [Required]
         public int Quantity { get; set; }
 
-        public Order Order { get; set; }
+        public AnonymousOrder Order { get; set; }
         public MenuItem MenuItem { get; set; }
 
         public DateTime CreatedOn { get; set; }

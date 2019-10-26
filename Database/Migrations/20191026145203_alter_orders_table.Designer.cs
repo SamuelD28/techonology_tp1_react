@@ -10,7 +10,7 @@ using technology_tp1.Models;
 namespace technology_tp1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191025230752_alter_orders_table")]
+    [Migration("20191026145203_alter_orders_table")]
     partial class alter_orders_table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,25 +21,26 @@ namespace technology_tp1.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Technology_Tp1_React.Models.Order", b =>
+            modelBuilder.Entity("Technology_Tp1_React.Models.AnonymousOrder", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClientId");
-
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<string>("CustomerAdress");
+                    b.Property<string>("CustomerAdress")
+                        .IsRequired();
 
-                    b.Property<string>("CustomerName");
+                    b.Property<string>("CustomerName")
+                        .IsRequired();
 
-                    b.Property<string>("CustomerPhoneNumber");
+                    b.Property<string>("CustomerPhoneNumber")
+                        .IsRequired();
 
                     b.Property<DateTime?>("DeliveredAt");
 
-                    b.Property<bool>("IsOrdered");
+                    b.Property<DateTime>("Scheduled");
 
                     b.Property<DateTime?>("UpdatedOn");
 
@@ -720,7 +721,7 @@ namespace technology_tp1.Migrations
                         .HasForeignKey("MenuItemId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Technology_Tp1_React.Models.Order", "Order")
+                    b.HasOne("Technology_Tp1_React.Models.AnonymousOrder", "Order")
                         .WithMany("OrdersItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);

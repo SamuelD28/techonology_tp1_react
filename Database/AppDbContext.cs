@@ -18,7 +18,7 @@ namespace technology_tp1.Models
 
         public DbSet<MenuItem> MenuItems{ get; set; }
 
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<AnonymousOrder> Orders { get; set; }
 
         public DbSet<OrdersItems> OrdersItems { get; set; }
 
