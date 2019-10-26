@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using technology_tp1.Seeds;
 
 namespace technology_tp1
 {
@@ -104,7 +105,7 @@ namespace technology_tp1
                         Id = jsonItem.Value<int>("id"),
                         Name = jsonItem.Value<string>("name"),
                         Price = jsonItem.Value<decimal>("price"),
-                        ImageId = jsonItem.Value<int>("imageId"),
+                        ImageUrl = "",
                         Category = (Models.Category)jsonItem.Value<int>("category"),
                         Description = jsonItem.Value<string>("description"),
                         CreatedOn = jsonItem.Value<DateTime>("createdOn"),
@@ -117,27 +118,16 @@ namespace technology_tp1
 
         protected override JToken CreateJSON()
         {
-            var forge = ForgeFactory.ForgeImageItem;
-
-            if (!forge.Exist)
-            {
-                forge.Forge();
-            }
-
-            var images = forge.Values;
-
             JArray jArray = new JArray();
             int id = 1;
             foreach (var item in menu)
             {
-                int imageId = images.First(i => i.Name == item.Key).Id;
-
                 JObject items = new JObject();
 
                 items.Add("id", new JValue(id++ * -1));
                 items.Add("name", new JValue(item.Value.Name));
                 items.Add("price", new JValue(item.Value.Price));
-                items.Add("imageId", new JValue(imageId));
+                items.Add("imageId", new JValue(""));
                 items.Add("category", new JValue(item.Value.Category));
                 items.Add("description", new JValue(item.Value.Description));
                 items.Add("createdOn", new JValue(DateTime.Now));
