@@ -70,6 +70,7 @@ class ImageSection extends React.Component {
                         {image => (
                             <ImageCard
                                 image={image}
+                                refresh={this.GetImages}
                                 showDetails={() => this.ToggleModal(image)}
                                 />
                         )}
