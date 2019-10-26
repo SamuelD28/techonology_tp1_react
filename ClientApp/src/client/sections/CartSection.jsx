@@ -1,9 +1,12 @@
 import React from 'react';
-import Cart from '../components/Cart';
+import CartButton from '../components/CartButton';
 import CartItem from '../components/CartItem';
 import { Button, Modal, Row, ModalBody, ModalFooter, Container } from 'reactstrap';
 import GlobalAppState from '../../shared/globalState';
 
+/**
+ * The cart section with his button
+ * */
 class CartSection extends React.Component {
 
     constructor(props) {
@@ -16,18 +19,29 @@ class CartSection extends React.Component {
         GlobalAppState.SubscribeStateChange(this.OnGlobalStateChanged);
     }
 
+    /**
+    * Handle the global state changed event. Change is own state depending of the global state
+    *
+    * @param {any} state the new state
+    */
     OnGlobalStateChanged = (state) => {
         let selfState = this.state;
         selfState.cart = state.cart;
         this.setState(selfState);
     }
 
+    /**
+     * Open and close the modal
+     */
     ToggleModal = () => {
         let state = this.state;
         state.isModalOpen = !state.isModalOpen;
         this.setState(state);
     }
 
+    /**
+     * Display all cartItems or an empty message
+     */
     DisplayCartItems = () => {
         let view = <h1>Your cart is empty</h1>;
         if (this.state.cart.Count() !== 0) {
@@ -50,6 +64,9 @@ class CartSection extends React.Component {
         return view;
     }
 
+    /**
+     * Display the price and an order button or nothing if the cart is empty
+     */
     DisplayFooter = () => {
         let view;
         if (this.state.cart.Count() !== 0) {
@@ -70,7 +87,7 @@ class CartSection extends React.Component {
     render() {
         return (
             <div>
-                <span onClick={this.ToggleModal}><Cart itemsCount={0} /></span>
+                <span onClick={this.ToggleModal}><CartButton itemsCount={0} /></span>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.ToggleModal} size="lg">
                     <ModalBody className="bg-dark">
                         {this.DisplayCartItems()}

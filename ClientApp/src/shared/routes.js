@@ -1,5 +1,8 @@
 let domaine = "http://localhost:8870/";
 
+/**
+ * Api's routes
+ * */
 var Routes = {
     "domaine": domaine,
     "api": {

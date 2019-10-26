@@ -2,6 +2,9 @@ import Cart from './cart';
 import ApiRequest from '../api/apiRequest';
 import { Array as ArrayExt } from '../utility';
 
+/**
+ * The cart of someone that is not connected
+ */
 class AnonymousCart extends Cart {
     constructor() {
         super();
@@ -10,6 +13,9 @@ class AnonymousCart extends Cart {
         this.Cart = [];
     }
 
+    /**
+     * @inheritdoc 
+     */
     Add = async (itemId, quantity) => {
         let item = await this.ApiRequest.GetItem(itemId);
         console.log('adding: item(' + item.name + ') x quantity(' + quantity + ')');
@@ -25,6 +31,9 @@ class AnonymousCart extends Cart {
         }
     }
 
+    /**
+    * @inheritdoc
+    */
     Remove = (itemId, quantity) => {
         let index = ArrayExt.Find(this.Cart, (itemCart) => itemCart.item.id === itemId);
         if (index !== -1) {
@@ -38,12 +47,21 @@ class AnonymousCart extends Cart {
         }
     }
 
+    /**
+    * @inheritdoc
+    */
     Clear = async () => {
         this.Cart = [];
     }
 
+    /**
+    * @inheritdoc
+    */
     DistinctCount = () => this.Cart.length;
 
+    /**
+    * @inheritdoc
+    */
     Count = () => {
         if (this.Cart.length === 0) {
             return 0;
@@ -53,12 +71,21 @@ class AnonymousCart extends Cart {
         }
     }
 
+    /**
+    * @inheritdoc
+    */
     GetItems = () => Object.create(this.Cart);
 
+    /**
+    * @inheritdoc
+    */
     GetItem = (itemId) => {
         throw new Error("not implemented");
     }
 
+    /**
+    * @inheritdoc
+    */
     GetTotalCost = () => {
         if (this.Cart.length === 0) {
             return (0).toFixed(2);

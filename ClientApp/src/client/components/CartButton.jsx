@@ -3,17 +3,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import GlobalAppState from '../../shared/globalState';
 
-
-class Cart extends React.Component {
+/**
+ * Represent the button to open the cart
+ * */
+class CartButton extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             itemsCount: props.itemsCount,
         };
-        GlobalAppState.SubscribeStateChange(this.OnCartChanged);
+        GlobalAppState.SubscribeStateChange(this.OnGlobalStateChanged);
     }
 
-    OnCartChanged = (state) => {
+    /**
+     * Handle the global state changed event. Change is own state depending of the global state
+     * 
+     * @param {any} state the new state
+     */
+    OnGlobalStateChanged = (state) => {
         let selfState = this.state;
         selfState.itemsCount = state.cart.Count();
         this.setState(selfState);
@@ -34,4 +41,4 @@ class Cart extends React.Component {
     }
 }
 
-export default Cart;
+export default CartButton;

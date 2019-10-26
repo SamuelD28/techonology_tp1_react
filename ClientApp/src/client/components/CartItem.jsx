@@ -2,6 +2,11 @@ import React from 'react';
 import GlobalAppState from '../../shared/globalState';
 import { Col, Button } from 'reactstrap';
 
+/**
+ * Choose the layout for cartitems in the cart
+ * 
+ * @param {any} props this object should have : id, name, price, img, isBase64, quantity
+ */
 function ChooseLayout(props) {
     return <CartItemStacked
         id={props.id}
@@ -14,6 +19,11 @@ function ChooseLayout(props) {
     />
 };
 
+/**
+ * return a cartItem with a stacked layout
+ * 
+ * @param {any} props this object should have : id, name, price, img, isBase64, quantity
+ */
 const CartItemStacked = props => (
     <div className="services-wrap d-flex pb-1">
         <div className="img col-md-4" style={StyleImage(props.isBase64, props.img)}></div>
@@ -77,7 +87,11 @@ const RemoveItemFromCart = async (id, quantity) => {
     GlobalAppState.setState(state);
 }
 
-
+/**
+ * return a cartItem with a stacked layout
+ *
+ * @param {any} props this object should have : id, name, price, img, isBase64, quantity, size, layout
+ */
 const CartItem = props => (
     <Col md={props.size}>
         {ChooseLayout(props)}
