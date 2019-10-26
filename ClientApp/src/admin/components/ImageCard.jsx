@@ -25,7 +25,7 @@ const ImageCard = props => {
                 <Col md="5">
                 <img
                     className="img-fit img-fluid"
-                    src={`https://servefile.herokuapp.com/images/${props.image._id}`}
+                    src={props.image.url}
                         alt="Image" />
                 </Col>
                 <Col md="7">

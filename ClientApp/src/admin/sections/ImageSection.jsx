@@ -14,6 +14,7 @@ class ImageSection extends React.Component {
 
     constructor(props) {
         super(props);
+        this.imageInput = React.createRef();
         this.state = {
             modal: false,
             selectedMenuItem: null,
@@ -37,8 +38,6 @@ class ImageSection extends React.Component {
                 images: data,
             });
         }
-
-        this.setState({ loading: false });
     }
 
     RefreshCurrentImages = async (query) => {
@@ -46,11 +45,33 @@ class ImageSection extends React.Component {
         this.GetImages();
     }
 
-    ToggleModal = (image) => {
-        this.setState({
-            modal: !this.state.modal,
-            selectedImage: image
-        });
+    OpenFileBrowser = () => {
+
+        this.imageInput.current.click();
+    }
+
+    UploadImage = (e) => {
+        let file = e.target.files[0];
+
+        console.log(file);
+
+        if (file) {
+
+            let formData = new FormData();
+            formData.append("image", file);
+
+            fetch('https://servefile.herokuapp.com/images/upload',
+                { 
+                    method: 'POST',
+                    body: formData 
+                })
+                .then((res) => {
+                    this.GetImages();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     }
 
     render() {
@@ -60,8 +81,15 @@ class ImageSection extends React.Component {
                     title="Les Médias"
                     buttonTitle="Ajouter"
                     buttonIcon="oi-plus"
-                    action={() => this.ToggleModal({})}
-                    />
+                    action={this.OpenFileBrowser}
+                />
+                <input
+                    ref={this.imageInput}
+                    type="file"
+                    style={{ display: "none" }}
+                    name="image"
+                    onChange={this.UploadImage}
+                />
                 <Loading secondsToWait={1.25}>
                     <List
                         colSize={3}
