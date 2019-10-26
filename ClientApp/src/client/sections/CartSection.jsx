@@ -1,4 +1,5 @@
 import React from 'react';
+import OrderSection from '../sections/OrderSection';
 import CartButton from '../components/CartButton';
 import CartItem from '../components/CartItem';
 import { Button, Modal, Row, ModalBody, ModalFooter, Container } from 'reactstrap';
@@ -76,7 +77,7 @@ class CartSection extends React.Component {
                         <h2>Total : <span>${this.state.cart.GetTotalCost()}</span></h2>
                     </Row>
                     <Row>
-                        <Button color="success" block>Order</Button>
+                        <OrderSection/>
                     </Row>
                 </Container>
             </ModalFooter>;
