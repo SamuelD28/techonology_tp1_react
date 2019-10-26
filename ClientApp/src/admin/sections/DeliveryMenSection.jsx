@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import Ajax from '../../shared/ajax';
 import { Modal, ModalBody } from 'reactstrap';
 

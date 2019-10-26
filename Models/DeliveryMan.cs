@@ -25,6 +25,6 @@ namespace technology_tp1.Models
         public bool IsDeactivated { get; set; }
 
         public DateTime CreatedOn { get; set; }
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
     }
 }

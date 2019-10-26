@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using technology_tp1.Models;
 
 namespace technology_tp1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191017130126_add_description_menuItems")]
+    partial class add_description_menuItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,11 +21,13 @@ namespace technology_tp1.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Technology_Tp1_React.Models.AnonymousOrder", b =>
+            modelBuilder.Entity("Technology_Tp1_React.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClientId");
 
                     b.Property<DateTime>("CreatedOn");
 
@@ -38,7 +42,7 @@ namespace technology_tp1.Migrations
 
                     b.Property<DateTime?>("DeliveredAt");
 
-                    b.Property<DateTime>("Scheduled");
+                    b.Property<bool>("IsOrdered");
 
                     b.Property<DateTime?>("UpdatedOn");
 
@@ -719,7 +723,7 @@ namespace technology_tp1.Migrations
                         .HasForeignKey("MenuItemId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Technology_Tp1_React.Models.AnonymousOrder", "Order")
+                    b.HasOne("Technology_Tp1_React.Models.Order", "Order")
                         .WithMany("OrdersItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);

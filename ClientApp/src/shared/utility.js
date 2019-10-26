@@ -4,8 +4,26 @@
 */
 
 //Namespace
+let Array = {};
 let Utility = {};
 let Forms = {};
+
+//Function that determined if a value is in a array from a predicate
+Array.Find = (array, predicate) => {
+    for (let i = 0; i < array.length; i++) {
+        if (predicate(array[i]))
+            return i;
+    }
+    return -1;
+}
+
+//Remove an item form an array at index i
+Array.RemoveAtUnOrdered = (array, index) => {
+    let item = array[index];
+    array[index] = array[array.length - 1];
+    array.pop();
+    return item;
+}
 
 //Fonction that adjust the height of an element to fill up the entire screen
 Utility.AdjustFullHeight = function(elements)
@@ -386,4 +404,4 @@ Forms.AppendValueToObject = function(keyToAppend, objectToAppend, valueToAppend)
 }
 
 // Exports all the utility objects
-export {Utility, Forms};
+export {Utility, Forms, Array};

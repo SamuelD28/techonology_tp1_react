@@ -11,25 +11,6 @@ using technology_tp1.Services;
 using Technology_Tp1_React.General;
 using Technology_Tp1_React.General.Repository;
 
-/**
- * 
-    To do
-
-    Gestions des livreurs
-
-    Gestion des menu items
-    - Supporter operation modifier
-    - Supporter operation ajouter
-    - Supporter operation supprimer
-
-    Images 
-    - Créer la liste images
-    - Créer Page Details
-    - Supporter operation modifier
-    - Supporter operation ajouter
-    - Supporter operation supprimer
- 
- */
 namespace Technology_Tp1_React
 {
     public class Startup
@@ -64,7 +45,7 @@ namespace Technology_Tp1_React
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
-            IApplicationBuilder app, 
+            IApplicationBuilder app,
             IHostingEnvironment env,
             AppDbContext database)
         {

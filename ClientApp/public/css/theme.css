@@ -8317,8 +8317,9 @@ textarea.form-control {
   @media (max-width: 767.98px) {
     .heading-section h2 {
       font-size: 28px; } }
-  .heading-section h2 span {
-    color: #fac564; }
+.heading-section h2 span, .modal-footer h2 span {
+    color: #fac564;
+}
 
 .heading-section p.flip {
   position: relative;

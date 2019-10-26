@@ -15,8 +15,7 @@ const MenuItemCard = props => {
             <img
                 className="img-fit"
                 width="20%"
-                //src={`data:image/png;base64 , ${props.menuItem.image.file}`}
-                src="images/pizza-1.jpg"
+                src={props.menuItem.imageUrl}
                 alt="Menu Item image" />
             <div className="p-4 flex-fill d-flex flex-row justify-content-between align-items-center">
                 <h3 className="flex-100 m-0">{props.menuItem.name}</h3>

@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import About from '../sections/About';
-import MenuSection from '../sections/MenuSection';
+import PopularSection from '../sections/PopularSection';
+import Routes from '../../shared/routes';
 
 const Home = props => (
     <div>
         <About />
-        <MenuSection />
+        <PopularSection requestUrl={Routes.api.menuItems.all} />
     </div>
 );
 

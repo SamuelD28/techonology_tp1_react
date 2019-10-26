@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using technology_tp1.Models;
 
 namespace technology_tp1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191017002324_bugfix_updatedOn_createdOn_all_tables")]
+    partial class bugfix_updatedOn_createdOn_all_tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,11 +21,13 @@ namespace technology_tp1.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Technology_Tp1_React.Models.AnonymousOrder", b =>
+            modelBuilder.Entity("Technology_Tp1_React.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClientId");
 
                     b.Property<DateTime>("CreatedOn");
 
@@ -38,7 +42,7 @@ namespace technology_tp1.Migrations
 
                     b.Property<DateTime?>("DeliveredAt");
 
-                    b.Property<DateTime>("Scheduled");
+                    b.Property<bool>("IsOrdered");
 
                     b.Property<DateTime?>("UpdatedOn");
 
@@ -617,12 +621,7 @@ namespace technology_tp1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Category");
-
                     b.Property<DateTime>("CreatedOn");
-
-                    b.Property<string>("Description")
-                        .IsRequired();
 
                     b.Property<int>("ImageId");
 
@@ -643,9 +642,7 @@ namespace technology_tp1.Migrations
                         new
                         {
                             Id = -1,
-                            Category = 0,
-                            CreatedOn = new DateTime(2019, 10, 17, 8, 56, 56, 790, DateTimeKind.Local).AddTicks(2127),
-                            Description = "This is an all dress pizza",
+                            CreatedOn = new DateTime(2019, 10, 16, 20, 20, 36, 725, DateTimeKind.Local).AddTicks(5268),
                             ImageId = -1,
                             Name = "All dress",
                             Price = 25.25m
@@ -653,9 +650,7 @@ namespace technology_tp1.Migrations
                         new
                         {
                             Id = -2,
-                            Category = 2,
-                            CreatedOn = new DateTime(2019, 10, 17, 8, 56, 56, 790, DateTimeKind.Local).AddTicks(2276),
-                            Description = "A good and tasty chocolate cake!",
+                            CreatedOn = new DateTime(2019, 10, 16, 20, 20, 36, 725, DateTimeKind.Local).AddTicks(5368),
                             ImageId = -2,
                             Name = "Chocolate cake",
                             Price = 5m
@@ -663,9 +658,7 @@ namespace technology_tp1.Migrations
                         new
                         {
                             Id = -3,
-                            Category = 1,
-                            CreatedOn = new DateTime(2019, 10, 17, 8, 56, 56, 790, DateTimeKind.Local).AddTicks(2324),
-                            Description = "Are you thirsty? Take a coke too feel better",
+                            CreatedOn = new DateTime(2019, 10, 16, 20, 20, 36, 725, DateTimeKind.Local).AddTicks(5466),
                             ImageId = -7,
                             Name = "Coke drink",
                             Price = 1.33m
@@ -673,9 +666,7 @@ namespace technology_tp1.Migrations
                         new
                         {
                             Id = -4,
-                            Category = 3,
-                            CreatedOn = new DateTime(2019, 10, 17, 8, 56, 56, 790, DateTimeKind.Local).AddTicks(2397),
-                            Description = "Always good with those!",
+                            CreatedOn = new DateTime(2019, 10, 16, 20, 20, 36, 725, DateTimeKind.Local).AddTicks(5491),
                             ImageId = -3,
                             Name = "French fries",
                             Price = 4m
@@ -683,9 +674,7 @@ namespace technology_tp1.Migrations
                         new
                         {
                             Id = -5,
-                            Category = 0,
-                            CreatedOn = new DateTime(2019, 10, 17, 8, 56, 56, 790, DateTimeKind.Local).AddTicks(2429),
-                            Description = "Classic yet very good",
+                            CreatedOn = new DateTime(2019, 10, 16, 20, 20, 36, 725, DateTimeKind.Local).AddTicks(5514),
                             ImageId = -4,
                             Name = "Chesse",
                             Price = 15m
@@ -693,9 +682,7 @@ namespace technology_tp1.Migrations
                         new
                         {
                             Id = -6,
-                            Category = 0,
-                            CreatedOn = new DateTime(2019, 10, 17, 8, 56, 56, 790, DateTimeKind.Local).AddTicks(2585),
-                            Description = "I guess that pineapple are good",
+                            CreatedOn = new DateTime(2019, 10, 16, 20, 20, 36, 725, DateTimeKind.Local).AddTicks(5537),
                             ImageId = -5,
                             Name = "Hawaiian",
                             Price = 18.25m
@@ -703,9 +690,7 @@ namespace technology_tp1.Migrations
                         new
                         {
                             Id = -7,
-                            Category = 0,
-                            CreatedOn = new DateTime(2019, 10, 17, 8, 56, 56, 790, DateTimeKind.Local).AddTicks(2619),
-                            Description = "Cheap, simple and still surprisingly good!",
+                            CreatedOn = new DateTime(2019, 10, 16, 20, 20, 36, 725, DateTimeKind.Local).AddTicks(5587),
                             ImageId = -6,
                             Name = "Pepperoni & chesse",
                             Price = 14.58m
@@ -719,7 +704,7 @@ namespace technology_tp1.Migrations
                         .HasForeignKey("MenuItemId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Technology_Tp1_React.Models.AnonymousOrder", "Order")
+                    b.HasOne("Technology_Tp1_React.Models.Order", "Order")
                         .WithMany("OrdersItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);

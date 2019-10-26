@@ -262,3 +262,33 @@
         transform: rotate(360deg);
     }
 }
+.black-modal {
+    background: #212529;
+}
+
+#cartAccess {
+    height: 5rem;
+    width: 5rem;
+    font-size: 2rem;
+}
+
+.notificable {
+    position: relative;
+}
+
+    .notificable .badge {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        padding: 5px 10px;
+        border-radius: 50%;
+        background: black;
+        color: #ffc107;
+        font-family: sans-serif;
+    }
+
+.modal-footer {
+    padding: 15px;
+    text-align: right;
+    border-top: 1px solid #585858;
+}

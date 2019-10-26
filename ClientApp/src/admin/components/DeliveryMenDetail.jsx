@@ -1,4 +1,4 @@
-ï»¿import React from 'react';
+import React from 'react';
 import Ajax from '../../shared/ajax';
 import { Alert, Form, Row, Col, FormGroup, Input, Label, Button } from 'reactstrap';
 import Confirm from '../../shared/components/Confirm';
@@ -37,7 +37,7 @@ class DeliveryMenDetail extends React.Component {
             isEmployed: false,
             isDeactivated: false,
             new: true,
-            formTitle: "CrÃ©er un livreur",
+            formTitle: "Créer un livreur",
             negativeTitle: "Fermer",
             negativeAction: this.props.Done,
             positiveTitle: "Ajouter",
@@ -178,11 +178,11 @@ class DeliveryMenDetail extends React.Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label htmlFor="exampleAddress">TÃ©lÃ©phone</Label>
+                        <Label htmlFor="exampleAddress">Téléphone</Label>
                         <Input
                             type="phone"
                             id="inputPhone"
-                            placeholder="TÃ©lÃ©phone..."
+                            placeholder="Téléphone..."
                             value={this.state.phone}
                             onChange={(e) => this.HandleChange("phone", e.target.value)}
                         />
@@ -202,7 +202,7 @@ class DeliveryMenDetail extends React.Component {
                                     <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
                                 </svg>
                             </span>
-                            <span>EmployÃ©</span>
+                            <span>Employé</span>
                         </label>
                     </FormGroup>
                     <FormGroup>
@@ -220,7 +220,7 @@ class DeliveryMenDetail extends React.Component {
                                     <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
                                 </svg>
                             </span>
-                            <span>DÃ©sactivÃ©</span>
+                            <span>Désactivé</span>
                         </label>
                     </FormGroup>
                 </Form>

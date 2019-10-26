@@ -11,7 +11,7 @@ namespace Technology_Tp1_React.General.Repository
     public interface IEntity
     {
         DateTime CreatedOn { get; set; }
-        DateTime UpdatedOn { get; set; }
+        DateTime? UpdatedOn { get; set; }
         int Id { get; set; }
     }
 }

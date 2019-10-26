@@ -1,85 +1,97 @@
-﻿import React from 'react';
+import React from 'react';
 import MenuItem from '../components/MenuItem';
+import Converter from '../../shared/converter';
 import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Ajax from '../../shared/ajax';
+
 
 class MenuSection extends React.Component {
 
     constructor(props) {
         super(props);
 
-        this.state = [
-            {
-                name: "Italian Pizza",
-                img: "images/pizza-1.jpg",
-                description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia ",
-                price: 3.25
-            },
-            {
-                name: "Greek Pizza",
-                img: "images/pizza-2.jpg",
-                description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia ",
-                price: 3.25
-            },
-            {
-                name: "Caucassian Pizza",
-                img: "images/pizza-3.jpg",
-                description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia ",
-                price: 3.25
-            },
-            {
-                name: "Margeritta Pizza",
-                img: "images/pizza-4.jpg",
-                description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia ",
-                price: 3.25
-            },
-            {
-                name: "Spicy Pizza",
-                img: "images/pizza-5.jpg",
-                description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia ",
-                price: 3.25
-            },
-            {
-                name: "Sweet Pizza",
-                img: "images/pizza-6.jpg",
-                description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia ",
-                price: 3.25
-            },
-        ];
+        this.state = {
+            items: [],
+            categories: [],
+            displayedCategory: '*',
+        };
+        fetch(props.requestUrl)
+            .then(response => response.json())
+            .then(
+                result => {
+                    if (result['statusCode'] === 200) {
+
+                        let state = this.state;
+                        state.items = result['value'];
+                        state.categories = state.items.map((menuItem, index) => menuItem.category).filter(this.OnlyUnique);
+                        this.setState(state);
+                    };
+                });
     }
 
-    DisplayMenuItems = () => {
-        return this.state.map((menuItem, index) => (
-            <MenuItem
-                key={index}
-                layout="stackedinverted"
-                size={3}
-                name={menuItem.name}
-                img={menuItem.img}
-                description={menuItem.description}
-                price={menuItem.price}
-            />
+    /**
+     * Fileter onliy unique item
+     * @param {any} value value to filter
+     * @param {any} index current index
+     * @param {any} self list
+     */
+    OnlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+    }
+
+    DisplayMenuItems = (category) => {
+        return this.state.items.map((menuItem, index) => {
+            if (category === '*' || category === menuItem.category) {
+                return (<MenuItem
+                    key={index}
+                    layout="stackedinverted"
+                    size={3}
+                    name={menuItem.name}
+                    img={menuItem.image.file}
+                    isBase64={true}
+                    description={menuItem.description}
+                    price={menuItem.price}
+                    id={menuItem.id}
+                />
+                );
+            }
+            else {
+                return null;
+            }
+        });
+    };
+
+
+    DisplayCategoryButtons = () => {
+        let buttons = this.state.categories.map((category, index) => (
+            <button onClick={() => this.SetDisplayedCategory(category)} key={index} className="btn btn-outline-warning mr-1 ml-1">{Converter.IntToCategory(category)}</button>
         ));
+        return (
+            <div>
+                <button onClick={() => this.SetDisplayedCategory('*')} className="btn btn-outline-warning mr-1 ml-1">All</button>
+                {buttons}
+            </div>
+        );
+    }
+
+    SetDisplayedCategory = (category) => {
+        let state = this.state;
+        state.displayedCategory = category;
+        this.setState(state);
     }
 
     render() {
         return (
             <section className="m-4">
-                <div className="container">
-                    <div className="row justify-content-center mb-5 pb-3">
-                        <div className="col-md-7 heading-section text-center">
-                            <h2 className="mb-4">Nos populaires</h2>
-                            <p>Voici une selection de nos pizza les plus populaires. Préparer avec amour et soins, ses pizzas seront combler les plus gourmands.</p>
-                            <Link to="/menu">
-                                <Button color="primary">Voir le menu</Button>
-                            </Link>
-                        </div>
+                <div className="d-flex justify-content-center">
+                    <div className="row no-gutters d-flex mb-5">
+                        {this.DisplayCategoryButtons()}
                     </div>
                 </div>
                 <div className="container-wrap">
                     <div className="row no-gutters d-flex">
-                        {this.DisplayMenuItems()}
+                        {this.DisplayMenuItems(this.state.displayedCategory)}
                     </div>
                 </div>
             </section >

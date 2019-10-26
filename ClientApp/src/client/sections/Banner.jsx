@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 
 const Banner = props => (
     <section className="home-slider owl-carousel img" style={{ backgroundImage: `url('img/bg_1.jpg')` }} >

@@ -12,22 +12,20 @@ namespace Technology_Tp1_React.Models
     /// <summary>
     /// Class that handle the order data model
     /// </summary>
-    public class Order : IEntity
+    public class AnonymousOrder : IEntity
     {
-        public Order()
+        const int BaseTimeScheduled = 30;
+
+        public AnonymousOrder()
         {
             CreatedOn = DateTime.Now;
-            UpdatedOn = DateTime.Now;
+            Scheduled = CreatedOn.AddMinutes(BaseTimeScheduled);
+            UpdatedOn = null;
             OrdersItems = new List<OrdersItems>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        [Required]
-        public bool IsOrdered { get; set; }
-
-        public int ClientId { get; set; }
 
         [Required]
         public string CustomerName { get; set; }
@@ -43,12 +41,14 @@ namespace Technology_Tp1_React.Models
 
         public DateTime CreatedOn { get; set; }
 
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
 
         public DateTime? DeliveredAt { get; set; }
 
-        public void AddItem(OrdersItems orderItems)
-            => OrdersItems.Add(orderItems);
+        /// <summary>
+        /// Should be delivered at that time
+        /// </summary>
+        public DateTime Scheduled { get; set; }
 
         public IEnumerable<CartItem> GetItems() 
             => OrdersItems?.Select(oi => new CartItem(oi.MenuItem, oi.Quantity));
