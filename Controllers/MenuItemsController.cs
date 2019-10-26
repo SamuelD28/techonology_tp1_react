@@ -21,7 +21,7 @@ namespace technology_tp1.Controllers
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
-            => base.GetAllRecord();
+            => base.GetRecordById(id);
 
         [HttpPost]
         public IActionResult Post([FromBody] MenuItem menuItem)

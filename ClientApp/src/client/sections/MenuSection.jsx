@@ -48,8 +48,8 @@ class MenuSection extends React.Component {
                     layout="stackedinverted"
                     size={3}
                     name={menuItem.name}
-                    img={menuItem.image.file}
-                    isBase64={true}
+                    img={menuItem.imageUrl}
+                    isBase64={false}
                     description={menuItem.description}
                     price={menuItem.price}
                     id={menuItem.id}

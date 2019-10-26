@@ -18,8 +18,10 @@ class AnonymousCart extends Cart {
      */
     Add = async (itemId, quantity) => {
         let item = await this.ApiRequest.GetItem(itemId);
+        console.log(item);
         console.log('adding: item(' + item.name + ') x quantity(' + quantity + ')');
         let index = ArrayExt.Find(this.Cart, (itemCart) => itemCart.item.id === itemId);
+        console.log(item);
         if (index !== -1) {
             this.Cart[index].quantity++;
         }

@@ -26,14 +26,15 @@ class PopularSection extends React.Component {
     }
 
     DisplayMenuItems = () => {
+        console.log(this.state.items);
         return this.state.items.map((menuItem, index) => (
             <MenuItem
                 key={index}
                 layout="stackedinverted"
                 size={3}
                 name={menuItem.name}
-                img={menuItem.image.file}
-                isBase64={true}
+                img={menuItem.imageUrl}
+                isBase64={false}
                 description={menuItem.description}
                 price={menuItem.price}
                 id={menuItem.id}

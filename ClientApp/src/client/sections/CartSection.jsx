@@ -52,6 +52,7 @@ class CartSection extends React.Component {
      */
     DisplayCartItems = () => {
         let view = <h1>Your cart is empty</h1>;
+        console.log(this.state.cart.DistinctCount());
         if (this.state.cart.Count() !== 0) {
             view = this.state.cart.GetItems().map((cartItems, index) => (
                 <CartItem
@@ -59,8 +60,8 @@ class CartSection extends React.Component {
                     layout="stacked"
                     size={12}
                     name={cartItems.item.name}
-                    img={cartItems.item.image.file}
-                    isBase64={true}
+                    img={cartItems.item.imageUrl}
+                    isBase64={false}
                     description={cartItems.item.description}
                     price={cartItems.item.price}
                     id={cartItems.item.id}
