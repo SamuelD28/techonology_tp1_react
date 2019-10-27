@@ -2,7 +2,6 @@ import React from 'react';
 import Ajax from '../../shared/ajax';
 import { Alert, Form, FormGroup, Input, Label, Button } from 'reactstrap';
 import Confirm from '../../shared/components/Confirm';
-import ImagePicker from '../../shared/components/ImagePicker';
 import ApiRequest from '../../shared/api/apiRequest';
 
 /**
@@ -27,7 +26,14 @@ class OrderDetail extends React.Component {
             this.state = this.ParseExistinOrder(props.order);
         }
 
+        let self = this;
         this.apiRequest = new ApiRequest();
+        this.deliveryMen = [];
+        this.apiRequest.GetAllDeliveryMen().then(
+            (result) => {
+                self.deliveryMen = result;
+                self.setState(self.state);
+            });
     }
 
     /**
@@ -36,17 +42,18 @@ class OrderDetail extends React.Component {
      **/
     ParseNewOrder = () => {
         return {
-            name: "",
-            price: 0,
-            imageUrl: "",
-            category: -1,
-            description: "",
-            new: true,
-            formTitle: "Ajouter une commande",
-            negativeTitle: "Fermer",
-            negativeAction: this.props.Done,
-            positiveTitle: "Ajouter",
-            positiveAction: this.HandlePost,
+            id: 0,
+            customerName: '',
+            customerAdress: '',
+            customerPhoneNumber: '',
+            ordersItems: [],
+            deliveryMan: null,
+            new: false,
+            formTitle: "Modifier une commande",
+            negativeTitle: "Supprimer",
+            negativeAction: this.HandleDelete,
+            positiveTitle: "Sauvgarder",
+            positiveAction: this.HandleUpdate,
             errors: []
         };
     }
@@ -57,12 +64,16 @@ class OrderDetail extends React.Component {
      * 
      **/
     ParseExistinOrder = (order) => {
+        if (order.deliveryManId === undefined || order.deliveryManId === null) {
+            order.deliveryManId = 0;
+        }
         return {
             id: order.id,
             customerName: order.customerName,
             customerAdress: order.customerAdress,
             customerPhoneNumber: order.customerPhoneNumber,
             ordersItems: order.ordersItems,
+            deliveryManId: order.deliveryManId,
             new: false,
             formTitle: "Modifier une commande",
             negativeTitle: "Supprimer",
@@ -197,31 +208,51 @@ class OrderDetail extends React.Component {
         }
     }
 
+    /**
+     * @description Display all deliveryMan in option. The admin will be able to select one of them
+     **/
+    DisplayDeliveryManOption = () => {
+        let self = this;
+        let options = this.deliveryMen.map((deliveryMan, index) => {
+            return self.CreateOption(deliveryMan.id, deliveryMan.name);
+        });
+        options.push(this.CreateOption(0, 'Aucun'));
+        return options;
+    }
+
+    /**
+     * @description Display all deliveryMan in option. The admin will be able to select one of them
+     * 
+     * @param {int} id deliveryMan's id
+     * @param {string} name deliveryMan's name
+     * */
+    CreateOption = (id, name) => {
+        return <option value={id}>{name}</option>
+    }
+
     render() {
         return (
             <div>
                 <Form>
                     <h1 className="text-primary">{this.state.formTitle}</h1>
-                    <div className="form-group">
+                    <FormGroup>
                         <label htmlFor="customerName">Nom:</label>
                         <input type="text" className="form-control" id="customerName" value={this.state.customerName} disabled />
-                    </div>
-                    <div className="form-group">
+                    </FormGroup>
+                    <FormGroup>
                         <label htmlFor="customerAdress">Adresse:</label>
                         <input type="text" className="form-control" id="customerAdress" value={this.state.customerAdress} disabled />
-                    </div>
-                    <div className="form-group">
+                    </FormGroup>
+                    <FormGroup>
                         <label htmlFor="customerPhoneNumber">Téléphone:</label>
                         <input type="text" className="form-control" id="customerPhoneNumber" value={this.state.customerPhoneNumber} disabled />
-                    </div>
-                    <label htmlFor="deliveryMan">Livreur:</label>
-
-                    <select value={this.state.value} onChange={this.handleChange} id="deliveryMan">
-                            <option value="grapefruit">Grapefruit</option>
-                            <option value="lime">Lime</option>
-                            <option value="coconut">Coconut</option>
-                            <option value="mango">Mango</option>
-                    </select>
+                    </FormGroup>
+                    <FormGroup>
+                        <label htmlFor="deliveryMan">Livreur:</label>
+                        <select className="form-control" value={this.state.deliveryManId} onChange={(e) => this.HandleChange("deliveryManId", e.target.value)} id="deliveryMan">
+                            {this.DisplayDeliveryManOption()}
+                        </select>
+                    </FormGroup>
                 </Form>
                 <div className="d-flex justify-content-between">
                     <Confirm
