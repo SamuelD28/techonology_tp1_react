@@ -36,15 +36,59 @@ class ApiRequest {
         return data.value;
     }
 
-/**
- * Create an order
- *
- * @param {any} data order's data
- * @returns {any|null} order's data or null if it failed
- */
+    /**
+     * Create an order
+     *
+     * @param {any} data order's data
+     * @returns {any|null} order's data or null if it failed
+     */
     MakeOrder = async (data) => {
-        console.log(data);
         let response = await Ajax.PostData(Routes.api.orders.post, data);
+        if (response === undefined || response.statusCode < 200 || response.statusCode > 399) {
+            this.LogError(response);
+            return null;
+        }
+
+        return response.value;
+    }
+
+    /**
+    * Get all orders
+    * 
+    * @returns {Array|null}
+    */
+    GetAllOrders = async () => {
+        let response = await Ajax.GetData(Routes.api.orders.all);
+        if (response === undefined || response.statusCode < 200 || response.statusCode > 399) {
+            this.LogError(response);
+            return null;
+        }
+
+        return response.value;
+    }
+
+  /**
+    * Update an order
+    * 
+    * @returns {Array|null}
+    */
+    UpdateOrder = async (data) => {
+        let response = await Ajax.PutData(Routes.api.orders.put(data.id), data);
+        if (response === undefined || response.statusCode < 200 || response.statusCode > 399) {
+            this.LogError(response);
+            return null;
+        }
+
+        return response.value;
+    }
+
+  /**
+  * Delete an order
+  * 
+  * @returns {Array|null}
+  */
+    DeleteOrder = async (id) => {
+        let response = await Ajax.DeleteData(Routes.api.orders.delete(id));
         if (response === undefined || response.statusCode < 200 || response.statusCode > 399) {
             this.LogError(response);
             return null;
