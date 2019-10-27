@@ -13,6 +13,9 @@ var Routes = {
             "post": "/api/Orders",
             put: (id) => "/api/Orders/" + id,
             delete: (id) => "/api/Orders/" + id,
+        },
+        "deliveryMan": {
+            "all": '/api/deliverymen'
         }
     }
 };

@@ -189,10 +189,10 @@ class MenuItemDetail extends React.Component {
                             defaultValue={this.state.category}
                             name="category" 
                             onChange={(e) =>  this.HandleChange("category", e.target.value)}>
-                            <option className="text-dark" value={0}>Pizza</option>
-                            <option className="text-dark" value={1}>Boisson</option>
-                            <option className="text-dark" value={2}>Dessert</option>
-                            <option className="text-dark" value={3}>Autre</option>
+                            <option className="text-white" value={0}>Pizza</option>
+                            <option className="text-white" value={1}>Boisson</option>
+                            <option className="text-white" value={2}>Dessert</option>
+                            <option className="text-white" value={3}>Autre</option>
                         </Input>
                     </FormGroup>
                     <FormGroup>

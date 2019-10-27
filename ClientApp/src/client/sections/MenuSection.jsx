@@ -65,7 +65,11 @@ class MenuSection extends React.Component {
 
     DisplayCategoryButtons = () => {
         let buttons = this.state.categories.map((category, index) => (
-            <button onClick={() => this.SetDisplayedCategory(category)} key={index} className="btn btn-outline-warning mr-1 ml-1">{Converter.IntToCategory(category)}</button>
+            <button
+                onClick={() => this.SetDisplayedCategory(category)}
+                key={index}
+                className="btn btn-outline-warning mr-1 ml-1">{Converter.IntToCategory(category)}
+            </button>
         ));
         return (
             <div>
