@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,10 +24,16 @@ namespace technology_tp1.Controllers
             : base(repository) { }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(int? start = null, int? end = null)
         {
             try
             {
+                if (start.HasValue && end.HasValue)
+                {
+                    PaginatedRequestResult<AnonymousOrder> ordersItemsPaginated = base.CreatePaginatedRequestResult(start.Value, end.Value);
+                    ordersItemsPaginated.data.Include(o => o.OrdersItems);
+                    return CreateValidResponse(ordersItemsPaginated, StatusCodes.Status200OK);
+                }
                 IEnumerable<AnonymousOrder> ordersItems = Repository
                     .GetAll()
                     .Include(o => o.OrdersItems);

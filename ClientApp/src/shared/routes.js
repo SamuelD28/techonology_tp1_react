@@ -14,6 +14,8 @@ var Routes = {
             "all": domaine + 'api/Orders',
             get: (id) => domaine + "api/Orders/" + id,
             "post": domaine + "api/Orders",
+            put: (id) => domaine + "api/Orders/" + id,
+            delete: (id) => domaine + "api/Orders/" + id,
         }
     }
 };

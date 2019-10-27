@@ -2,6 +2,7 @@ import React from 'react';
 import Ajax from '../../shared/ajax';
 import { Container, Row, Col } from 'reactstrap';
 import DeliveyMenSection from '../sections/DeliveryMenSection';
+import OrderSection from '../sections/OrderSection';
 import MenuItemSection from '../sections/MenuItemSection';
 import ImageSection from '../sections/ImageSection';
 
@@ -16,6 +17,9 @@ class Home extends React.Component {
         return (
             <Container style={{ width: "85%" }} className="p-5" fluid>
                 <Row noGutters className="justify-content-between align-items-start">
+                    <Col md="12" className="mb-2">
+                        <OrderSection className="mr-2 bg-dark-transparent" />
+                    </Col>
                     <Col md="6" >
                         <DeliveyMenSection className="mr-2 bg-dark-transparent" />
                     </Col>
