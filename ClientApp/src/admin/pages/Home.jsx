@@ -16,7 +16,7 @@ class Home extends React.Component {
     render() {
         return (
             <Container style={{ width: "85%" }} className="p-5" fluid>
-                <Row className="h-100 mb-4">
+                <Row noGutters className="h-100 mb-2">
                     <Col md="4">
                         <Statistic
                             title="Ventes"
@@ -28,7 +28,7 @@ class Home extends React.Component {
                     <Col md="4">
                         <Statistic
                             title="Livraisons"
-                            className="mx-2 h-100 bg-dark-transparent"
+                            className="h-100 bg-dark-transparent"
                             labels={["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]}
                             label="par journée"
                             data={[32, 5, 23, 61, 11, 13, 99]} />
@@ -42,15 +42,15 @@ class Home extends React.Component {
                             data={[18, 45, 32, 14, 55, 10, 9]} />
                     </Col>
                 </Row>
-                <Row noGutters className="justify-content-between align-items-start">
+                <Row noGutters>
                     <Col md="6" >
-                        <DeliveyMenSection className="mr-2 bg-dark-transparent" />
+                        <DeliveyMenSection className="bg-dark-transparent" />
                     </Col>
                     <Col md="6">
                         <MenuItemSection className="ml-2 bg-dark-transparent" />
                     </Col>
                     <Col md="12">
-                        <ImageSection className="mt-4 bg-dark-transparent" />
+                        <ImageSection className="mt-2 bg-dark-transparent" />
                     </Col>
                 </Row>
             </Container>

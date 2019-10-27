@@ -1,4 +1,4 @@
-import React from 'react';
+ï»¿import React from 'react';
 import Ajax from '../../shared/ajax';
 import { Alert, Form, Row, Col, FormGroup, Input, Label, Button } from 'reactstrap';
 import Confirm from '../../shared/components/Confirm';
@@ -13,7 +13,7 @@ class DeliveryMenDetail extends React.Component {
     /**
      * @description Constructor for the component. Check if the given
      * object contains information and initialise an update or new state.
-     * 
+     *
      * @param {any} props DeliveryMan
      */
     constructor(props) {
@@ -28,7 +28,7 @@ class DeliveryMenDetail extends React.Component {
 
     /**
      * @description Initialise the state to handle the creation of a delviery man
-     * 
+     *
      **/
     ParseNewDeliveryManInState = () => {
         return {
@@ -37,7 +37,7 @@ class DeliveryMenDetail extends React.Component {
             isEmployed: false,
             isDeactivated: false,
             new: true,
-            formTitle: "Créer un livreur",
+            formTitle: "CrÃ©er un livreur",
             negativeTitle: "Fermer",
             negativeAction: this.props.Done,
             positiveTitle: "Ajouter",
@@ -47,9 +47,9 @@ class DeliveryMenDetail extends React.Component {
     }
 
     /**
-     * @description Initialise the state to handle the modification of an 
+     * @description Initialise the state to handle the modification of an
      * existing delivery man.
-     * 
+     *
      **/
     ParseDeliveryManInState = (deliveryMan) => {
         return {
@@ -70,8 +70,8 @@ class DeliveryMenDetail extends React.Component {
 
     /**
      * @description Event handler for changes happening in an input
-     * 
-     * @param {string} key Name of the input 
+     *
+     * @param {string} key Name of the input
      * @param {any} value Value of the input
      **/
     HandleChange = (key, value) => {
@@ -82,7 +82,7 @@ class DeliveryMenDetail extends React.Component {
 
     /**
      * @description Method that handle an update request to the api
-     * 
+     *
      **/
     HandleUpdate = async () => {
         let request = await Ajax.PutData(`/api/deliverymen/${this.state.id}`, this.state);
@@ -106,7 +106,7 @@ class DeliveryMenDetail extends React.Component {
 
     /**
      *  @description Method that handle a delete request to the api
-     *  
+     *
      **/
     HandleDelete = async () => {
         let request = await Ajax.DeleteData(`/api/deliverymen/${this.state.id}`);
@@ -128,7 +128,7 @@ class DeliveryMenDetail extends React.Component {
 
     /**
      *  @description Method that handle a post request to the api
-     *  
+     *
      **/
     HandlePost = async () => {
         let request = await Ajax.PostData(`/api/deliverymen`, this.state);
@@ -149,9 +149,9 @@ class DeliveryMenDetail extends React.Component {
     }
 
     /**
-     *  @description Display errors to the user if any were encountered during 
+     *  @description Display errors to the user if any were encountered during
      *  a request.
-     *  
+     *
      **/
     DisplayErrorMessage = () => {
         if (this.state.errors.length > 0) {
@@ -178,11 +178,11 @@ class DeliveryMenDetail extends React.Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label htmlFor="exampleAddress">Téléphone</Label>
+                        <Label htmlFor="exampleAddress">TÃ©lÃ©phone</Label>
                         <Input
                             type="phone"
                             id="inputPhone"
-                            placeholder="Téléphone..."
+                            placeholder="TÃ©lÃ©phone..."
                             value={this.state.phone}
                             onChange={(e) => this.HandleChange("phone", e.target.value)}
                         />
@@ -202,7 +202,7 @@ class DeliveryMenDetail extends React.Component {
                                     <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
                                 </svg>
                             </span>
-                            <span>Employé</span>
+                            <span>EmployÃ©</span>
                         </label>
                     </FormGroup>
                     <FormGroup>
@@ -220,7 +220,7 @@ class DeliveryMenDetail extends React.Component {
                                     <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
                                 </svg>
                             </span>
-                            <span>Désactivé</span>
+                            <span>DÃ©sactivÃ©</span>
                         </label>
                     </FormGroup>
                 </Form>
