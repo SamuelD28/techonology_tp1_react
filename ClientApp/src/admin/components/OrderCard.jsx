@@ -6,7 +6,7 @@ import { Card, CardTitle, CardBody, Button, CardSubtitle } from 'reactstrap';
 /**
  * @description Component that display information
  * about a menu item in a card format
- * 
+ *
  * @param {any} props ClassName, MenuItem
  */
 const OrderCard = props => {
@@ -20,7 +20,7 @@ const OrderCard = props => {
                     className="flex-80"
                     color="primary"
                     onClick={props.showDetails}>
-                    Détails
+                    DÃ©tails
                 </Button>
             </div>
         </div>
