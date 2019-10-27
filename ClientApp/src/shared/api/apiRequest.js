@@ -97,6 +97,23 @@ class ApiRequest {
         return response.value;
     }
 
+  /**
+  * Get all deliveryMen
+  * 
+  * @returns {Array|null|Promise}
+  */
+    GetAllDeliveryMen = async () => {
+        let response = await Ajax.GetData(Routes.api.deliveryMan.all);
+        if (response === undefined || response.statusCode < 200 || response.statusCode > 399) {
+            this.LogError(response);
+            return null;
+        }
+
+        return response.value;
+    }
+
+    
+
     LogError = (response) => {
         console.log((response || { value: { error: 'An error occured during the proccess' } }).value.error);
     }

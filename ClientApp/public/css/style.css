@@ -306,3 +306,11 @@
 .bg-dark label {
     color: #fac564;
 }
+
+.bg-dark select option {
+    background-color: #343a40;
+}
+
+.bg-dark select option:hover {
+    background-color: black;
+}
