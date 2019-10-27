@@ -17,10 +17,6 @@ class Home extends React.Component {
     render() {
         return (
             <Container style={{ width: "85%" }} className="p-5" fluid>
-                <Row noGutters className="justify-content-between align-items-start">
-                    <Col md="12" className="mb-2">
-                        <OrderSection className="mr-2 bg-dark-transparent" />
-                    </Col>
                 <Row noGutters className="h-100 mb-2">
                     <Col md="4">
                         <Statistic
@@ -45,6 +41,11 @@ class Home extends React.Component {
                             labels={["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]}
                             label="Vente par journée"
                             data={[18, 45, 32, 14, 55, 10, 9]} />
+                    </Col>
+                </Row>
+                <Row noGutters>
+                    <Col md="12" className="mb-2">
+                        <OrderSection className="bg-dark-transparent" />
                     </Col>
                 </Row>
                 <Row noGutters>

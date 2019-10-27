@@ -13,13 +13,13 @@ import SectionHeader from '../../shared/components/SectionHeader';
 /**
  * @description Statefull component responsible for crud operation
  * on the delivery man model.
- * 
+ *
  **/
 class DeliveryMenSection extends React.Component {
 
     /**
      * @description Constructor. Initiate the state of the component.
-     * 
+     *
      * @param {any} props
      */
     constructor(props) {
@@ -56,7 +56,7 @@ class DeliveryMenSection extends React.Component {
     }
 
     /**
-     * @description Method responsible for changing the current delivery men 
+     * @description Method responsible for changing the current delivery men
      * to the requested query.
      **/
     RefreshCurrentDeliveryMen = async (query) => {
@@ -66,7 +66,7 @@ class DeliveryMenSection extends React.Component {
 
     /**
      *  @description Method that open and close a modal dialog.
-     *  
+     *
      **/
     ToggleModal = (deliveryMan) => {
         this.setState({
@@ -83,7 +83,7 @@ class DeliveryMenSection extends React.Component {
                     buttonTitle="Ajouter"
                     buttonIcon="oi-plus"
                     action={() => this.ToggleModal({})}
-                    />
+                />
                 <Loading secondsToWait={1}>
                     <List
                         colSize={4}
@@ -94,7 +94,7 @@ class DeliveryMenSection extends React.Component {
                                 className="h-100"
                                 deliveryMan={deliveryMan}
                                 showDetails={() => this.ToggleModal(deliveryMan)}
-                                />
+                            />
                         )}
                     </List>
                     <Pagination
@@ -102,9 +102,10 @@ class DeliveryMenSection extends React.Component {
                         previousQuery={this.state.previousQuery}
                         currentQuery={this.state.currentQuery}
                         nextQuery={this.state.nextQuery}
-                        />
+                    />
                 </Loading>
                 <Modal
+                    size="lg"
                     centered
                     isOpen={this.state.modal}
                     toggle={this.ToggleModal}>

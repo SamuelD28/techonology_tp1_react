@@ -62,28 +62,19 @@ namespace technology_tp1.Controllers
         public IActionResult Delete(int id)
             => base.DeleteRecord(id);
 
-        //public IActionResult RemoveItemToCart()
-        //{
-        //    var form = _httpContextAccessor.HttpContext.Request.Form;
-        //    if (int.TryParse(form[FormNameIdItem], out int id))
-        //    {
-        //        _cart.RemoveItem(id);
-        //        _cart.Save();
-        //    }
-        //    HttpContext.Response.Redirect("/");
-        //    return View("Cart", this);
-        //}
+        [HttpGet("deliveryman/{id}")]
+        public IActionResult GetDeliveryManOrders(int id) {
 
-        //public IActionResult DecreaseQuantityItem()
-        //{
-        //    var form = _httpContextAccessor.HttpContext.Request.Form;
-        //    if (int.TryParse(form[FormNameIdItem], out int id) && int.TryParse(form[FormNameQuantity], out int quantity))
-        //    {
-        //        _cart.RemoveItem(id, quantity);
-        //        _cart.Save();
-        //    }
-        //    HttpContext.Response.Redirect("/");
-        //    return View("Cart", this);
-        //}
+            try
+            {
+                IEnumerable<AnonymousOrder> deliveryManOrders =  Repository.Filter(o => o.DeliveryMan.Id == id);
+                return CreateValidResponse(deliveryManOrders, StatusCodes.Status200OK);
+            }
+            catch (Exception e)
+            {
+                return ErrorResponse.InternalServerError("An internal error occured");
+            }
+        }
+
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using technology_tp1.Models;
 using Technology_Tp1_React.General;
 using Technology_Tp1_React.General.Repository;
 
@@ -50,7 +51,7 @@ namespace Technology_Tp1_React.Models
         /// </summary>
         public DateTime Scheduled { get; set; }
 
-        public technology_tp1.Models.DeliveryMan DeliveryMan { get; set; }
+        public DeliveryMan DeliveryMan { get; set; }
 
         public IEnumerable<CartItem> GetItems() 
             => OrdersItems?.Select(oi => new CartItem(oi.MenuItem, oi.Quantity));

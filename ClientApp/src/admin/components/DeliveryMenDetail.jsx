@@ -1,7 +1,8 @@
 ﻿import React from 'react';
 import Ajax from '../../shared/ajax';
-import { Alert, Form, Row, Col, FormGroup, Input, Label, Button } from 'reactstrap';
+import { Alert, Row, Col, Form, FormGroup, Input, Label, Button } from 'reactstrap';
 import Confirm from '../../shared/components/Confirm';
+import DeliveryManOrders from '../components/DeliveryManOrders';
 
 /**
  *  @description Statefull component responsible for displaying
@@ -163,78 +164,85 @@ class DeliveryMenDetail extends React.Component {
 
     render() {
         return (
-            <div>
-                <Form>
-                    <h1 className="text-primary">{this.state.formTitle}</h1>
-                    {this.DisplayErrorMessage()}
-                    <FormGroup>
-                        <Label htmlFor="exampleEmail">Nom</Label>
-                        <Input
-                            type="text"
-                            id="inputName"
-                            placeholder="Nom..."
-                            value={this.state.name}
-                            onChange={(e) => this.HandleChange("name", e.target.value)}
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label htmlFor="exampleAddress">Téléphone</Label>
-                        <Input
-                            type="phone"
-                            id="inputPhone"
-                            placeholder="Téléphone..."
-                            value={this.state.phone}
-                            onChange={(e) => this.HandleChange("phone", e.target.value)}
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Input
-                            className="inp-cbx"
-                            id="isEmployed"
-                            style={{ display: "none" }}
-                            type="checkbox"
-                            checked={this.state.isEmployed}
-                            onChange={(e) => this.HandleChange("isEmployed", !this.state.isEmployed)}
-                        />
-                        <label className="cbx" htmlFor="isEmployed">
-                            <span>
-                                <svg width="12px" height="10px" viewBox="0 0 12 10">
-                                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-                                </svg>
-                            </span>
-                            <span>Employé</span>
-                        </label>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input
-                            className="inp-cbx"
-                            id="isDeactivated"
-                            style={{ display: "none" }}
-                            type="checkbox"
-                            checked={this.state.isDeactivated}
-                            onChange={(e) => this.HandleChange("isDeactivated", !this.state.isDeactivated)}
-                        />
-                        <label className="cbx" htmlFor="isDeactivated">
-                            <span>
-                                <svg width="12px" height="10px" viewBox="0 0 12 10">
-                                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-                                </svg>
-                            </span>
-                            <span>Désactivé</span>
-                        </label>
-                    </FormGroup>
-                </Form>
-                <div className="d-flex justify-content-between">
-                    <Confirm
-                        message={`Voulez-vous vraiment ${this.state.negativeTitle} ce livreur?`}
-                        trigger={<Button color="danger">{this.state.negativeTitle}</Button>}
-                        successAction={this.state.negativeAction} />
-                    <Confirm
-                        message={`Voulez-vous vraiment ${this.state.positiveTitle} ce livreur?`}
-                        trigger={<Button color="success">{this.state.positiveTitle}</Button>}
-                        successAction={this.state.positiveAction} />
-                </div>
-            </div>
+            <Row>
+                <Col md="6">
+                    <Form>
+                        <h1 className="text-primary">{this.state.formTitle}</h1>
+                        {this.DisplayErrorMessage()}
+                        <FormGroup>
+                            <Label htmlFor="exampleEmail">Nom</Label>
+                            <Input
+                                type="text"
+                                id="inputName"
+                                placeholder="Nom..."
+                                value={this.state.name}
+                                onChange={(e) => this.HandleChange("name", e.target.value)}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label htmlFor="exampleAddress">Téléphone</Label>
+                            <Input
+                                type="phone"
+                                id="inputPhone"
+                                placeholder="Téléphone..."
+                                value={this.state.phone}
+                                onChange={(e) => this.HandleChange("phone", e.target.value)}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Input
+                                className="inp-cbx"
+                                id="isEmployed"
+                                style={{ display: "none" }}
+                                type="checkbox"
+                                checked={this.state.isEmployed}
+                                onChange={(e) => this.HandleChange("isEmployed", !this.state.isEmployed)}
+                            />
+                            <label className="cbx" htmlFor="isEmployed">
+                                <span>
+                                    <svg width="12px" height="10px" viewBox="0 0 12 10">
+                                        <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                    </svg>
+                                </span>
+                                <span>Employé</span>
+                            </label>
+                        </FormGroup>
+                        <FormGroup>
+                            <Input
+                                className="inp-cbx"
+                                id="isDeactivated"
+                                style={{ display: "none" }}
+                                type="checkbox"
+                                checked={this.state.isDeactivated}
+                                onChange={(e) => this.HandleChange("isDeactivated", !this.state.isDeactivated)}
+                            />
+                            <label className="cbx" htmlFor="isDeactivated">
+                                <span>
+                                    <svg width="12px" height="10px" viewBox="0 0 12 10">
+                                        <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                    </svg>
+                                </span>
+                                <span>Désactivé</span>
+                            </label>
+                        </FormGroup>
+                    </Form>
+                    <div className="d-flex justify-content-between">
+                        <Confirm
+                            message={`Voulez-vous vraiment ${this.state.negativeTitle} ce livreur?`}
+                            trigger={<Button color="danger">{this.state.negativeTitle}</Button>}
+                            successAction={this.state.negativeAction} />
+                        <Confirm
+                            message={`Voulez-vous vraiment ${this.state.positiveTitle} ce livreur?`}
+                            trigger={<Button color="success">{this.state.positiveTitle}</Button>}
+                            successAction={this.state.positiveAction} />
+                    </div>
+                </Col>
+                <Col md="6">
+                    <DeliveryManOrders
+                        deliveryManId={this.state._id}
+                    />
+                </Col>
+            </Row>
         );
     }
 }
