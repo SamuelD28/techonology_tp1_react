@@ -16,8 +16,6 @@ export default () => (
             <Route exact path='/connexion' component={Login} />
             <Route path='/' component={NotFound} />
         </Switch>
-        <div className="h-10 d-flex flex-row-reverse fixed-bottom">
-            <CartSection />
-        </div>
+        <CartSection />
     </div>
 );

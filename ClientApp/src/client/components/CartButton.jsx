@@ -32,9 +32,9 @@ class CartButton extends React.Component {
         }
 
         return (
-            <div id="cartAccess" className="mr-4 mb-4 align-items-center d-flex justify-content-center rounded-circle btn btn-warning notificable">
-               <span className="oi oi-cart"></span>{cartBadge}
-            </div>
+            <span id="cartAccess" className="cart-button notificable">
+               <span className="oi oi-cart cart-icon"></span>{cartBadge}
+            </span>
         );
     }
 }
