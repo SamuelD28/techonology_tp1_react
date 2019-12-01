@@ -86,12 +86,13 @@ namespace Technology_Tp1_React.General.CrudController
         /// </summary>
         /// <param name="documentId">Document identifier</param>
         /// <returns>Json Error response</returns>
-        public static IActionResult NoMatchingDocument(int documentId)
+        public static IActionResult NoMatchingDocument(object document)
         {
             return CreateErrorResponse(
-                        $"No matching document for id : {documentId}",
-                        StatusCodes.Status404NotFound
-                    );
+                        $"No matching document",
+                        StatusCodes.Status404NotFound,
+						document
+					);
         }
-    }
+	}
 }

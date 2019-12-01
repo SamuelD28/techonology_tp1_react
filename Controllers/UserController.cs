@@ -13,23 +13,17 @@ namespace technology_tp1.Controllers
 		public SignInManager<User> SignInManager { get; set; }
 
 		public UserController(
-			UserManager<User> userManager, 
+			UserManager<User> userManager,
 			SignInManager<User> signInManager)
 		{
 			UserManager = userManager;
 			SignInManager = signInManager;
 		}
 
-		[HttpGet("pong")]
-		public IActionResult Pong()
-		{
-			return Json(new { message = "ping" });
-		}
-
 		[HttpPost("register")]
 		public async Task<IActionResult> Register([FromBody]User user)
 		{
-			if(string.IsNullOrEmpty(user.Email))
+			if (string.IsNullOrEmpty(user.Email))
 			{
 				return ErrorResponse.WrongData(new { error = "Email is required" });
 			}
@@ -42,13 +36,29 @@ namespace technology_tp1.Controllers
 						 }, user.PasswordHash);
 			if (result.Succeeded)
 			{
-				User savedUser = await UserManager.FindByNameAsync(user.UserName); 
+				User savedUser = await UserManager.FindByNameAsync(user.UserName);
 				return Ok(savedUser);
 			}
 			else
 			{
 				return ErrorResponse.WrongData(result.Errors);
 			}
+		}
+
+		[HttpPost("auth")]
+		public async Task<IActionResult> Auth([FromBody]User user)
+		{
+			var foundUser = await UserManager.FindByNameAsync(user.UserName);
+
+			if (foundUser == null)
+			{
+				return ErrorResponse.NoMatchingDocument(new { message = "No username : " + user.UserName });
+			}
+
+			var result = await SignInManager.CheckPasswordSignInAsync(foundUser, user.PasswordHash, false);
+			return result.Succeeded
+				? Json(new { isAuth = true })
+				: Json(new { isAuth = false });
 		}
 	}
 }
