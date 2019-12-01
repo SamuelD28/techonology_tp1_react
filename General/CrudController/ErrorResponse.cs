@@ -18,9 +18,9 @@ namespace Technology_Tp1_React.General.CrudController
         /// <param name="errorMessage">Error message</param>
         /// <param name="statusCode">Error Status code</param>
         /// <returns>Json Error response</returns>
-        private static IActionResult CreateErrorResponse(string errorMessage, int statusCode)
+        private static IActionResult CreateErrorResponse(string errorMessage, int statusCode, object data = null)
         {
-            JsonResult body = new JsonResult(new { error = errorMessage });
+            JsonResult body = new JsonResult(new { error = errorMessage, body = data ?? "" });
             body.ContentType = "application/json";
             body.StatusCode = statusCode;
 
@@ -55,12 +55,25 @@ namespace Technology_Tp1_React.General.CrudController
                     );
         }
 
-        /// <summary>
-        /// Method that create an internal server error
-        /// </summary>
-        /// <param name="error">Error message</param>
-        /// <returns>Json Error response</returns>
-        public static IActionResult InternalServerError(string error)
+		/// <summary>
+		/// Method that create a wrong data error response
+		/// </summary>
+		/// <returns>Json Error response</returns>
+		public static IActionResult WrongData(object data)
+		{
+			return CreateErrorResponse(
+						"Can't create document with specified data",
+						StatusCodes.Status400BadRequest,
+						data
+					);
+		}
+
+		/// <summary>
+		/// Method that create an internal server error
+		/// </summary>
+		/// <param name="error">Error message</param>
+		/// <returns>Json Error response</returns>
+		public static IActionResult InternalServerError(string error)
         {
             return CreateErrorResponse(
                     error,

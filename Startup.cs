@@ -64,9 +64,9 @@ namespace Technology_Tp1_React
 				app.UseHsts();
 			}
 
-			database.Database.EnsureCreated();
-
 			app.UseAuthentication();
+
+			database.Database.EnsureCreated();
 
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();

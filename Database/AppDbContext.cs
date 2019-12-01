@@ -45,6 +45,8 @@ namespace technology_tp1.Models
                 .Entity<DeliveryMan>()
                 .HasData(Seed(ForgeFactory.ForgeDeliveryMan));
 
+			modelBuilder.Entity<User>();
+
             //modelBuilder
             //   .Entity<MenuItem>()
             //   .HasData(Seed(ForgeFactory.ForgeMenuItem));

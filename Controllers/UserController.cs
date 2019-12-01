@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using technology_tp1.Models;
-using Technology_Tp1_React.General;
 using Technology_Tp1_React.General.CrudController;
-using Technology_Tp1_React.General.Repository;
 using Technology_Tp1_React.Models;
-using static Technology_Tp1_React.General.Cookies.CookiesExt;
 
 namespace technology_tp1.Controllers
 {
-    [Route("api/user")]
-    public class UserController : Controller
-    {
+	[Route("api/user")]
+	public class UserController : Controller
+	{
 		public UserManager<User> UserManager { get; set; }
 		public SignInManager<User> SignInManager { get; set; }
 
-		public UserController(UserManager<User> userManager, SignInManager<User> signInManager)
+		public UserController(
+			UserManager<User> userManager, 
+			SignInManager<User> signInManager)
 		{
 			UserManager = userManager;
 			SignInManager = signInManager;
@@ -31,5 +25,25 @@ namespace technology_tp1.Controllers
 		{
 			return Json(new { message = "ping" });
 		}
-    }
+
+		[HttpPost("register")]
+		public async Task<IActionResult> Register([FromBody]User user)
+		{
+			var result = await UserManager.CreateAsync(
+						 new User()
+						 {
+							 UserName = user.UserName,
+							 Email = user.Email
+						 }, user.PasswordHash);
+			if (result.Succeeded)
+			{
+				User savedUser = await UserManager.FindByNameAsync(user.UserName); 
+				return Ok(savedUser);
+			}
+			else
+			{
+				return ErrorResponse.WrongData(result.Errors);
+			}
+		}
+	}
 }
