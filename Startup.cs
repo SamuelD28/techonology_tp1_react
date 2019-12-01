@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
@@ -10,77 +11,83 @@ using technology_tp1.Models;
 using technology_tp1.Services;
 using Technology_Tp1_React.General;
 using Technology_Tp1_React.General.Repository;
+using Technology_Tp1_React.Models;
 
 namespace Technology_Tp1_React
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+	public class Startup
+	{
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 
-        public IConfiguration Configuration { get; }
+		public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddMvc()
+				.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+				.AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
+			// In production, the React files will be served from this directory
+			services.AddSpaStaticFiles(configuration =>
+			{
+				configuration.RootPath = "ClientApp/build";
+			});
 
-            services.AddScoped(typeof(IRepository<>), typeof(EFCoreRepository<>));
+			services.AddScoped(typeof(IRepository<>), typeof(EFCoreRepository<>));
 
-            services.AddDbContext<AppDbContext>((options) =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("Default"));
-            });
-        }
+			services.AddDbContext<AppDbContext>((options) =>
+			{
+				options.UseSqlServer(Configuration.GetConnectionString("Default"));
+			});
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(
-            IApplicationBuilder app,
-            IHostingEnvironment env,
-            AppDbContext database)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
-            }
+			services.AddIdentity<User, IdentityRole>()
+					.AddEntityFrameworkStores<AppDbContext>();
+		}
 
-            database.Database.EnsureCreated();
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(
+			IApplicationBuilder app,
+			IHostingEnvironment env,
+			AppDbContext database)
+		{
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+			}
+			else
+			{
+				app.UseExceptionHandler("/Error");
+				app.UseHsts();
+			}
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+			database.Database.EnsureCreated();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-            });
+			app.UseAuthentication();
 
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
+			app.UseHttpsRedirection();
+			app.UseStaticFiles();
+			app.UseSpaStaticFiles();
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-            });
-        }
-    }
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					name: "default",
+					template: "{controller}/{action=Index}/{id?}");
+			});
+
+			app.UseSpa(spa =>
+			{
+				spa.Options.SourcePath = "ClientApp";
+
+				if (env.IsDevelopment())
+				{
+					spa.UseReactDevelopmentServer(npmScript: "start");
+				}
+			});
+		}
+	}
 }

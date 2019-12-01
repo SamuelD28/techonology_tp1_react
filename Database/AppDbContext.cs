@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -11,15 +12,13 @@ using Technology_Tp1_React.Models;
 
 namespace technology_tp1.Models
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User>
     {
         public DbSet<DeliveryMan> DeliveryMen { get; set; }
 
         public DbSet<MenuItem> MenuItems{ get; set; }
 
         public DbSet<AnonymousOrder> Orders { get; set; }
-
-        //public IEnumerable<Order> OrdersInclude => Orders.Include(o => o.OrdersItems);
 
         public DbSet<OrdersItems> OrdersItems { get; set; }
 
@@ -37,6 +36,7 @@ namespace technology_tp1.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+			base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<OrdersItems>()
                 .HasIndex(p => new { p.OrderId, p.MenuItemId })
                 .IsUnique(true);
