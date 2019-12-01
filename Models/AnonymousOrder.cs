@@ -28,7 +28,7 @@ namespace Technology_Tp1_React.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [NotMapped]
+        [Required]
         public string StripeToken { get; set; }
 
         [Required]
