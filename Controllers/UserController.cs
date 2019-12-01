@@ -25,5 +25,11 @@ namespace technology_tp1.Controllers
 			UserManager = userManager;
 			SignInManager = signInManager;
 		}
+
+		[HttpGet("pong")]
+		public IActionResult Pong()
+		{
+			return Json(new { message = "ping" });
+		}
     }
 }
