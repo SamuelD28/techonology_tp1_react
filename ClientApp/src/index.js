@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
 import configureStore from './client/store/configureStore';
+import { StripeProvider } from 'react-stripe-elements';
 
 import Client from './client';
 import Admin from './admin';
@@ -20,15 +21,17 @@ const store = configureStore(history, initialState);
 const rootElement = document.getElementById('root');
 
 ReactDOM.render(
-    <Provider store={store}>
-        <ConnectedRouter history={history}>
-            <BrowserRouter>
-                <Switch>
-                    <Route path='/admin' component={Admin} />
-                    <Route path='/' component={Client} />
-                </Switch>
-            </BrowserRouter>
-        </ConnectedRouter>
-    </Provider>,
+    <StripeProvider apiKey="pk_test_zTJl0RCqc8LVhDilTrQSisJ300Pgg5dQNg">
+        <Provider store={store}>
+            <ConnectedRouter history={history}>
+                <BrowserRouter>
+                    <Switch>
+                        <Route path='/admin' component={Admin} />
+                        <Route path='/' component={Client} />
+                    </Switch>
+                </BrowserRouter>
+            </ConnectedRouter>
+        </Provider>
+    </StripeProvider>,
     rootElement);
 

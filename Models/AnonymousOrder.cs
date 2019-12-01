@@ -29,6 +29,9 @@ namespace Technology_Tp1_React.Models
         public int Id { get; set; }
 
         [Required]
+        public string StripeToken { get; set; }
+
+        [Required]
         public string CustomerName { get; set; }
 
         [Required]
@@ -57,7 +60,7 @@ namespace Technology_Tp1_React.Models
         public IEnumerable<CartItem> GetItems() 
             => OrdersItems?.Select(oi => new CartItem(oi.MenuItem, oi.Quantity));
 
-        public decimal GetTotalCost() 
-            => OrdersItems?.Sum(o => o.Quantity * o.MenuItem.Price) ?? 0;
+        public decimal GetTotalCost(Func<int, MenuItem> finder) 
+            => OrdersItems?.Sum(o => o.Quantity * (o.MenuItem?.Price ?? finder(o.MenuItemId).Price)) ?? 0;
     }
 }
