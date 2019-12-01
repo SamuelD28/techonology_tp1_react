@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using technology_tp1.Models;
 using Technology_Tp1_React.General;
 using Technology_Tp1_React.General.CrudController;
@@ -18,10 +19,14 @@ namespace technology_tp1.Controllers
     {
         public const string FormNameIdItem = "itemId";
         public const string FormNameQuantity = "quantity";
+        private readonly AppDbContext dbContext;
+
         public IEnumerable<MenuItem> MenuItems { get; }
 
-        public OrderController(IRepository<AnonymousOrder> repository)
-            : base(repository) { }
+        public OrderController(IRepository<AnonymousOrder> repository, AppDbContext dbContext)
+            : base(repository) {
+            this.dbContext = dbContext;
+        }
 
         [HttpGet]
         public IActionResult Get(int? start = null, int? end = null)
@@ -52,7 +57,27 @@ namespace technology_tp1.Controllers
 
         [HttpPost]
         public IActionResult Post([FromBody] AnonymousOrder order)
-            => base.CreateRecord(order);
+        {
+            // Set your secret key: remember to change this to your live secret key in production
+            // See your keys here: https://dashboard.stripe.com/account/apikeys
+            StripeConfiguration.ApiKey = "sk_test_2LcX3Z6rd12moMRR9TcRgmb5003tbUPpF9";
+
+            // Token is created using Checkout or Elements!
+            // Get the payment token submitted by the form:
+            var token = order.StripeToken; // Using ASP.NET MVC
+
+            var options = new ChargeCreateOptions
+            {
+                Amount = (long)order.GetTotalCost((id) => dbContext.MenuItems.First(m => m.Id == id)) * 100,
+                Currency = "cad",
+                Description = "Pizza order",
+                Source = token,
+            };
+            var service = new ChargeService();
+            Charge charge = service.Create(options);
+            return base.CreateRecord(order);
+        }
+            
 
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] AnonymousOrder order)

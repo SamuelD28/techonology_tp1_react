@@ -4,6 +4,7 @@ import CartButton from '../components/CartButton';
 import CartItem from '../components/CartItem';
 import { Modal, Row, ModalBody, ModalFooter, Container } from 'reactstrap';
 import GlobalAppState from '../../shared/globalState';
+import { Elements } from 'react-stripe-elements';
 
 /**
  * The cart section with his button
@@ -85,7 +86,10 @@ class CartSection extends React.Component {
                         <h2>Total : <span>${this.state.cart.GetTotalCost()}</span></h2>
                     </Row>
                     <Row>
-                        <OrderSection cartItems={this.state.cart.GetItems().map(this.mapCartItems)} />
+                        <Elements>
+                            <OrderSection cartItems={this.state.cart.GetItems().map(this.mapCartItems)} />
+                        </Elements>
+                        
                     </Row>
                 </Container>
             </ModalFooter>;
