@@ -29,6 +29,11 @@ namespace technology_tp1.Controllers
 		[HttpPost("register")]
 		public async Task<IActionResult> Register([FromBody]User user)
 		{
+			if(string.IsNullOrEmpty(user.Email))
+			{
+				return ErrorResponse.WrongData(new { error = "Email is required" });
+			}
+
 			var result = await UserManager.CreateAsync(
 						 new User()
 						 {
