@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +10,12 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text;
+using System.Threading.Tasks;
 using technology_tp1.Models;
 using technology_tp1.Services;
 using Technology_Tp1_React.General;
+using Technology_Tp1_React.General.CrudController;
 using Technology_Tp1_React.General.Repository;
 using Technology_Tp1_React.Models;
 
@@ -46,7 +52,29 @@ namespace Technology_Tp1_React
 
 			services.AddIdentity<User, IdentityRole>()
 					.AddEntityFrameworkStores<AppDbContext>();
-		}
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie();
+
+            services.ConfigureApplicationCookie(o =>
+            {
+                o.Events = new CookieAuthenticationEvents()
+                {
+                    OnRedirectToLogin = (ctx) =>
+                    {
+                        HttpContext httpContext = ctx.HttpContext;
+                        ErrorResponse.Forbiden(ref httpContext);
+                        return Task.CompletedTask;
+                    },
+                    OnRedirectToAccessDenied = (ctx) =>
+                    {
+                        HttpContext httpContext = ctx.HttpContext;
+                        ErrorResponse.Forbiden(ref httpContext);
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+        }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(
@@ -64,7 +92,7 @@ namespace Technology_Tp1_React
 				app.UseHsts();
 			}
 
-			app.UseAuthentication();
+            app.UseAuthentication();
 
 			database.Database.EnsureCreated();
 

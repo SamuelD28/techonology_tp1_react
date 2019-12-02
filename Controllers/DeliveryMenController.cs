@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using technology_tp1.Models;
 using Technology_Tp1_React.General.CrudController;
 using Technology_Tp1_React.General.Repository;
@@ -8,6 +9,7 @@ namespace technology_tp1.Controllers
     /// <summary>
     /// Controller responsible for the interaction with the model
     /// </summary>
+    [Authorize]
     [Route("api/deliverymen")]
     public class DeliveryMenController : CrudController<DeliveryMan>
     {
