@@ -11,23 +11,54 @@ namespace Technology_Tp1_React.General.CrudController
     /// <summary>
     /// Class that create error response to the client
     /// </summary>
-    public static class ErrorResponse
+    public static class ResponseResult
     {
+
+
         /// <summary>
         /// Method that create an error response based on its parameters
         /// </summary>
         /// <param name="errorMessage">Error message</param>
         /// <param name="statusCode">Error Status code</param>
         /// <returns>Json Error response</returns>
-        private static IActionResult CreateErrorResponse(string errorMessage, int statusCode, object data = null)
+        public static IActionResult CreateErrorResponse(string errorMessage, int statusCode)
         {
-            JsonResult body = new JsonResult(new { error = errorMessage, body = data ?? "" });
+            JsonResult body = new JsonResult(new { error = errorMessage });
             body.ContentType = "application/json";
             body.StatusCode = statusCode;
 
             ObjectResult response = new ObjectResult(body);
             response.StatusCode = statusCode;
             return response;
+        }
+
+        /// <summary>
+        /// Method that create a valid json response
+        /// </summary>
+        /// <param name="body">Body of the response</param>
+        /// <param name="statusCode">Satus code of the response</param>
+        /// <returns>Json result</returns>
+        public static IActionResult CreateValidResponse(object body, int statusCode)
+        {
+            IActionResult parsedBody = ParseResponseInJson(body, statusCode);
+
+            ObjectResult response = new ObjectResult(parsedBody);
+            response.StatusCode = statusCode;
+            return response;
+        }
+
+        /// <summary>
+        /// Method that parse a response in json
+        /// </summary>
+        /// <param name="data">Data to parse</param>
+        /// <param name="statusCode">Status code to parse</param>
+        /// <returns>Json response</returns>
+        public static IActionResult ParseResponseInJson(object data, int statusCode)
+        {
+            JsonResult json = new JsonResult(data);
+            json.ContentType = "application/json";
+            json.StatusCode = statusCode;
+            return json;
         }
 
         /// <summary>
@@ -56,25 +87,24 @@ namespace Technology_Tp1_React.General.CrudController
                     );
         }
 
-		/// <summary>
-		/// Method that create a wrong data error response
-		/// </summary>
-		/// <returns>Json Error response</returns>
-		public static IActionResult WrongData(object data)
-		{
-			return CreateErrorResponse(
-						"Can't create document with specified data",
-						StatusCodes.Status400BadRequest,
-						data
-					);
-		}
+        /// <summary>
+        /// Method that create a wrong data error response
+        /// </summary>
+        /// <returns>Json Error response</returns>
+        public static IActionResult WrongData(object data)
+        {
+            return CreateErrorResponse(
+                        "Can't create document with specified data",
+                        StatusCodes.Status400BadRequest
+                    );
+        }
 
-		/// <summary>
-		/// Method that create an internal server error
-		/// </summary>
-		/// <param name="error">Error message</param>
-		/// <returns>Json Error response</returns>
-		public static IActionResult InternalServerError(string error)
+        /// <summary>
+        /// Method that create an internal server error
+        /// </summary>
+        /// <param name="error">Error message</param>
+        /// <returns>Json Error response</returns>
+        public static IActionResult InternalServerError(string error)
         {
             return CreateErrorResponse(
                     error,
@@ -91,9 +121,8 @@ namespace Technology_Tp1_React.General.CrudController
         {
             return CreateErrorResponse(
                         $"No matching document",
-                        StatusCodes.Status404NotFound,
-						document
-					);
+                        StatusCodes.Status404NotFound
+                    );
         }
 
         /// <summary>
@@ -102,7 +131,7 @@ namespace Technology_Tp1_React.General.CrudController
         /// <returns>Json Error response</returns>
         public static IActionResult Forbiden()
         {
-            return CreateErrorResponse("Access is forbiden", 403, "No user match");
+            return CreateErrorResponse("Access is forbiden", 403);
         }
     }
 }

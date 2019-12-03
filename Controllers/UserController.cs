@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -36,7 +37,7 @@ namespace technology_tp1.Controllers
         {
             if (string.IsNullOrEmpty(user.Email))
             {
-                return ErrorResponse.WrongData(new { error = "Email is required" });
+                return ResponseResult.WrongData(new { error = "Email is required" });
             }
 
             var result = await UserManager.CreateAsync(
@@ -49,12 +50,11 @@ namespace technology_tp1.Controllers
             if (result.Succeeded)
             {
                 User savedUser = await UserManager.FindByNameAsync(user.UserName);
-                JsonResult response = Json(savedUser);
-                return Ok(response);
+                return ResponseResult.CreateValidResponse(new { message = "User is now registered", user = savedUser }, 201);
             }
             else
             {
-                return ErrorResponse.WrongData(result.Errors);
+                return ResponseResult.WrongData(result.Errors);
             }
         }
 
@@ -64,7 +64,7 @@ namespace technology_tp1.Controllers
             User foundUser = await UserManager.FindByNameAsync(user.UserName);
             if (foundUser is null)
             {
-                return ErrorResponse.NoMatchingDocument(new { message = "No username : " + user.UserName });
+                return ResponseResult.NoMatchingDocument(new { message = "No username with name of " + user.UserName });
             }
 
             var result = await SignInManager.CheckPasswordSignInAsync(foundUser, user.PasswordHash, false);
@@ -72,8 +72,7 @@ namespace technology_tp1.Controllers
             if (result.Succeeded)
             {
                 await SignInManager.SignInAsync(foundUser, true, CookieAuthenticationDefaults.AuthenticationScheme);
-                JsonResult response = Json(new { message = "You are now logged in" });
-                return Ok(response);
+                return ResponseResult.CreateValidResponse(new { message = "You are now logged in", user = foundUser }, 200);
             }
             else
             {
@@ -87,12 +86,11 @@ namespace technology_tp1.Controllers
             User foundUser = await UserManager.FindByNameAsync(user.UserName);
             if (foundUser is null)
             {
-                return ErrorResponse.NoMatchingDocument(new { message = "No username : " + user.UserName });
+                return ResponseResult.NoMatchingDocument(new { message = "No username : " + user.UserName });
             }
 
             await SignInManager.SignOutAsync();
-            JsonResult response = Json(new { message = "You are now logged out" });
-            return Ok(response);
+            return ResponseResult.CreateValidResponse(new { message = "You are now logged out" }, 200);
         }
 
         [HttpPost("auth")]
@@ -100,9 +98,7 @@ namespace technology_tp1.Controllers
         {
             return IsAuth(HttpContext, () =>
             {
-                JsonResult response = new JsonResult(new { isAuth = true });
-                response.StatusCode = 200;
-                return response;
+                return ResponseResult.CreateValidResponse(new { message = "User is authenticated" }, 200);
             });
         }
 
@@ -114,7 +110,7 @@ namespace technology_tp1.Controllers
             }
             else
             {
-                return ErrorResponse.Forbiden();
+                return ResponseResult.Forbiden();
             }
         }
     }
