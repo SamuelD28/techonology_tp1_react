@@ -100,7 +100,7 @@ namespace Technology_Tp1_React.General.CrudController
             }
             catch (Exception e)
             {
-                return ErrorResponse.InternalServerError(e.Message);
+                return ResponseResult.InternalServerError(e.Message);
             }
         }
 
@@ -117,14 +117,14 @@ namespace Technology_Tp1_React.General.CrudController
 
                 if (record is null)
                 {
-                    return ErrorResponse.NoMatchingDocument(id);
+                    return ResponseResult.NoMatchingDocument(id);
                 }
 
                 return CreateValidResponse(record, StatusCodes.Status200OK);
             }
             catch (Exception e)
             {
-                return ErrorResponse.InternalServerError(e.Message);
+                return ResponseResult.InternalServerError(e.Message);
             }
         }
 
@@ -146,7 +146,7 @@ namespace Technology_Tp1_React.General.CrudController
                             Console.WriteLine(error);
                         }
                     }
-                    return ErrorResponse.WrongData();
+                    return ResponseResult.WrongData();
                 }
 
                 Repository.Create(record);
@@ -156,7 +156,7 @@ namespace Technology_Tp1_React.General.CrudController
             }
             catch (Exception e)
             {
-                return ErrorResponse.InternalServerError(e.Message);
+                return ResponseResult.InternalServerError(e.Message);
             }
         }
 
@@ -172,17 +172,17 @@ namespace Technology_Tp1_React.General.CrudController
             {
                 if (id != record.Id)
                 {
-                    return ErrorResponse.MismatchIdentifier(record.Id, id);
+                    return ResponseResult.MismatchIdentifier(record.Id, id);
                 }
 
                 if (!ModelState.IsValid)
                 {
-                    return ErrorResponse.WrongData();
+                    return ResponseResult.WrongData();
                 }
 
                 if (!Repository.Contains(r => r.Id == id))
                 {
-                    return ErrorResponse.NoMatchingDocument(id);
+                    return ResponseResult.NoMatchingDocument(id);
                 }
 
                 Repository.Update(record);
@@ -191,7 +191,7 @@ namespace Technology_Tp1_React.General.CrudController
             }
             catch (Exception e)
             {
-                return ErrorResponse.InternalServerError(e.Message);
+                return ResponseResult.InternalServerError(e.Message);
             }
         }
 
@@ -207,7 +207,7 @@ namespace Technology_Tp1_React.General.CrudController
                 T record = Repository.GetById(id);
                 if (record is null)
                 {
-                    return ErrorResponse.NoMatchingDocument(id);
+                    return ResponseResult.NoMatchingDocument(id);
                 }
 
                 Repository.Delete(id);
@@ -216,7 +216,7 @@ namespace Technology_Tp1_React.General.CrudController
             }
             catch (Exception e)
             {
-                return ErrorResponse.InternalServerError(e.Message);
+                return ResponseResult.InternalServerError(e.Message);
             }
         }
 

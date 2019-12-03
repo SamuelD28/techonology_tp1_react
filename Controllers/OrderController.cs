@@ -50,7 +50,7 @@ namespace technology_tp1.Controllers
             }
             catch (Exception e)
             {
-                return ErrorResponse.InternalServerError(e.Message);
+                return Technology_Tp1_React.General.CrudController.ResponseResult.InternalServerError(e.Message);
             }
 
         }
@@ -102,7 +102,7 @@ namespace technology_tp1.Controllers
             }
             catch (Exception e)
             {
-                return ErrorResponse.InternalServerError("An internal error occured");
+                return Technology_Tp1_React.General.CrudController.ResponseResult.InternalServerError("An internal error occured");
             }
         }
 
