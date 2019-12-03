@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Stripe;
 using technology_tp1.Models;
 using Technology_Tp1_React.General;
@@ -20,12 +21,15 @@ namespace technology_tp1.Controllers
         public const string FormNameIdItem = "itemId";
         public const string FormNameQuantity = "quantity";
         private readonly AppDbContext dbContext;
+        private readonly IConfiguration configuration;
 
         public IEnumerable<MenuItem> MenuItems { get; }
 
-        public OrderController(IRepository<AnonymousOrder> repository, AppDbContext dbContext)
-            : base(repository) {
+        public OrderController(IRepository<AnonymousOrder> repository, AppDbContext dbContext, IConfiguration configuration)
+            : base(repository)
+        {
             this.dbContext = dbContext;
+            this.configuration = configuration;
         }
 
         [HttpGet]
@@ -60,7 +64,7 @@ namespace technology_tp1.Controllers
         {
             // Set your secret key: remember to change this to your live secret key in production
             // See your keys here: https://dashboard.stripe.com/account/apikeys
-            StripeConfiguration.ApiKey = "sk_test_2LcX3Z6rd12moMRR9TcRgmb5003tbUPpF9";
+            StripeConfiguration.ApiKey = configuration.GetValue<string>("Stripe:SK");
 
             // Token is created using Checkout or Elements!
             // Get the payment token submitted by the form:
@@ -77,7 +81,7 @@ namespace technology_tp1.Controllers
             Charge charge = service.Create(options);
             return base.CreateRecord(order);
         }
-            
+
 
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] AnonymousOrder order)
@@ -88,11 +92,12 @@ namespace technology_tp1.Controllers
             => base.DeleteRecord(id);
 
         [HttpGet("deliveryman/{id}")]
-        public IActionResult GetDeliveryManOrders(int id) {
+        public IActionResult GetDeliveryManOrders(int id)
+        {
 
             try
             {
-                IEnumerable<AnonymousOrder> deliveryManOrders =  Repository.Filter(o => o.DeliveryMan.Id == id);
+                IEnumerable<AnonymousOrder> deliveryManOrders = Repository.Filter(o => o.DeliveryMan.Id == id);
                 return CreateValidResponse(deliveryManOrders, StatusCodes.Status200OK);
             }
             catch (Exception e)
