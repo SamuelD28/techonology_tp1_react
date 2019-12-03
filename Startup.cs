@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder.Internal;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -50,25 +51,6 @@ namespace Technology_Tp1_React
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie();
-
-            //services.ConfigureApplicationCookie(o =>
-            //{
-            //    o.Events = new CookieAuthenticationEvents()
-            //    {
-            //        OnRedirectToLogin = (ctx) =>
-            //        {
-            //            HttpContext httpContext = ctx.HttpContext;
-            //            ErrorResponse.Forbiden(ref httpContext);
-            //            return Task.CompletedTask;
-            //        },
-            //        OnRedirectToAccessDenied = (ctx) =>
-            //        {
-            //            HttpContext httpContext = ctx.HttpContext;
-            //            ErrorResponse.Forbiden(ref httpContext);
-            //            return Task.CompletedTask;
-            //        }
-            //    };
-            //});
         }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

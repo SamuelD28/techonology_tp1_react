@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using Nancy.Json;
 using Technology_Tp1_React.General.CrudController;
 using Technology_Tp1_React.Models;
@@ -51,6 +45,7 @@ namespace technology_tp1.Controllers
                              UserName = user.UserName,
                              Email = user.Email
                          }, user.PasswordHash);
+
             if (result.Succeeded)
             {
                 User savedUser = await UserManager.FindByNameAsync(user.UserName);
@@ -100,20 +95,18 @@ namespace technology_tp1.Controllers
             return Ok(response);
         }
 
-        [HttpPost("auth")]
-        public async static void IsAuth(HttpContext httpContext, Func<Task> next)
+        public static IActionResult IsAuth(HttpContext httpContext, Func<IActionResult> next)
         {
             JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
             if (httpContext.User.Identity.IsAuthenticated)
             {
-                await next();
+                return next();
             }
             else
             {
-                JsonResult content = new JsonResult(new { isAuth = false });
-                httpContext.Response.StatusCode = 403;
-                httpContext.Response.ContentType = "application/json";
-                await httpContext.Response.WriteAsync(javaScriptSerializer.Serialize(content));
+                JsonResult response = new JsonResult(new { isAuth = false });
+                response.StatusCode = 403;
+                return response;
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using technology_tp1.Models;
 using Technology_Tp1_React.General.CrudController;
@@ -9,17 +10,17 @@ namespace technology_tp1.Controllers
     /// <summary>
     /// Controller responsible for the interaction with the model
     /// </summary>
-    [Authorize]
     [Route("api/deliverymen")]
     public class DeliveryMenController : CrudController<DeliveryMan>
     {
-        public DeliveryMenController(IRepository<DeliveryMan> repository) 
-            : base(repository){
+        public DeliveryMenController(IRepository<DeliveryMan> repository)
+            : base(repository)
+        {
         }
 
         [HttpGet]
         public IActionResult Get(int? start = null, int? end = null)
-            => base.GetAllRecord(start, end);
+            => UserController.IsAuth(HttpContext, () => base.GetAllRecord(start, end));
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
