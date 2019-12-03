@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Nancy.Json;
 using Technology_Tp1_React.General.CrudController;
 using Technology_Tp1_React.Models;
 
 namespace technology_tp1.Controllers
 {
+    [ApiController]
     [Route("api/user")]
     public class UserController : Controller
     {
@@ -51,7 +54,8 @@ namespace technology_tp1.Controllers
             if (result.Succeeded)
             {
                 User savedUser = await UserManager.FindByNameAsync(user.UserName);
-                return Ok(savedUser);
+                JsonResult response = Json(savedUser);
+                return Ok(response);
             }
             else
             {
@@ -73,7 +77,8 @@ namespace technology_tp1.Controllers
             if (result.Succeeded)
             {
                 await SignInManager.SignInAsync(foundUser, true, CookieAuthenticationDefaults.AuthenticationScheme);
-                return Ok("You are now logged in");
+                JsonResult response = Json(new { message = "You are now logged in" });
+                return Ok(response);
             }
             else
             {
@@ -91,7 +96,25 @@ namespace technology_tp1.Controllers
             }
 
             await SignInManager.SignOutAsync();
-            return Ok("You are now logged out");
+            JsonResult response = Json(new { message = "You are now logged out" });
+            return Ok(response);
+        }
+
+        [HttpPost("auth")]
+        public async static void IsAuth(HttpContext httpContext, Func<Task> next)
+        {
+            JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+            if (httpContext.User.Identity.IsAuthenticated)
+            {
+                await next();
+            }
+            else
+            {
+                JsonResult content = new JsonResult(new { isAuth = false });
+                httpContext.Response.StatusCode = 403;
+                httpContext.Response.ContentType = "application/json";
+                await httpContext.Response.WriteAsync(javaScriptSerializer.Serialize(content));
+            }
         }
     }
 }
