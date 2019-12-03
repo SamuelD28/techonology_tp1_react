@@ -95,18 +95,26 @@ namespace technology_tp1.Controllers
             return Ok(response);
         }
 
+        [HttpPost("auth")]
+        public IActionResult Auth()
+        {
+            return IsAuth(HttpContext, () =>
+            {
+                JsonResult response = new JsonResult(new { isAuth = true });
+                response.StatusCode = 200;
+                return response;
+            });
+        }
+
         public static IActionResult IsAuth(HttpContext httpContext, Func<IActionResult> next)
         {
-            JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
             if (httpContext.User.Identity.IsAuthenticated)
             {
                 return next();
             }
             else
             {
-                JsonResult response = new JsonResult(new { isAuth = false });
-                response.StatusCode = 403;
-                return response;
+                return ErrorResponse.Forbiden();
             }
         }
     }

@@ -87,7 +87,6 @@ namespace Technology_Tp1_React
 			app.UseSpa(spa =>
 			{
 				spa.Options.SourcePath = "ClientApp";
-
 				if (env.IsDevelopment())
 				{
 					spa.UseReactDevelopmentServer(npmScript: "start");

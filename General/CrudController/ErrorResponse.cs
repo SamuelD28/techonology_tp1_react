@@ -97,16 +97,12 @@ namespace Technology_Tp1_React.General.CrudController
         }
 
         /// <summary>
-        /// Method that return a no document match error
+        /// Method that return a forbiden result
         /// </summary>
-        /// <param name="documentId">Document identifier</param>
         /// <returns>Json Error response</returns>
-        public static void Forbiden(ref HttpContext httpContext)
+        public static IActionResult Forbiden()
         {
-            var jsonString = "{\"message\":\"Not authorized\"}";
-            byte[] data = Encoding.UTF8.GetBytes(jsonString);
-            httpContext.Response.ContentType = "application/json";
-            httpContext.Response.Body.Write(data, 0, data.Length);
+            return CreateErrorResponse("Access is forbiden", 403, "No user match");
         }
     }
 }
