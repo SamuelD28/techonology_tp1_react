@@ -20,5 +20,6 @@ namespace Technology_Tp1_React
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
+
     }
 }
