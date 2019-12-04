@@ -5,34 +5,46 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using technology_tp1.Models;
 using Technology_Tp1_React.General.CrudController;
+using Technology_Tp1_React.General.Middleware;
 using Technology_Tp1_React.General.Repository;
 
 namespace technology_tp1.Controllers
 {
-    [Route("api/menuitems")]
-    public class MenuItemsController : CrudController<MenuItem>
-    {
-        public MenuItemsController(IRepository<MenuItem> repository)
-            : base(repository) { }
+	[Route("api/menuitems")]
+	public class MenuItemsController : CrudController<MenuItem>
+	{
+		public Authenticate Authenticate { get; set; }
 
-        [HttpGet]
-        public IActionResult Get(int? start = null, int? end = null)
-            => base.GetAllRecord(start, end);
+		public MenuItemsController(IRepository<MenuItem> repository, Authenticate authenticate)
+			: base(repository)
+		{
+			Authenticate = authenticate;
+		}
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
-            => base.GetRecordById(id);
+		[HttpGet]
+		public IActionResult Get(int? start = null, int? end = null)
+			=> base.GetAllRecord(start, end);
 
-        [HttpPost]
-        public IActionResult Post([FromBody] MenuItem menuItem)
-            => base.CreateRecord(menuItem);
+		[HttpGet("{id}")]
+		public IActionResult Get(int id)
+			=> base.GetRecordById(id);
 
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] MenuItem menuItem)
-            => base.UpdateRecord(id, menuItem);
+		[HttpPost]
+		public IActionResult Post([FromBody] MenuItem menuItem)
+		{
+			return Authenticate.Apply(HttpContext, () => base.CreateRecord(menuItem));
+		}
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-            => base.DeleteRecord(id);
-    }
+		[HttpPut("{id}")]
+		public IActionResult Update(int id, [FromBody] MenuItem menuItem)
+		{
+			return Authenticate.Apply(HttpContext, () => base.UpdateRecord(id, menuItem));
+		}
+
+		[HttpDelete("{id}")]
+		public IActionResult Delete(int id)
+		{
+			return Authenticate.Apply(HttpContext, () => base.DeleteRecord(id));
+		}
+	}
 }

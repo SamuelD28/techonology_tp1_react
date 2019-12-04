@@ -60,20 +60,20 @@ namespace technology_tp1.Controllers
 		}
 
 		[HttpPost("login")]
-		public async Task<IActionResult> Login([FromBody]User user)
+		public IActionResult Login([FromBody]User user)
 		{
-			User foundUser = await UserManager.FindByNameAsync(user.UserName);
+			User foundUser = UserManager.FindByNameAsync(user.UserName).Result;
 
 			if (foundUser is null)
 			{
 				return ResponseResult.NoMatchingDocument(new { message = "No username with name of " + user.UserName });
 			}
 
-			var result = await SignInManager.CheckPasswordSignInAsync(foundUser, user.PasswordHash, false);
+			var result = SignInManager.CheckPasswordSignInAsync(foundUser, user.PasswordHash, false).Result;
 
 			if (result.Succeeded)
 			{
-				await SignInManager.SignInAsync(foundUser, true, CookieAuthenticationDefaults.AuthenticationScheme);
+				SignInManager.SignInAsync(foundUser, true, CookieAuthenticationDefaults.AuthenticationScheme).Wait();
 				return ResponseResult.CreateValidResponse(new { message = "You are now logged in", user = foundUser }, 200);
 			}
 			else
@@ -83,16 +83,13 @@ namespace technology_tp1.Controllers
 		}
 
 		[HttpPost("logout")]
-		public async Task<IActionResult> Logout([FromBody]User user)
+		public IActionResult Logout([FromBody]User user)
 		{
-			User foundUser = await UserManager.FindByNameAsync(user.UserName);
-			if (foundUser is null)
-			{
-				return ResponseResult.NoMatchingDocument(new { message = "No username : " + user.UserName });
-			}
-
-			await SignInManager.SignOutAsync();
-			return ResponseResult.CreateValidResponse(new { message = "You are now logged out" }, 200);
+			return Authenticate.Apply(HttpContext, () => {
+				
+				SignInManager.SignOutAsync().Wait();
+				return ResponseResult.CreateValidResponse(new { message = "You are now logged out" }, 200);
+			});
 		}
 
 		[HttpPost("auth")]
