@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Technology_Tp1_React.General.Repository;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using JetBrains.Annotations;
 
 namespace Technology_Tp1_React.General.CrudController
 {
@@ -135,6 +138,17 @@ namespace Technology_Tp1_React.General.CrudController
         /// <returns>Json result</returns>
         virtual protected IActionResult CreateRecord([FromBody] T record)
         {
+            return CreateRecordWithFeedback(record).Result;
+        }
+
+        /// <summary>
+        /// Method that return a single record that match the id specified.
+        /// </summary>
+        /// <param name="record">Record to create</param>
+        /// <returns>ActionData</returns>
+        virtual protected ActionData CreateRecordWithFeedback([FromBody] T record)
+        {
+            ActionData data = new ActionData();
             try
             {
                 if (!ModelState.IsValid)
@@ -146,17 +160,23 @@ namespace Technology_Tp1_React.General.CrudController
                             Console.WriteLine(error);
                         }
                     }
-                    return ResponseResult.WrongData();
+                    data.StatusCodes = StatusCodes.Status400BadRequest;
+                    data.Result = ResponseResult.WrongData();
+                    return data;
                 }
 
                 Repository.Create(record);
                 Repository.SaveChanges();
 
-                return CreateValidResponse(record, StatusCodes.Status201Created);
+                data.StatusCodes = StatusCodes.Status201Created;
+                data.Result = CreateValidResponse(record, StatusCodes.Status201Created);
+                return data;
             }
             catch (Exception e)
             {
-                return ResponseResult.InternalServerError(e.Message);
+                data.StatusCodes = StatusCodes.Status500InternalServerError;
+                data.Result = ResponseResult.InternalServerError(e.Message);
+                return data;
             }
         }
 
@@ -246,4 +266,5 @@ namespace Technology_Tp1_React.General.CrudController
             return json;
         }
     }
+
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using technology_tp1.Models;
 using Technology_Tp1_React.General;
+using Technology_Tp1_React.General.CrudController;
 using Technology_Tp1_React.General.Repository;
 
 namespace Technology_Tp1_React.Models
