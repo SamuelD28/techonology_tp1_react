@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,14 +21,20 @@ namespace technology_tp1.Controllers
     {
         public const string FormNameIdItem = "itemId";
         public const string FormNameQuantity = "quantity";
+        private readonly UserManager<User> userManager;
         private readonly AppDbContext dbContext;
         private readonly IConfiguration configuration;
 
         public IEnumerable<MenuItem> MenuItems { get; }
 
-        public OrderController(IRepository<AnonymousOrder> repository, AppDbContext dbContext, IConfiguration configuration)
+        public OrderController(
+            IRepository<AnonymousOrder> repository, 
+            AppDbContext dbContext, 
+            IConfiguration configuration,
+            UserManager<User> userManager)
             : base(repository)
         {
+            this.userManager = userManager;
             this.dbContext = dbContext;
             this.configuration = configuration;
         }
@@ -60,26 +67,38 @@ namespace technology_tp1.Controllers
             => base.GetRecordById(id);
 
         [HttpPost]
-        public IActionResult Post([FromBody] AnonymousOrder order)
+        public async System.Threading.Tasks.Task<IActionResult> PostAsync([FromBody] AnonymousOrder order)
         {
-            // Set your secret key: remember to change this to your live secret key in production
-            // See your keys here: https://dashboard.stripe.com/account/apikeys
-            StripeConfiguration.ApiKey = configuration.GetValue<string>("Stripe:SK");
-
-            // Token is created using Checkout or Elements!
-            // Get the payment token submitted by the form:
-            var token = order.StripeToken; // Using ASP.NET MVC
-
-            var options = new ChargeCreateOptions
+            if (HttpContext.User.Identity.Name != null)
             {
-                Amount = (long)order.GetTotalCost((id) => dbContext.MenuItems.First(m => m.Id == id)) * 100,
-                Currency = "cad",
-                Description = "Pizza order",
-                Source = token,
-            };
-            var service = new ChargeService();
-            Charge charge = service.Create(options);
-            return base.CreateRecord(order);
+                User foundUser = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                order.CustomerName = foundUser.UserName;
+                order.CustomerPhoneNumber = foundUser.PhoneNumber;
+            }
+
+            ActionData actionResult = base.CreateRecordWithFeedback(order);
+            if (actionResult.StatusCodes == StatusCodes.Status201Created)
+            {
+
+                // Set your secret key: remember to change this to your live secret key in production
+                // See your keys here: https://dashboard.stripe.com/account/apikeys
+                StripeConfiguration.ApiKey = configuration.GetValue<string>("Stripe:SK");
+
+                // Token is created using Checkout or Elements!
+                // Get the payment token submitted by the form:
+                var token = order.StripeToken; // Using ASP.NET MVC
+
+                var options = new ChargeCreateOptions
+                {
+                    Amount = (long)order.GetTotalCost((id) => dbContext.MenuItems.First(m => m.Id == id)) * 100,
+                    Currency = "cad",
+                    Description = "Pizza order",
+                    Source = token,
+                };
+                var service = new ChargeService();
+                Charge charge = service.Create(options);
+            }
+            return actionResult.Result;
         }
 
 

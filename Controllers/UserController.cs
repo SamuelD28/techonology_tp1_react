@@ -41,12 +41,18 @@ namespace technology_tp1.Controllers
 				return ResponseResult.WrongData(new { error = "Email is required" });
 			}
 
-			var result = await UserManager.CreateAsync(
-						 new User()
-						 {
-							 UserName = user.UserName,
-							 Email = user.Email
-						 }, user.PasswordHash);
+            if (string.IsNullOrEmpty(user.PhoneNumber))
+            {
+                return ResponseResult.WrongData(new { error = "Phone number is required" });
+            }
+
+            var result = await UserManager.CreateAsync(
+                         new User()
+                         {
+                             UserName = user.UserName,
+                             Email = user.Email,
+                             PhoneNumber = user.PhoneNumber,
+                         }, user.PasswordHash);
 
 			if (result.Succeeded)
 			{
@@ -91,9 +97,25 @@ namespace technology_tp1.Controllers
 				return ResponseResult.NoMatchingDocument(new { message = "No username : " + user.UserName });
 			}
 
-			await SignInManager.SignOutAsync();
-			return ResponseResult.CreateValidResponse(new { message = "You are now logged out" }, 200);
-		}
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            if (HttpContext.User.Identity.Name is null)
+            {
+                return ResponseResult.NoMatchingDocument(new { message = "You're not logged" });
+            }
+            User foundUser = await UserManager.FindByNameAsync(HttpContext.User.Identity.Name);
+            return ResponseResult.CreateValidResponse(foundUser, 200);
+        }
+
+        [HttpPost("auth")]
+        public IActionResult Auth()
+        {
+            return IsAuth(HttpContext, () =>
+            {
+                return ResponseResult.CreateValidResponse(new { message = "User is authenticated" }, 200);
+            });
+        }
 
 		[HttpPost("auth")]
 		public IActionResult Auth()
