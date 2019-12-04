@@ -20,7 +20,7 @@ namespace technology_tp1.Controllers
 
         [HttpGet]
         public IActionResult Get(int? start = null, int? end = null)
-            => UserController.IsAuth(HttpContext, () => base.GetAllRecord(start, end));
+            => base.GetAllRecord(start, end);
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)

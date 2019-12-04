@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using technology_tp1.Models;
 using Technology_Tp1_React.General.CrudController;
+using Technology_Tp1_React.General.Middleware;
 using Technology_Tp1_React.General.Repository;
 using Technology_Tp1_React.Models;
 
@@ -40,6 +41,8 @@ namespace Technology_Tp1_React
 			});
 
 			services.AddScoped(typeof(IRepository<>), typeof(EFCoreRepository<>));
+
+			services.AddScoped(typeof(Authenticate));
 
 			services.AddDbContext<AppDbContext>((options) =>
 			{
