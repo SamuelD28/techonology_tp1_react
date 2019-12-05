@@ -5,31 +5,33 @@ export default function(ComposedClass, isPrivate) {
   class AuthenticationCheck extends Component {
     constructor(props) {
       super(props);
-      this.state = { loading: true, errors: [] };
+      this.state = { loading: true, user: null };
     }
 
     async componentDidMount() {
-      let user = await Ajax.GetData("/api/user/auth");
+      await this.setState({ loading: false });
 
-      if (user.error) {
-        this.setState({
-          loading: false,
-          errors: this.state.errors.push(user.error)
-        });
-      } else if (!user.isAuth && isPrivate) {
-        this.props.history.push("/connexion");
+      let response = await Ajax.GetData("/api/user/auth");
+      if (response.statusCode === 200) {
+        this.setState({ user: response.value.user });
       } else {
-        this.setState({ loading: false, user: user });
+        this.setState({ user: null });
+
+        if(isPrivate){
+          this.props.history.push("/connexion");
+        }
       }
     }
 
     render() {
       if (this.state.loading) {
         return <div> Loading </div>;
-      } else if (!this.state.loading && this.state.errors.length === 0) {
+      } 
+      else if(!this.state.user && isPrivate){
+        return <div> No access </div>;
+      }
+      else {
         return <ComposedClass {...this.props} user={this.state.user} />;
-      } else {
-        return <h1>Error</h1>;
       }
     }
   }

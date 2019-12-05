@@ -27,8 +27,8 @@ ReactDOM.render(
             <ConnectedRouter history={history}>
                 <BrowserRouter>
                     <Switch>
-                        <Route path='/admin' component={Auth(<Admin />, true)} />
-                        <Route path='/' component={Client} />
+                        <Route path='/admin' component={Auth(Admin, true)} />
+                        <Route path='/' component={Auth(Client, false)} />
                     </Switch>
                 </BrowserRouter>
             </ConnectedRouter>
