@@ -3,39 +3,53 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using technology_tp1.Models;
 using Technology_Tp1_React.General.CrudController;
+using Technology_Tp1_React.General.Middleware;
 using Technology_Tp1_React.General.Repository;
 
 namespace technology_tp1.Controllers
 {
-    /// <summary>
-    /// Controller responsible for the interaction with the model
-    /// </summary>
-    [Route("api/deliverymen")]
-    public class DeliveryMenController : CrudController<DeliveryMan>
-    {
-        public DeliveryMenController(IRepository<DeliveryMan> repository)
-            : base(repository)
-        {
-        }
+	/// <summary>
+	/// Controller responsible for the interaction with the model
+	/// </summary>
+	[Route("api/deliverymen")]
+	public class DeliveryMenController : CrudController<DeliveryMan>
+	{
+		public Authenticate Authenticate { get; set; }
 
-        [HttpGet]
-        public IActionResult Get(int? start = null, int? end = null)
-            => UserController.IsAuth(HttpContext, () => base.GetAllRecord(start, end));
+		public DeliveryMenController(IRepository<DeliveryMan> repository, Authenticate authenticate)
+			: base(repository)
+		{
+			Authenticate = authenticate;
+		}
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
-            => base.GetRecordById(id);
+		[HttpGet]
+		public IActionResult Get(int? start = null, int? end = null)
+		{
+			return Authenticate.Apply(HttpContext, () => base.GetAllRecord(start, end));
+		}
 
-        [HttpPost]
-        public IActionResult Post([FromBody] DeliveryMan deliveryMan)
-            => base.CreateRecord(deliveryMan);
+		[HttpGet("{id}")]
+		public IActionResult Get(int id)
+		{
+			return Authenticate.Apply(HttpContext, () => base.GetRecordById(id));
+		}
 
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] DeliveryMan deliveryMan)
-            => base.UpdateRecord(id, deliveryMan);
+		[HttpPost]
+		public IActionResult Post([FromBody] DeliveryMan deliveryMan)
+		{
+			return Authenticate.Apply(HttpContext, () => base.CreateRecord(deliveryMan));
+		}
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-            => base.DeleteRecord(id);
-    }
+		[HttpPut("{id}")]
+		public IActionResult Update(int id, [FromBody] DeliveryMan deliveryMan)
+		{
+			return Authenticate.Apply(HttpContext, () => base.UpdateRecord(id, deliveryMan));
+		}
+
+		[HttpDelete("{id}")]
+		public IActionResult Delete(int id)
+		{
+			return Authenticate.Apply(HttpContext, () => base.DeleteRecord(id));
+		}
+	}
 }

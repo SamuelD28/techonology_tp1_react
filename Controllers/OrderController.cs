@@ -8,11 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Stripe;
 using technology_tp1.Models;
-using Technology_Tp1_React.General;
 using Technology_Tp1_React.General.CrudController;
+using Technology_Tp1_React.General.Middleware;
 using Technology_Tp1_React.General.Repository;
 using Technology_Tp1_React.Models;
-using static Technology_Tp1_React.General.Cookies.CookiesExt;
 
 namespace technology_tp1.Controllers
 {
@@ -21,20 +20,21 @@ namespace technology_tp1.Controllers
     {
         public const string FormNameIdItem = "itemId";
         public const string FormNameQuantity = "quantity";
-        private readonly UserManager<User> userManager;
         private readonly AppDbContext dbContext;
         private readonly IConfiguration configuration;
 
         public IEnumerable<MenuItem> MenuItems { get; }
 
+        public Authenticate Authenticate { get; set; }
+
         public OrderController(
-            IRepository<AnonymousOrder> repository, 
-            AppDbContext dbContext, 
+            IRepository<AnonymousOrder> repository,
+            AppDbContext dbContext,
             IConfiguration configuration,
-            UserManager<User> userManager)
+            Authenticate authenticate)
             : base(repository)
         {
-            this.userManager = userManager;
+            Authenticate = authenticate;
             this.dbContext = dbContext;
             this.configuration = configuration;
         }
@@ -42,51 +42,50 @@ namespace technology_tp1.Controllers
         [HttpGet]
         public IActionResult Get(int? start = null, int? end = null)
         {
-            try
+            return Authenticate.Apply(HttpContext, () =>
             {
-                if (start.HasValue && end.HasValue)
+                try
                 {
-                    PaginatedRequestResult<AnonymousOrder> ordersItemsPaginated = base.CreatePaginatedRequestResult(start.Value, end.Value);
-                    ordersItemsPaginated.data.Include(o => o.OrdersItems);
-                    return CreateValidResponse(ordersItemsPaginated, StatusCodes.Status200OK);
+                    if (start.HasValue && end.HasValue)
+                    {
+                        PaginatedRequestResult<AnonymousOrder> ordersItemsPaginated = base.CreatePaginatedRequestResult(start.Value, end.Value);
+                        ordersItemsPaginated.data.Include(o => o.OrdersItems);
+                        return CreateValidResponse(ordersItemsPaginated, StatusCodes.Status200OK);
+                    }
+                    IEnumerable<AnonymousOrder> ordersItems = Repository
+                        .GetAll()
+                        .Include(o => o.OrdersItems);
+                    return CreateValidResponse(ordersItems, StatusCodes.Status200OK);
                 }
-                IEnumerable<AnonymousOrder> ordersItems = Repository
-                    .GetAll()
-                    .Include(o => o.OrdersItems);
-                return CreateValidResponse(ordersItems, StatusCodes.Status200OK);
-            }
-            catch (Exception e)
-            {
-                return Technology_Tp1_React.General.CrudController.ResponseResult.InternalServerError(e.Message);
-            }
+                catch (Exception e)
+                {
+                    return ResponseResult.InternalServerError(e.Message);
+                }
+            });
 
         }
-
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
-            => base.GetRecordById(id);
 
         [HttpPost]
         public async System.Threading.Tasks.Task<IActionResult> PostAsync([FromBody] AnonymousOrder order)
         {
             if (HttpContext.User.Identity.Name != null)
             {
-                User foundUser = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                order.CustomerName = foundUser.UserName;
-                order.CustomerPhoneNumber = foundUser.PhoneNumber;
+                //User foundUser = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                //order.CustomerName = foundUser.UserName;
+                //order.CustomerPhoneNumber = foundUser.PhoneNumber;
             }
 
             ActionData actionResult = base.CreateRecordWithFeedback(order);
             if (actionResult.StatusCodes == StatusCodes.Status201Created)
             {
 
-                // Set your secret key: remember to change this to your live secret key in production
-                // See your keys here: https://dashboard.stripe.com/account/apikeys
-                StripeConfiguration.ApiKey = configuration.GetValue<string>("Stripe:SK");
-
                 // Token is created using Checkout or Elements!
                 // Get the payment token submitted by the form:
                 var token = order.StripeToken; // Using ASP.NET MVC
+
+                // Set your secret key: remember to change this to your live secret key in production
+                // See your keys here: https://dashboard.stripe.com/account/apikeys
+                StripeConfiguration.ApiKey = configuration.GetValue<string>("Stripe:SK");
 
                 var options = new ChargeCreateOptions
                 {
@@ -104,25 +103,37 @@ namespace technology_tp1.Controllers
 
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] AnonymousOrder order)
-            => base.UpdateRecord(id, order);
+        {
+            return Authenticate.Apply(HttpContext, () =>
+            {
+                return base.UpdateRecord(id, order);
+            });
+        }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
-            => base.DeleteRecord(id);
+        {
+            return Authenticate.Apply(HttpContext, () =>
+            {
+                return base.DeleteRecord(id);
+            });
+        }
 
         [HttpGet("deliveryman/{id}")]
         public IActionResult GetDeliveryManOrders(int id)
         {
-
-            try
+            return Authenticate.Apply(HttpContext, () =>
             {
-                IEnumerable<AnonymousOrder> deliveryManOrders = Repository.Filter(o => o.DeliveryMan.Id == id);
-                return CreateValidResponse(deliveryManOrders, StatusCodes.Status200OK);
-            }
-            catch (Exception e)
-            {
-                return Technology_Tp1_React.General.CrudController.ResponseResult.InternalServerError("An internal error occured");
-            }
+                try
+                {
+                    IEnumerable<AnonymousOrder> deliveryManOrders = Repository.Filter(o => o.DeliveryMan.Id == id);
+                    return CreateValidResponse(deliveryManOrders, StatusCodes.Status200OK);
+                }
+                catch (Exception e)
+                {
+                    return ResponseResult.InternalServerError("An internal error occured");
+                }
+            });
         }
 
     }

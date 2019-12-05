@@ -4,8 +4,9 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
-import configureStore from './client/store/configureStore';
 import { StripeProvider } from 'react-stripe-elements';
+import Auth from "./admin/components/Auth.hoc.jsx";
+import configureStore from './client/store/configureStore';
 
 import Client from './client';
 import Admin from './admin';
@@ -26,8 +27,8 @@ ReactDOM.render(
             <ConnectedRouter history={history}>
                 <BrowserRouter>
                     <Switch>
-                        <Route path='/admin' component={Admin} />
-                        <Route path='/' component={Client} />
+                        <Route path='/admin' component={Auth(Admin, true)} />
+                        <Route path='/' component={Auth(Client, false)} />
                     </Switch>
                 </BrowserRouter>
             </ConnectedRouter>
