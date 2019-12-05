@@ -92,61 +92,6 @@ class OrderSection extends React.Component {
     }
 
     render() {
-       /* return (
-            <div className="d-flex flex-grow-1">
-                <Button onClick={this.ToggleModal} color="success" block>Order</Button>
-                <Modal isOpen={this.state.isModalOpen} toggle={this.ToggleModal} size="lg">
-                    <ModalBody className="bg-dark">
-                        <form>
-                            {this.DisplayError()}
-                            <div className="form-group">
-                                <label htmlFor="customerName">Name</label>
-                                <input
-                                    type="texte"
-                                    className="form-control"
-                                    id="customerName"
-                                    name="customerName"
-                                    placeholder="Enter Name"
-                                    onChange={(e) => this.HandleChange('customerName', e.target.value)}
-                                    required />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="customerAdress">Adress</label>
-                                <input
-                                    type="texte"
-                                    className="form-control"
-                                    id="customerAdress"
-                                    name="customerAdress"
-                                    aria-describedby="customerAdressHelp"
-                                    placeholder="Enter Adress"
-                                    onChange={(e) => this.HandleChange('customerAdress', e.target.value)}
-                                    required />
-                                <small id="customerAdressHelp" className="form-text text-muted">Ex: 243 Howden Ave</small>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="customerPhoneNumber">Phone number</label>
-                                <input
-                                    type="tel"
-                                    className="form-control"
-                                    id="customerPhoneNumber"
-                                    name="customerPhoneNumber"
-                                    placeholder="Phone number"
-                                    onChange={(e) => this.HandleChange('customerPhoneNumber', e.target.value)}
-                                    required />
-                            </div>
-                        </form>
-                    </ModalBody>
-                    <ModalFooter className="bg-dark">
-                        <Container>
-                            <Row className="d-flex flex-row-reverse">
-                                <Button onClick={this.ToggleModal} color="danger">Cancel</Button>
-                                <Button onClick={this.HandleSubmit} className="mr-1" color="success">Confirm</Button>
-                            </Row>
-                        </Container>
-                    </ModalFooter>
-                </Modal>
-            </div>
-        );*/
         return (
             <div className="d-flex flex-grow-1">
                 <Button onClick={this.ToggleModal} color="success" block>Order</Button>

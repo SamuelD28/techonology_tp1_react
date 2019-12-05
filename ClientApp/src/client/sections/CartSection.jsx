@@ -79,6 +79,7 @@ class CartSection extends React.Component {
      */
     DisplayFooter = () => {
         let view;
+        let orderSection = this.props.user ? null : OrderSection;
         if (this.state.cart.Count() !== 0) {
             view = <ModalFooter className="bg-dark">
                 <Container>
@@ -87,7 +88,7 @@ class CartSection extends React.Component {
                     </Row>
                     <Row>
                         <Elements>
-                            <OrderSection cartItems={this.state.cart.GetItems().map(this.mapCartItems)} />
+                            <orderSection cartItems={this.state.cart.GetItems().map(this.mapCartItems)} />
                         </Elements>
                         
                     </Row>

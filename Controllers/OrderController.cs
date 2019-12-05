@@ -68,13 +68,6 @@ namespace technology_tp1.Controllers
         [HttpPost]
         public async System.Threading.Tasks.Task<IActionResult> PostAsync([FromBody] AnonymousOrder order)
         {
-            if (HttpContext.User.Identity.Name != null)
-            {
-                //User foundUser = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                //order.CustomerName = foundUser.UserName;
-                //order.CustomerPhoneNumber = foundUser.PhoneNumber;
-            }
-
             ActionData actionResult = base.CreateRecordWithFeedback(order);
             if (actionResult.StatusCodes == StatusCodes.Status201Created)
             {
