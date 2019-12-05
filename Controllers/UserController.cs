@@ -82,8 +82,8 @@ namespace technology_tp1.Controllers
 			}
 		}
 
-		[HttpPost("logout")]
-		public IActionResult Logout([FromBody]User user)
+		[HttpGet("logout")]
+		public IActionResult Logout()
 		{
 			return Authenticate.Apply(HttpContext, () => {
 				
@@ -92,7 +92,7 @@ namespace technology_tp1.Controllers
 			});
 		}
 
-		[HttpPost("auth")]
+		[HttpGet("auth")]
 		public IActionResult Auth()
 		{
 			return Authenticate.Apply(HttpContext, () =>

@@ -13,8 +13,6 @@ namespace Technology_Tp1_React.General.CrudController
     /// </summary>
     public static class ResponseResult
     {
-
-
         /// <summary>
         /// Method that create an error response based on its parameters
         /// </summary>
@@ -23,7 +21,7 @@ namespace Technology_Tp1_React.General.CrudController
         /// <returns>Json Error response</returns>
         public static IActionResult CreateErrorResponse(string errorMessage, int statusCode)
         {
-            JsonResult body = new JsonResult(new { error = errorMessage });
+            JsonResult body = new JsonResult(new { message = errorMessage });
             body.ContentType = "application/json";
             body.StatusCode = statusCode;
 
