@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Ajax from "../../shared/ajax.js";
 
-export default function(ComposedClass, isPrivate) {
+export default function(ComposedClass, isPrivate, Role) {
   class AuthenticationCheck extends Component {
     constructor(props) {
       super(props);
@@ -13,7 +13,12 @@ export default function(ComposedClass, isPrivate) {
 
       let response = await Ajax.GetData("/api/user/auth");
       if (response.statusCode === 200) {
-        this.setState({ user: response.value.user });
+        if(response.value.roles.includes(Role)){
+
+          let user = response.value.user;
+          user.roles = response.value.roles;
+          this.setState({ user: user });
+        }
       } else {
         this.setState({ user: null });
 
