@@ -7,27 +7,39 @@ using Technology_Tp1_React.Models;
 
 namespace Technology_Tp1_React.General.Middleware
 {
-	public class Authenticate
-	{
-		public UserManager<User> UserManager { get; set; }
+    public class Authenticate
+    {
+        public UserManager<User> UserManager { get; set; }
+        public RoleManager<IdentityRole> RoleManager { get; set; }
 
-		public Authenticate(UserManager<User> userManager)
-		{
-			UserManager = userManager;
-		}
+        public Authenticate(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            UserManager = userManager;
+            RoleManager = roleManager;
+        }
 
-		public IActionResult Apply(HttpContext httpContext, Func<IActionResult> next)
-		{
-			if (httpContext.User.Identity.IsAuthenticated)
-			{
-				User connectedUser = UserManager.FindByNameAsync(httpContext.User.Identity.Name).Result;
-				httpContext.Items["user"] = connectedUser;
-				return next();
-			}
-			else
-			{
-				return ResponseResult.Forbiden();
-			}
-		}
-	}
+        public IActionResult Apply(HttpContext httpContext, string roleAuthorized, Func<IActionResult> next)
+        {
+            if (httpContext.User.Identity.IsAuthenticated)
+            {
+                User connectedUser = UserManager.FindByNameAsync(httpContext.User.Identity.Name).Result;
+
+                if(roleAuthorized != null)
+                {
+                    if (UserManager.IsInRoleAsync(connectedUser, roleAuthorized).Result)
+                    {
+                        httpContext.Items["user"] = connectedUser;
+                        return next();
+                    }
+                }
+                else
+                {
+                    httpContext.Items["user"] = connectedUser;
+                    return next();
+                }
+            }
+
+            return ResponseResult.Forbiden();
+        }
+    }
 }

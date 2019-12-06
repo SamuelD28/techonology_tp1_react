@@ -42,7 +42,7 @@ namespace technology_tp1.Controllers
         [HttpGet]
         public IActionResult Get(int? start = null, int? end = null)
         {
-            return Authenticate.Apply(HttpContext, () =>
+            return Authenticate.Apply(HttpContext, "Delivery", () =>
             {
                 try
                 {
@@ -97,7 +97,7 @@ namespace technology_tp1.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] AnonymousOrder order)
         {
-            return Authenticate.Apply(HttpContext, () =>
+            return Authenticate.Apply(HttpContext, "Delivery", () =>
             {
                 return base.UpdateRecord(id, order);
             });
@@ -106,23 +106,23 @@ namespace technology_tp1.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            return Authenticate.Apply(HttpContext, () =>
-            {
-                return base.DeleteRecord(id);
-            });
+            return Authenticate.Apply(HttpContext, "Administrator", () =>
+             {
+                 return base.DeleteRecord(id);
+             });
         }
 
         [HttpGet("deliveryman/{id}")]
         public IActionResult GetDeliveryManOrders(int id)
         {
-            return Authenticate.Apply(HttpContext, () =>
+            return Authenticate.Apply(HttpContext, "Delivery", () =>
             {
                 try
                 {
                     IEnumerable<AnonymousOrder> deliveryManOrders = Repository.Filter(o => o.DeliveryMan.Id == id);
                     return CreateValidResponse(deliveryManOrders, StatusCodes.Status200OK);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return ResponseResult.InternalServerError("An internal error occured");
                 }
