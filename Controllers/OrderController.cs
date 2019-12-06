@@ -71,7 +71,6 @@ namespace technology_tp1.Controllers
             ActionData actionResult = base.CreateRecordWithFeedback(order);
             if (actionResult.StatusCodes == StatusCodes.Status201Created)
             {
-
                 // Token is created using Checkout or Elements!
                 // Get the payment token submitted by the form:
                 var token = order.StripeToken; // Using ASP.NET MVC

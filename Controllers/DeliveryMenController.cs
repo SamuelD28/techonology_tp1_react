@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using technology_tp1.Models;
 using Technology_Tp1_React.General.CrudController;
@@ -36,11 +37,21 @@ namespace technology_tp1.Controllers
 			return Authenticate.Apply(HttpContext, () => base.GetRecordById(id));
 		}
 
-		[HttpPost]
-		public IActionResult Post([FromBody] DeliveryMan deliveryMan)
+        //[HttpPost]
+        //public IActionResult Post([FromBody] DeliveryMan deliveryMan)
+        //{
+        //	return Authenticate.Apply(HttpContext, () => base.CreateRecord(deliveryMan));
+        //}
+
+        [HttpPost]
+        public IActionResult Post([FromBody] DeliveryMan deliveryMan)
 		{
-			return Authenticate.Apply(HttpContext, () => base.CreateRecord(deliveryMan));
-		}
+            ActionData actionResult = base.CreateRecordWithFeedback(deliveryMan);
+            if (actionResult.StatusCodes == StatusCodes.Status201Created) { 
+            
+            }
+            return actionResult.Result;
+        }
 
 		[HttpPut("{id}")]
 		public IActionResult Update(int id, [FromBody] DeliveryMan deliveryMan)
