@@ -10,6 +10,7 @@ import configureStore from './client/store/configureStore';
 
 import Client from './client';
 import Admin from './admin';
+import DeliveryMan from './deliveryman';
 
 // Create browser history to use in the Redux store
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
@@ -27,6 +28,7 @@ ReactDOM.render(
             <ConnectedRouter history={history}>
                 <BrowserRouter>
                     <Switch>
+                        <Route path='/test' component={Auth(DeliveryMan, true)} />
                         <Route path='/admin' component={Auth(Admin, true)} />
                         <Route path='/' component={Auth(Client, false)} />
                     </Switch>
