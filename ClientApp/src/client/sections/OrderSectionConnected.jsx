@@ -57,7 +57,9 @@ class OrderSection extends React.Component {
         // With createToken, you will not need to pass in the reference to
         // the Element. It will be inferred automatically.
         const form = this.state.form;
-        let { token } = await this.props.stripe.createToken({ type: 'card', name: form.customerName });
+        form.CustomerName = this.props.user.userName;
+        form.CustomerPhoneNumber = this.props.user.phoneNumber;
+        let { token } = await this.props.stripe.createToken({ type: 'card', name: form.CustomerName });
         if (token) {
             form.StripeToken = token.id;
             let order = await this.apiRequest.MakeOrder(form);
@@ -99,17 +101,6 @@ class OrderSection extends React.Component {
                     <ModalBody className="bg-dark">
                         <form>
                             <div className="form-group">
-                                <label htmlFor="customerName">Name</label>
-                                <input
-                                    type="texte"
-                                    className="form-control"
-                                    id="customerName"
-                                    name="customerName"
-                                    placeholder="Enter Name"
-                                    onChange={(e) => this.HandleChange('customerName', e.target.value)}
-                                    required />
-                            </div>
-                            <div className="form-group">
                                 <label htmlFor="customerAdress">Adress</label>
                                 <input
                                     type="texte"
@@ -121,17 +112,6 @@ class OrderSection extends React.Component {
                                     onChange={(e) => this.HandleChange('customerAdress', e.target.value)}
                                     required />
                                 <small id="customerAdressHelp" className="form-text text-muted">Ex: 243 Howden Ave</small>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="customerPhoneNumber">Phone number</label>
-                                <input
-                                    type="tel"
-                                    className="form-control"
-                                    id="customerPhoneNumber"
-                                    name="customerPhoneNumber"
-                                    placeholder="Phone number"
-                                    onChange={(e) => this.HandleChange('customerPhoneNumber', e.target.value)}
-                                    required />
                             </div>
                             <CardElement style={{ base: { color: '#fff' } }} />
                         </form>

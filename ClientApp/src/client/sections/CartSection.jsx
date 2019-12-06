@@ -1,5 +1,6 @@
 import React from 'react';
 import OrderSection from '../sections/OrderSection';
+import OrderSectionConnected from '../sections/OrderSectionConnected';
 import CartButton from '../components/CartButton';
 import CartItem from '../components/CartItem';
 import { Modal, Row, ModalBody, ModalFooter, Container } from 'reactstrap';
@@ -79,6 +80,7 @@ class CartSection extends React.Component {
      */
     DisplayFooter = () => {
         let view;
+        let Section = this.props.user ? OrderSectionConnected : OrderSection;
         if (this.state.cart.Count() !== 0) {
             view = <ModalFooter className="bg-dark">
                 <Container>
@@ -87,7 +89,7 @@ class CartSection extends React.Component {
                     </Row>
                     <Row>
                         <Elements>
-                            <OrderSection cartItems={this.state.cart.GetItems().map(this.mapCartItems)} />
+                            <Section user={this.props.user} cartItems={this.state.cart.GetItems().map(this.mapCartItems)} />
                         </Elements>
                         
                     </Row>
