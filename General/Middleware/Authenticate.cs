@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using Technology_Tp1_React.General.CrudController;
 using Technology_Tp1_React.Models;
 
@@ -23,18 +24,21 @@ namespace Technology_Tp1_React.General.Middleware
             if (httpContext.User.Identity.IsAuthenticated)
             {
                 User connectedUser = UserManager.FindByNameAsync(httpContext.User.Identity.Name).Result;
+                IList<string> roles = UserManager.GetRolesAsync(connectedUser).Result;
 
                 if(roleAuthorized != null)
                 {
                     if (UserManager.IsInRoleAsync(connectedUser, roleAuthorized).Result)
                     {
                         httpContext.Items["user"] = connectedUser;
+                        httpContext.Items["userRoles"] = roles;
                         return next();
                     }
                 }
                 else
                 {
                     httpContext.Items["user"] = connectedUser;
+                    httpContext.Items["userRoles"] = roles;
                     return next();
                 }
             }

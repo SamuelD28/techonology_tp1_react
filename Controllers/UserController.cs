@@ -157,7 +157,8 @@ namespace technology_tp1.Controllers
 			return Authenticate.Apply(HttpContext, null, () =>
 			{
 				User currentUser = (User)HttpContext.Items["user"];
-				return ResponseResult.CreateValidResponse(new { message = "User is authenticated", user = currentUser }, 200);
+                IList<string> currentRoles = (IList<string>)HttpContext.Items["userRoles"];
+				return ResponseResult.CreateValidResponse(new { message = "User is authenticated", user = currentUser, roles = currentRoles }, 200);
 			});
 		}
 

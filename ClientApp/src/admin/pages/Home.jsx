@@ -1,6 +1,6 @@
 import React from 'react';
 import Ajax from '../../shared/ajax';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 import DeliveyMenSection from '../sections/DeliveryMenSection';
 import OrderSection from '../sections/OrderSection';
 import MenuItemSection from '../sections/MenuItemSection';
@@ -14,9 +14,23 @@ class Home extends React.Component {
         this.state = {};
     }
 
+    logout = async() => {
+        let response = await Ajax.GetData("/api/user/logout");
+
+        if(response.statusCode === 200){
+            this.props.history.push("/");
+        }
+    }
+
     render() {
         return (
             <Container style={{ width: "85%" }} className="p-5" fluid>
+                <Button 
+                color="primary" 
+                className="mb-3"
+                onClick={this.logout}>
+                    Deconnexion
+                </Button>
                 <Row noGutters className="h-100 mb-2">
                     <Col md="4">
                         <Statistic
