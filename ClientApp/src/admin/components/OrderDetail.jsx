@@ -212,12 +212,14 @@ class OrderDetail extends React.Component {
      * @description Display all deliveryMan in option. The admin will be able to select one of them
      **/
     DisplayDeliveryManOption = () => {
-        let self = this;
-        let options = this.deliveryMen.map((deliveryMan, index) => {
-            return self.CreateOption(deliveryMan.id, deliveryMan.name);
-        });
-        options.push(this.CreateOption(0, 'Aucun'));
-        return options;
+        if(this.deliveryMen){
+            let self = this;
+            let options = this.deliveryMen.map((deliveryMan, index) => {
+                return self.CreateOption(deliveryMan.id, deliveryMan.name);
+            });
+            options.push(this.CreateOption(0, 'Aucun'));
+            return options;
+        }
     }
 
     /**

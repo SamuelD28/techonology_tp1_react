@@ -30,10 +30,11 @@ class DeliveryMenSection extends React.Component {
             previousQuery: null,
             currentQuery: "/api/deliverymen?start=0&end=6",
             nextQuery: null,
+            isAuthorized: true,
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.GetDeliveryMen();
     }
 
@@ -43,12 +44,16 @@ class DeliveryMenSection extends React.Component {
     GetDeliveryMen = async () => {
         let results = await Ajax.GetData(this.state.currentQuery);
 
-        if (results.statusCode >= 200 || results.statusCode < 300) {
+        if (results.statusCode >= 200 && results.statusCode < 300) {
             let data = results.value.data;
             this.setState({
                 deliveryMen: data,
                 nextQuery: results.value.nextQuery,
                 previousQuery: results.value.previousQuery
+            });
+        } else {
+            this.setState({
+                isAuthorized: false,
             });
         }
 
@@ -76,48 +81,52 @@ class DeliveryMenSection extends React.Component {
     }
 
     render() {
-        return (
-            <section className={this.props.className}>
-                <SectionHeader
-                    title="Les livreurs"
-                    buttonTitle="Ajouter"
-                    buttonIcon="oi-plus"
-                    action={() => this.ToggleModal({})}
-                />
-                <Loading secondsToWait={1}>
-                    <List
-                        colSize={4}
-                        className="no-gutters"
-                        records={this.state.deliveryMen}>
-                        {deliveryMan => (
-                            <DeliveryManCard
-                                className="h-100"
-                                deliveryMan={deliveryMan}
-                                showDetails={() => this.ToggleModal(deliveryMan)}
-                            />
-                        )}
-                    </List>
-                    <Pagination
-                        GetData={this.RefreshCurrentDeliveryMen}
-                        previousQuery={this.state.previousQuery}
-                        currentQuery={this.state.currentQuery}
-                        nextQuery={this.state.nextQuery}
+        if (this.state.isAuthorized) {
+            return (
+                <section className={this.props.className}>
+                    <SectionHeader
+                        title="Les livreurs"
+                        buttonTitle="Ajouter"
+                        buttonIcon="oi-plus"
+                        action={() => this.ToggleModal({})}
                     />
-                </Loading>
-                <Modal
-                    size="lg"
-                    centered
-                    isOpen={this.state.modal}
-                    toggle={this.ToggleModal}>
-                    <ModalBody className="bg-dark">
-                        <DeliveryMenDetail
-                            Done={this.ToggleModal}
-                            Refresh={this.GetDeliveryMen}
-                            deliveryMan={this.state.selectedDeliveryMan} />
-                    </ModalBody>
-                </Modal>
-            </section>
-        );
+                    <Loading secondsToWait={1}>
+                        <List
+                            colSize={4}
+                            className="no-gutters"
+                            records={this.state.deliveryMen}>
+                            {deliveryMan => (
+                                <DeliveryManCard
+                                    className="h-100"
+                                    deliveryMan={deliveryMan}
+                                    showDetails={() => this.ToggleModal(deliveryMan)}
+                                />
+                            )}
+                        </List>
+                        <Pagination
+                            GetData={this.RefreshCurrentDeliveryMen}
+                            previousQuery={this.state.previousQuery}
+                            currentQuery={this.state.currentQuery}
+                            nextQuery={this.state.nextQuery}
+                        />
+                    </Loading>
+                    <Modal
+                        size="lg"
+                        centered
+                        isOpen={this.state.modal}
+                        toggle={this.ToggleModal}>
+                        <ModalBody className="bg-dark">
+                            <DeliveryMenDetail
+                                Done={this.ToggleModal}
+                                Refresh={this.GetDeliveryMen}
+                                deliveryMan={this.state.selectedDeliveryMan} />
+                        </ModalBody>
+                    </Modal>
+                </section>
+            );
+        } else {
+            return <span></span>
+        }
     }
 }
 

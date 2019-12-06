@@ -31,7 +31,7 @@ class Login extends Component {
 		let response = await Ajax.PostData("/api/user/login", this.state);
 
     if (response.statusCode === 200) {
-      this.props.history.push("/admin");
+      this.props.history.push("/");
     } else {
 			this.setState({Error: "Mauvais username ou mot de passe"});
     }

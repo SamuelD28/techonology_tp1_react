@@ -20,6 +20,7 @@ class MenuItemSection extends React.Component {
             previousQuery: null,
             currentQuery: "/api/menuitems?start=0&end=3",
             nextQuery: null,
+            isAuthorized: true
         };
     }
 
@@ -37,6 +38,10 @@ class MenuItemSection extends React.Component {
                 menuItems: data,
                 nextQuery: results.value.nextQuery,
                 previousQuery: results.value.previousQuery
+            });
+        } else {
+            this.setState({
+                isAuthorized: false
             });
         }
 
@@ -56,46 +61,48 @@ class MenuItemSection extends React.Component {
     }
 
     render() {
-        return (
-            <section className={this.props.className}>
-                <SectionHeader
-                    title="Le Menu"
-                    buttonTitle="Ajouter"
-                    buttonIcon="oi-plus"
-                    action={() => this.ToggleModal({})}
+        if (this.state.isAuthorized) {
+            return (
+                <section className={this.props.className}>
+                    <SectionHeader
+                        title="Le Menu"
+                        buttonTitle="Ajouter"
+                        buttonIcon="oi-plus"
+                        action={() => this.ToggleModal({})}
                     />
-                <Loading secondsToWait={1.5}>
-                    <List
-                        colSize={12}
-                        className="no-gutters"
-                        records={this.state.menuItems}>
-                        {menuItem => (
-                            <MenuItemCard
-                                menuItem={menuItem}
-                                showDetails={() => this.ToggleModal(menuItem)}
+                    <Loading secondsToWait={1.5}>
+                        <List
+                            colSize={12}
+                            className="no-gutters"
+                            records={this.state.menuItems}>
+                            {menuItem => (
+                                <MenuItemCard
+                                    menuItem={menuItem}
+                                    showDetails={() => this.ToggleModal(menuItem)}
                                 />
-                        )}
-                    </List>
-                    <Pagination
-                        GetData={this.RefreshCurrentMenuItems}
-                        previousQuery={this.state.previousQuery}
-                        currentQuery={this.state.currentQuery}
-                        nextQuery={this.state.nextQuery}
+                            )}
+                        </List>
+                        <Pagination
+                            GetData={this.RefreshCurrentMenuItems}
+                            previousQuery={this.state.previousQuery}
+                            currentQuery={this.state.currentQuery}
+                            nextQuery={this.state.nextQuery}
                         />
-                </Loading>
-                <Modal
-                    centered
-                    isOpen={this.state.modal}
-                    toggle={this.ToggleModal}>
-                    <ModalBody className="bg-dark">
-                        <MenuItemDetail
-                            Done={this.ToggleModal}
-                            Refresh={this.GetMenuItems}
-                            menuItem={this.state.selectedMenuItem} />
-                    </ModalBody>
-                </Modal>
-            </section>
-        );
+                    </Loading>
+                    <Modal
+                        centered
+                        isOpen={this.state.modal}
+                        toggle={this.ToggleModal}>
+                        <ModalBody className="bg-dark">
+                            <MenuItemDetail
+                                Done={this.ToggleModal}
+                                Refresh={this.GetMenuItems}
+                                menuItem={this.state.selectedMenuItem} />
+                        </ModalBody>
+                    </Modal>
+                </section>
+            );
+        }
     }
 }
 
