@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using technology_tp1.Models;
 using Technology_Tp1_React.General.CrudController;
 using Technology_Tp1_React.General.Middleware;
 using Technology_Tp1_React.General.Repository;
+using Technology_Tp1_React.Models;
 
 namespace technology_tp1.Controllers
 {
@@ -15,11 +15,13 @@ namespace technology_tp1.Controllers
 	public class DeliveryMenController : CrudController<DeliveryMan>
 	{
 		public Authenticate Authenticate { get; set; }
+		private AppDbContext Context { get; }
 
-		public DeliveryMenController(IRepository<DeliveryMan> repository, Authenticate authenticate)
+		public DeliveryMenController(IRepository<DeliveryMan> repository, Authenticate authenticate, AppDbContext context)
 			: base(repository)
 		{
-			Authenticate = authenticate;
+            Context = context;
+            Authenticate = authenticate;
 		}
 
 		[HttpGet]
@@ -51,5 +53,18 @@ namespace technology_tp1.Controllers
 		{
 			return Authenticate.Apply(HttpContext, () => base.DeleteRecord(id));
 		}
-	}
+
+        [HttpGet("orders")]
+        public IActionResult GetOrders(int id)
+        {
+            return Authenticate.Apply(HttpContext, () =>
+            {
+                User currentUser = (User)HttpContext.Items["user"];
+                //JsonResult json = Json(Context.Orders.Where(d => d.DeliveryManId == currentUser.Id));
+                //json.ContentType = "application/json";
+                //json.StatusCode = statusCode;
+                return json;
+            });
+        }
+    }
 }

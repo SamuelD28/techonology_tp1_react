@@ -36,8 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\deliveryman\components\" />
-    <Folder Include="ClientApp\src\deliveryman\sections\" />
     <Folder Include="ClientApp\src\deliveryman\store\" />
   </ItemGroup>
 

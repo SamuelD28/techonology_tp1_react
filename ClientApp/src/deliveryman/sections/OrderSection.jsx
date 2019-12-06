@@ -4,8 +4,6 @@ import { Modal, ModalBody } from 'reactstrap';
 import OrderDetail from '../components/OrderDetail';
 import OrderCard from '../components/OrderCard';
 
-import Ajax from '../../shared/ajax';
-import Pagination from '../../shared/components/Pagination';
 import Loading from '../../shared/components/Loading';
 import List from '../../shared/components/List';
 import SectionHeader from '../../shared/components/SectionHeader';
