@@ -30,7 +30,6 @@ class OrderSection extends React.Component {
         let results = await this.apiRequest.GetAllOrders();
 
         if (results !== null) {
-
             let data = results;
             this.setState({
                 Orders: data

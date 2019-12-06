@@ -46,6 +46,7 @@ class OrderDetail extends React.Component {
             customerName: '',
             customerAdress: '',
             customerPhoneNumber: '',
+            stripeToken: '',
             ordersItems: [],
             deliveryMan: null,
             new: false,
@@ -64,6 +65,7 @@ class OrderDetail extends React.Component {
      * 
      **/
     ParseExistinOrder = (order) => {
+        console.log(order);
         if (order.deliveryManId === undefined || order.deliveryManId === null) {
             order.deliveryManId = 0;
         }
@@ -72,6 +74,7 @@ class OrderDetail extends React.Component {
             customerName: order.customerName,
             customerAdress: order.customerAdress,
             customerPhoneNumber: order.customerPhoneNumber,
+            stripeToken: order.stripeToken,
             ordersItems: order.ordersItems,
             deliveryManId: order.deliveryManId,
             new: false,
@@ -101,6 +104,7 @@ class OrderDetail extends React.Component {
      * 
      **/
     HandleUpdate = async () => {
+
         let updatedOrder = await this.apiRequest.UpdateOrder(this.state);
 
         if (updatedOrder !== null) {

@@ -63,7 +63,7 @@ namespace technology_tp1.Controllers
                 //JsonResult json = Json(Context.Orders.Where(d => d.DeliveryManId == currentUser.Id));
                 //json.ContentType = "application/json";
                 //json.StatusCode = statusCode;
-                return json;
+                return null;
             });
         }
     }
