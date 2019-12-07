@@ -13,7 +13,9 @@ RUN dotnet build "Technology Tp1 React.csproj" -c Release -o /app
 FROM build AS publish
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt install nodejs
+WORKDIR /src/ClientApp
 RUN npm install
+WORKDIR /src
 RUN dotnet publish "Technology Tp1 React.csproj" -c Release -o /app
 
 FROM base AS final
